@@ -1,7 +1,0 @@
-﻿  ConsoleApplication2.3.cpp
-C:\Users\PC\Desktop\ОАиП\ConsoleApplication2.3\ConsoleApplication2.3\ConsoleApplication2.3.cpp(14,10): warning C4244: return: преобразование "double" в "int", возможна потеря данных
-C:\Users\PC\Desktop\ОАиП\ConsoleApplication2.3\ConsoleApplication2.3\ConsoleApplication2.3.cpp(15,10): warning C4244: return: преобразование "double" в "int", возможна потеря данных
-C:\Users\PC\Desktop\ОАиП\ConsoleApplication2.3\ConsoleApplication2.3\ConsoleApplication2.3.cpp(20,10): warning C4244: return: преобразование "double" в "int", возможна потеря данных
-C:\Users\PC\Desktop\ОАиП\ConsoleApplication2.3\ConsoleApplication2.3\ConsoleApplication2.3.cpp(21,9): warning C4244: return: преобразование "double" в "int", возможна потеря данных
-C:\Users\PC\Desktop\ОАиП\ConsoleApplication2.3\ConsoleApplication2.3\ConsoleApplication2.3.cpp(17): warning C4715: maximum: значение возвращается не при всех путях выполнения
-  ConsoleApplication2.3.vcxproj -> C:\Users\PC\Desktop\ОАиП\ConsoleApplication2.3\x64\Debug\ConsoleApplication2.3.exe
