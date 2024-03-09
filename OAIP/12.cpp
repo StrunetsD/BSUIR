@@ -121,9 +121,3 @@ int main() {
 	viewTail(tail);
 }
 
-
-
-
-
-if (k < arr[mid])left++;
-if (k > arr[mid])right00;
