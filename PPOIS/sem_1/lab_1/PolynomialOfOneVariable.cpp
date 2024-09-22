@@ -1,16 +1,16 @@
 #include "PolynomialOfOneVariable.h"
 
 
-bool PolynomialOfOneVariable::check_nulls(const PolynomialOfOneVariable polynomial) const {
+bool PolynomialOfOneVariable::check_nulls(const PolynomialOfOneVariable& polynomial) const {
   for (int i = 0; i < polynomial.coefficients.size(); i++) {
     if (polynomial.coefficients[i] != 0) {
-      return  false;
+      return false;
     }
   }
   return true;
 }
 
-PolynomialOfOneVariable PolynomialOfOneVariable:: operator +=(const PolynomialOfOneVariable other)  {
+PolynomialOfOneVariable PolynomialOfOneVariable:: operator +=(const PolynomialOfOneVariable& other)  {
   int size = max(this->coefficients.size(), other.coefficients.size());
    vector<int> result(size, 0);
   if (this->coefficients.size() < other.coefficients.size()) {
@@ -33,7 +33,7 @@ PolynomialOfOneVariable PolynomialOfOneVariable:: operator +=(const PolynomialOf
   return *this;
 }
 
-PolynomialOfOneVariable PolynomialOfOneVariable::operator +(const PolynomialOfOneVariable other)  {
+PolynomialOfOneVariable PolynomialOfOneVariable::operator +(const PolynomialOfOneVariable& other)  {
   int size = max(this->coefficients.size(), other.coefficients.size());
   vector<int> result(size, 0);
   if (this->coefficients.size() < other.coefficients.size()) {
@@ -55,7 +55,7 @@ PolynomialOfOneVariable PolynomialOfOneVariable::operator +(const PolynomialOfOn
   return PolynomialOfOneVariable(result);
 }
 
-PolynomialOfOneVariable PolynomialOfOneVariable::operator -=(const PolynomialOfOneVariable other)  {
+PolynomialOfOneVariable PolynomialOfOneVariable::operator -=(const PolynomialOfOneVariable& other)  {
   int size = max(this->coefficients.size(), other.coefficients.size());
   vector<int> result(size, 0);
   if (this->coefficients.size() < other.coefficients.size()) {
@@ -78,7 +78,7 @@ PolynomialOfOneVariable PolynomialOfOneVariable::operator -=(const PolynomialOfO
   return *this;
 }
 
-PolynomialOfOneVariable PolynomialOfOneVariable::operator -(const PolynomialOfOneVariable other)  {
+PolynomialOfOneVariable PolynomialOfOneVariable::operator -(const PolynomialOfOneVariable& other)  {
   int size = max(this->coefficients.size(), other.coefficients.size());
   vector<int> result(size, 0);
   if (this->coefficients.size() < other.coefficients.size()) {
@@ -103,7 +103,7 @@ PolynomialOfOneVariable PolynomialOfOneVariable::operator -(const PolynomialOfOn
 }
 
 
-PolynomialOfOneVariable PolynomialOfOneVariable::operator *=(const PolynomialOfOneVariable other)  {
+PolynomialOfOneVariable PolynomialOfOneVariable::operator *=(const PolynomialOfOneVariable& other)  {
   vector<int> result(this->coefficients.size() + other.coefficients.size() - 1);
   for (int i = 0; i < this->coefficients.size(); i++) {
     for (int j = 0; j < other.coefficients.size(); j++) {
@@ -116,7 +116,7 @@ PolynomialOfOneVariable PolynomialOfOneVariable::operator *=(const PolynomialOfO
   return *this;
 }
 
-PolynomialOfOneVariable PolynomialOfOneVariable::operator *(const PolynomialOfOneVariable other)   {
+PolynomialOfOneVariable PolynomialOfOneVariable::operator *(const PolynomialOfOneVariable& other)   {
   vector<int> result(this->coefficients.size() + other.coefficients.size() - 1);
   for (int i = 0; i < this->coefficients.size(); i++) {
     for (int j = 0; j < other.coefficients.size(); j++) {
@@ -126,7 +126,7 @@ PolynomialOfOneVariable PolynomialOfOneVariable::operator *(const PolynomialOfOn
   return PolynomialOfOneVariable(result);
 }
 
-pair<PolynomialOfOneVariable, PolynomialOfOneVariable> PolynomialOfOneVariable::operator/(const PolynomialOfOneVariable other) {
+pair<PolynomialOfOneVariable, PolynomialOfOneVariable> PolynomialOfOneVariable::operator/(const PolynomialOfOneVariable& other) {
   if (check_nulls(other.coefficients)) {
     throw invalid_argument("division by zero");
     return { PolynomialOfOneVariable(), PolynomialOfOneVariable() };
@@ -159,9 +159,9 @@ double PolynomialOfOneVariable::operator ()(double x)   {
   return result;
 }
 
-double PolynomialOfOneVariable::operator [](int degree) {
+int PolynomialOfOneVariable::operator [](int degree) {
   if (degree>=this->coefficients.size()) {
-    throw std::out_of_range("out of range.");
+    throw out_of_range("out of range.: "+degree);
   }
   return this->coefficients[degree];
 }
