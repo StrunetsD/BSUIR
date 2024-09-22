@@ -12,23 +12,41 @@ using namespace std;
 
 class PolynomialOfOneVariable {
   
-private:
-  vector<int> coefficients;
 public:
   PolynomialOfOneVariable(const vector<int>& coefficients) {
     this->coefficients = coefficients;
   };
+
   PolynomialOfOneVariable () {};
+
   PolynomialOfOneVariable(pair<PolynomialOfOneVariable, PolynomialOfOneVariable>) {};
-  PolynomialOfOneVariable operator +=(const PolynomialOfOneVariable other) ;
-  PolynomialOfOneVariable operator +(const PolynomialOfOneVariable other) ;
-  PolynomialOfOneVariable operator -=(const PolynomialOfOneVariable other) ;
-  PolynomialOfOneVariable operator -(const PolynomialOfOneVariable other) ;
-  PolynomialOfOneVariable operator *=(const PolynomialOfOneVariable other) ;
-  PolynomialOfOneVariable operator *(const PolynomialOfOneVariable other) ;
-  pair<PolynomialOfOneVariable, PolynomialOfOneVariable> operator/(const PolynomialOfOneVariable other);
-  bool check_nulls(const PolynomialOfOneVariable polynomial) const  ;
+
+  PolynomialOfOneVariable operator +=(const PolynomialOfOneVariable& other);
+
+  PolynomialOfOneVariable operator +(const PolynomialOfOneVariable& other);
+
+  PolynomialOfOneVariable operator -=(const PolynomialOfOneVariable& other);
+
+  PolynomialOfOneVariable operator -(const PolynomialOfOneVariable& other);
+
+  PolynomialOfOneVariable operator *=(const PolynomialOfOneVariable& other);
+
+  PolynomialOfOneVariable operator *(const PolynomialOfOneVariable& other);
+
+  pair<PolynomialOfOneVariable, PolynomialOfOneVariable> operator/(const PolynomialOfOneVariable& other);
+
   friend ostream& operator<<(ostream& out, const PolynomialOfOneVariable& coefficients);
+
   double operator ()(double x);
-  double operator [](int degree);
+  int operator [](int degree);
+
+private:
+  vector<int> coefficients;
+  
+  bool check_nulls(const PolynomialOfOneVariable& polynomial) const;
+
+
 };
+
+
+
