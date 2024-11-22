@@ -1,0 +1,139 @@
+section_subject_domain_of_purulent_inflammatory_diseases = [*
+    subject_domain_of_purulent_inflammatory_diseases => nrel_main_idtf:[Предметная область гнойно-воспалительных заболеваний] (*<- lang_ru;;*);[Subject domain of purulent-inflammatory diseases](*<- lang_en;;*);
+                           <- sc_node_struct;
+                           -> rrel_explored_relation: nrel_diagnosis;
+                                                    nrel_treatment;
+                                                    nrel_pathophysiology;
+                                                    nrel_clinical_symptoms;
+                                                    nrel_microbiology;
+                                                    nrel_immunology;
+                                                    nrel_epidemiology;
+                                                    nrel_prognosis;
+
+                           => nrel_private_subject_domain: subject_domain_of_diagnosis;
+                                                           subject_domain_of_treatment;
+                                                           subject_domain_of_pathophysiology;
+                                                           subject_domain_of_clinical_symptoms;
+                                                           subject_domain_of_microbiology;
+                                                           subject_domain_of_immunology;
+                                                           subject_domain_of_epidemiology;
+                                                           subject_domain_of_prognosis;                     
+                           <- subject_domain;
+                           -> rrel_maximum_studied_object_class: concept_purulent_diseases; 
+                           -> rrel_not_maximum_studied_object_class: concept_localized_infections;
+                                                                 concept_systemic_infections;                
+                                                                 concept_chronic_infections ;;                          
+*];;
+
+section_subject_domain_of_purulent_inflammatory_diseases  => nrel_main_idtf:[Раздел. Предметная область гнойно-воспалительных заболеваний] (*<- lang_ru;;*);[Subject domain of purulent-inflammatory diseases](*<- lang_en;;*);
+                                <= nrel_section_decomposition: ...
+                                                            (* <-sc_node_tuple;; 
+                                                               -> section_subject_domain_of_diagnosis;;
+                                                               -> section_subject_domain_of_treatment;;
+                                                               -> section_subject_domain_of_pathophysiology;;
+                                                               -> section_subject_domain_of_clinical_symptoms;;
+                                                               -> section_subject_domain_of_microbiology;;
+                                                               -> section_subject_domain_of_immunology;;
+                                                               -> section_subject_domain_of_epidemiology;;
+                                                               -> section_subject_domain_of_prognosis;;
+                                                             *);
+                                -> rrel_key_sc_element: nrel_diagnosis; 
+                                                        nrel_treatment;
+                                                        nrel_pathophysiology;
+                                                        nrel_clinical_symptoms;
+                                                        nrel_microbiology;
+                                                        nrel_immunology;
+                                                        nrel_epidemiology;
+                                                        nrel_prognosis;
+                                                        concept_purulent_diseases;
+                                                        concept_localized_infections;
+                                                        concept_systemic_infections;
+                                                        concept_chronic_infections;
+                                <- non_atomic_section;;
+                                
+nrel_diagnosis <- sc_node_norole_relation; 
+              => nrel_main_idtf:[диагностика] (*<- lang_ru;;*);[diagnosis](*<- lang_en;;*);;
+                               
+nrel_treatment <- sc_node_norole_relation; 
+              => nrel_main_idtf:[лечение] (*<- lang_ru;;*);[treatment](*<- lang_en;;*);;
+                           
+                               
+nrel_pathophysiology <- sc_node_norole_relation; 
+              => nrel_main_idtf:[патофизиология] (*<- lang_ru;;*);[pathophysiology](*<- lang_en;;*);;
+                               
+nrel_clinical_symptoms <- sc_node_norole_relation; 
+              => nrel_main_idtf:[клинические симптомы] (*<- lang_ru;;*);[clinical symptoms](*<- lang_en;;*);;
+                               
+nrel_microbiology <- sc_node_norole_relation; 
+              => nrel_main_idtf:[микробиология] (*<- lang_ru;;*);[microbiology](*<- lang_en;;*);;
+                               
+nrel_immunology <- sc_node_norole_relation; 
+              => nrel_main_idtf:[иммунология] (*<- lang_ru;;*);[immunology](*<- lang_en;;*);;
+                               
+nrel_epidemiology <- sc_node_norole_relation; 
+              => nrel_main_idtf:[эпидемиология] (*<- lang_ru;;*);[epidemiology](*<- lang_en;;*);;
+                               
+nrel_prognosis <- sc_node_norole_relation; 
+              => nrel_main_idtf:[прогноз] (*<- lang_ru;;*);[prognosis](*<- lang_en;;*);;
+
+
+section_subject_domain_of_diagnosis => nrel_main_idtf:[Раздел. Предметная область диагностики] (*<- lang_ru;;*);[Section. Subject domain of diagnosis](*<- lang_en;;*); 
+                                       <- sc_node_struct;;
+
+section_subject_domain_of_treatment => nrel_main_idtf:[Раздел. Предметная область лечения] (*<- lang_ru;;*);[Section. Subject domain of treatment](*<- lang_en;;*);   
+                                       <- sc_node_struct;;
+
+section_subject_domain_of_pathophysiology => nrel_main_idtf:[Раздел. Предметная область патофизиологии] (*<- lang_ru;;*);[Section. Subject domain of pathophysiology](*<- lang_en;;*);
+                                   <- sc_node_struct;;
+
+section_subject_domain_of_clinical_symptoms => nrel_main_idtf:[Раздел. Предметная область клинических симптомов] (*<- lang_ru;;*);[Section. Subject domain of clinical symptoms](*<- lang_en;;*);
+                                           <- sc_node_struct;;
+
+section_subject_domain_of_microbiology => nrel_main_idtf:[Раздел. Предметная область микробиологии] (*<- lang_ru;;*);[Section. Subject domain of microbiology](*<- lang_en;;*);
+                                           <- sc_node_struct;; 
+
+section_subject_domain_of_immunology => nrel_main_idtf:[Раздел. Предметная область иммунологии] (*<- lang_ru;;*);[Section. Subject domain of immunology](*<- lang_en;;*);
+                                           <- sc_node_struct;;
+
+section_subject_domain_of_epidemiology => nrel_main_idtf:[Раздел. Предметная область эпидемиологии] (*<- lang_ru;;*);[Section. Subject domain of epidemiology](*<- lang_en;;*);
+                                           <- sc_node_struct;; 
+       
+section_subject_domain_of_prognosis => nrel_main_idtf:[Раздел. Предметная область прогноза] (*<- lang_ru;;*);[Section. Subject domain of prognosis](*<- lang_en;;*);
+                                           <- sc_node_struct;;
+
+
+subject_domain_of_diagnosis => nrel_main_idtf:[Предметная область диагностики] (*<- lang_ru;;*);[Subject domain of diagnosis](*<- lang_en;;*);
+                        <- sc_node_struct;;
+
+subject_domain_of_treatment => nrel_main_idtf:[Предметная область лечения] (*<- lang_ru;;*);[Subject domain of treatment](*<- lang_en;;*);
+                        <- sc_node_struct;;
+
+subject_domain_of_pathophysiology => nrel_main_idtf:[Предметная область патофизиологии] (*<- lang_ru;;*);[Subject domain of pathophysiology](*<- lang_en;;*);
+                           <- sc_node_struct;; 
+
+subject_domain_of_clinical_symptoms => nrel_main_idtf:[Предметная область клинических симптомов] (*<- lang_ru;;*);[Subject domain of clinical symptoms](*<- lang_en;;*);
+                               <- sc_node_struct;;
+
+subject_domain_of_microbiology => nrel_main_idtf:[Предметная область микробиологии] (*<- lang_ru;;*);[Subject domain of microbiology](*<- lang_en;;*);
+                               <- sc_node_struct;;   
+
+subject_domain_of_immunology => nrel_main_idtf:[Предметная область иммунологии] (*<- lang_ru;;*);[Subject domain of immunology](*<- lang_en;;*);
+                               <- sc_node_struct;;   
+
+subject_domain_of_epidemiology => nrel_main_idtf:[Предметная область эпидемиологии] (*<- lang_ru;;*);[Subject domain of epidemiology](*<- lang_en;;*);
+                               <- sc_node_struct;; 
+
+subject_domain_of_prognosis => nrel_main_idtf:[Предметная область прогноза] (*<- lang_ru;;*);[Subject domain of prognosis](*<- lang_en;;*);
+                               <- sc_node_struct;;
+
+concept_purulent_diseases <- sc_node_class;
+                => nrel_main_idtf:[гнойное заболевание] (*<- lang_ru;;*);[purulent_diseas](*<- lang_en;;*);;  
+
+concept_localized_infections<- sc_node_class;
+                => nrel_main_idtf:[локализованная инфекция] (*<- lang_ru;;*);[localized infection](*<- lang_en;;*);; 
+
+concept_systemic_infections<- sc_node_class;
+                => nrel_main_idtf:[системная инфекция] (*<- lang_ru;;*);[systemic infection](*<- lang_en;;*);; 
+
+concept_chronic_infections<- sc_node_class;
+                => nrel_main_idtf:[хроническая инфекция] (*<- lang_ru;;*);[chronic infection](*<- lang_en;;*);;
