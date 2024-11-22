@@ -1,0 +1,50 @@
+concept_abscess
+	=> nrel_main_identifer: [абсцесс] (*<- concept_russian_language;; *); [abscess] (* <- concept_english_language;; *);
+	<= nrel_inclusion: concept_purulent-inflammatory (* <= nrel_inclusion: concept_infection;; *);
+        <- rrel_not_maximum_studied_object_class:: subj_area_of_purulent_inflammatory_diseases_domain;;
+	-> tooth_abscess (* => nrel_localization: oral_cavity;;  => nrel_treatment: drainage;;  => nrel_diagnostics: radiography;; *); 
+	<= nrel_subdividing: ...   
+		(*
+			<- sc_node_tuple;;
+			-> concept_skin_abscess;;
+			-> concept_subcutateous_abscess;;
+			-> concept_dental_abscess;;
+		*); 
+	<- rrel_sc_key_element: ...
+		(* 
+	 		=> nrel_main_indentifier: [Опр.абсцесса] (*-> concept_russian_language;; *);; 
+	 		<- definition;; 
+	 		=> nrel_constant_used: ... 
+				(* 
+					<- sc_node_tuple;;
+					-> pus;;
+					-> inflammation;;
+				*);; 
+		
+			=> nrel_translation: ...
+				(*	
+				-> rrel_example: [Локализованная инфекция, в которой образуется гной, вызывая воспаление и отек в окружающих тканях] (* <- concept_russian_language;; *);; /
+				*);; 
+		*);
+	<- rrel_sc_key_element: ...
+		(*
+			<- statement;; 
+			<= nrel_translation: ...
+				(* 
+					-> rrel_example: [При наличии абсцесса необходимо своевременно обратиться за медицинской помощью] (* <- concept_russian_language;; *);;
+				*);;
+			=> nrel_main_identifier: [Утв. абсцесса] (* <- concept_russian_language;; *);; 
+			
+			<= nrel_constant_used: ...
+				(*
+					<- sc_node_tuple;;
+					-> concept_medical_help;;
+				*);;
+		*);;  
+
+//использованные лучше оформлять следующим образом:
+<= nrel_using_constants:
+		{
+            concept_your_class_identifier1;
+            concept_your_class_identifier2
+        };; 
