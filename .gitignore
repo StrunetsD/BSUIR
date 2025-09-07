@@ -1,12 +1,12 @@
 # Prerequisites
 *.d
-
+.venv
 # Compiled Object files
 *.slo
 *.lo
 *.o
 *.obj
-
+*.csv
 # Precompiled Headers
 *.gch
 *.pch
