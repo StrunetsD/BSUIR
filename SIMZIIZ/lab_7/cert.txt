@@ -1,0 +1,74 @@
+ openssl req -new -x509 -key private.key -out certificate.crt -days 365
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:RB
+State or Province Name (full name) [Some-State]:Minsk
+Locality Name (eg, city) []:Minsk
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:IIT
+Organizational Unit Name (eg, section) []:IIT
+Common Name (e.g. server FQDN or YOUR name) []:DIMA
+Email Address []:
+(.venv) dstrunetss@dstrunets:/mnt/c/Users/dstru/OneDrive/Desktop/BSUIR/SIMZIIZ/lab_7$ openssl x509 -in certificate.crt -text -noout
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:
+            10:7a:a9:ac:04:a9:23:e9:76:a0:5f:3a:28:eb:e1:98:20:98:61:78
+        Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C = RB, ST = Minsk, L = Minsk, O = IIT, OU = IIT, CN = DIMA
+        Validity
+            Not Before: Sep  2 14:45:29 2025 GMT
+            Not After : Sep  2 14:45:29 2026 GMT
+        Subject: C = RB, ST = Minsk, L = Minsk, O = IIT, OU = IIT, CN = DIMA
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:ce:c5:79:77:d6:cd:6a:5f:9e:47:73:95:69:a0:
+                    66:96:9e:c6:23:1e:d9:e3:5d:b4:52:9d:31:cf:93:
+                    f9:29:68:ef:e4:e6:c9:44:2e:bc:00:cf:23:2f:3c:
+                    9b:59:2f:32:ea:76:d4:c0:55:39:22:fa:ce:47:22:
+                    ab:60:1c:44:af:97:38:92:c9:17:61:10:b5:a7:a1:
+                    34:f1:aa:6e:da:e6:e9:e3:83:8d:aa:6c:14:e1:bb:
+                    b5:68:b1:7f:65:5d:ef:cd:d3:df:0b:a8:ac:18:0a:
+                    d0:4f:63:14:75:d7:9b:c4:7b:f3:46:5c:46:33:89:
+                    15:d9:f5:a8:67:86:dc:01:05:5e:2a:c4:6b:70:68:
+                    78:36:86:c4:ca:0d:8d:68:c8:30:2a:19:1a:83:c2:
+                    17:3c:2c:a7:be:9d:51:60:cb:44:ba:10:1c:4e:6d:
+                    f6:a5:90:c6:2e:c9:11:b5:12:c7:6e:29:8b:de:11:
+                    6f:50:a1:fc:73:1f:74:78:f4:06:06:99:af:73:bd:
+                    33:a3:5a:00:49:34:bd:33:6f:70:e6:9d:56:e1:2c:
+                    86:57:a8:37:ad:ad:79:56:7a:74:a5:23:cd:0c:95:
+                    d3:a8:ab:2a:48:ca:ec:02:8c:69:3a:ab:c1:4d:b8:
+                    31:d3:ed:fe:be:d5:1e:b8:0c:8f:3b:c8:40:20:dd:
+                    f4:ef
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Subject Key Identifier:
+                03:C9:41:DD:E8:F1:45:39:78:2C:79:42:DC:B2:7C:1C:80:DF:AE:82
+            X509v3 Authority Key Identifier:
+                03:C9:41:DD:E8:F1:45:39:78:2C:79:42:DC:B2:7C:1C:80:DF:AE:82
+            X509v3 Basic Constraints: critical
+                CA:TRUE
+    Signature Algorithm: sha256WithRSAEncryption
+    Signature Value:
+        6f:18:cd:2b:9a:69:d5:09:70:b0:83:63:a4:18:63:97:c4:cd:
+        8f:8c:42:ee:fc:f5:9e:51:1d:01:4e:0a:8b:5d:35:97:39:31:
+        69:c6:04:66:99:97:83:40:e9:09:0f:6f:74:97:4e:04:2e:01:
+        f6:ee:e1:0a:57:91:34:00:d2:8b:be:59:70:ed:cc:a0:76:38:
+        24:92:f9:66:64:9b:d1:3a:24:16:d7:43:54:e4:be:27:29:e7:
+        14:b9:08:40:0e:4a:61:0f:44:f9:bb:22:45:e1:4d:97:0a:ef:
+        f5:e5:e5:c6:f6:7f:8a:02:af:1b:11:83:3b:9f:b5:e1:6a:5f:
+        f7:42:3a:0d:5d:29:55:07:a3:27:2d:ba:af:0a:cf:cc:f1:c3:
+        c5:f1:64:83:f1:07:7c:39:13:68:0f:80:89:27:fc:d4:31:5f:
+        9b:8c:fc:41:65:bd:53:f3:c6:23:14:dc:1f:57:1a:c6:d9:7b:
+        c1:b5:fd:cc:88:06:b9:d2:bc:fa:58:b8:85:e7:cb:28:e9:58:
+        b5:1f:8e:1c:19:7b:63:25:09:5c:eb:c7:e6:c6:bf:56:9a:54:
+        f0:b9:75:c0:94:a9:1e:69:40:f0:80:a2:7d:ef:e2:dc:9a:05:
+        6e:93:d9:7e:6f:05:d7:6f:8e:92:ad:f6:3f:bb:55:f2:22:8a:
+        06:a5:9d:83
