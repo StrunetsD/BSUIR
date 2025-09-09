@@ -79,8 +79,3 @@ plt.close()
 
 mse = np.mean((amplitude_spectrum_my - amplitude_spectrum_np)**2)
 print(f"Среднеквадратичная ошибка между реализациями: {mse:.2e}")
-
-print("Графики сохранены в файлы:")
-print("- signal_amplitude.png - амплитуда исходного сигнала")
-print("- spectrum_amplitude_my.png - амплитуда спектра (наша реализация)")
-print("- spectrum_amplitude_np.png - амплитуда спектра (NumPy реализация)")
