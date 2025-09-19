@@ -1,7 +1,7 @@
 from PIL import Image
 
-image_one = Image.open('../images/lab_3_1.jpg')
-image_two = Image.open('../images/lab_3_2.jpg')
+image_one = Image.open('../images/image_1_3.jpg')
+image_two = Image.open('../images/image_2_3.jpg')
 
 image_one_pixels = list(image_one.getdata())
 image_one_mean_brightness = sum(pixel[0] + pixel[1] + pixel[2] for pixel in image_one_pixels) / (len(image_one_pixels) * 3) # среднее з-е яркости 

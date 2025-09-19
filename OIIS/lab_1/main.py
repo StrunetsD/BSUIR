@@ -28,8 +28,8 @@ def my_fft(signal):
     return np.concatenate([even + T, even - T])
 
 
-function_type = 'sin'  # тип сигнала: 'sin' или 'cos'
-frequency = 5         # частота сигнала (Гц)
+function_type = 'sin' 
+frequency = 10        # частота сигнала (Гц)
 signal_length = 64    # количество точек (должно быть степенью двойки для БПФ)
 
 
