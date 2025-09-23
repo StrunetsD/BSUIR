@@ -10,9 +10,9 @@ def med(image, x, y, z):
                 window_values.append(pix[x+i, y+j][z])
     window_values.sort()
     return window_values[3]  # медианное значение
+    
 
-
-image = Image.open(r"../images/image2.jpg")
+image = Image.open(r"../images/image_1_3.jpg")
 new = Image.new("RGB", image.size)
 draw = ImageDraw.Draw(new)
 
