@@ -12,11 +12,6 @@ from sklearn.compose import ColumnTransformer
 import warnings
 warnings.filterwarnings('ignore')
 
-# Эти библиотеки используются для работы с данными, визуализации, машинного обучения и построения моделей
-# pandas/numpy - для обработки табличных данных и вычислений
-# matplotlib/seaborn - для построения графиков и визуализации
-# sklearn - основной инструмент для машинного обучения (модели, метрики, предобработка)
-# warnings - чтобы отключить лишние предупреждения и не загромождать вывод
 
 df = pd.read_csv('insurance.csv')  
 print("Размер датасета:", df.shape)
