@@ -1,0 +1,14 @@
+services:
+  neo4j:
+    image: neo4j:latest
+    container_name: my-neo4j
+    ports:
+      - "7474:7474"  # HTTP for the Neo4j Browser
+      - "7687:7687"  # Bolt for the database connection
+    volumes:
+      - ./data:/data
+      - ./logs:/logs
+      - ./import:/import
+      - ./plugins:/plugins
+    environment:
+      NEO4J_AUTH: neo4j/password  # Sets the initial password

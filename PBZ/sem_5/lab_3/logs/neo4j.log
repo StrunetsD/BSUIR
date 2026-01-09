@@ -1,0 +1,28 @@
+2025-11-23 20:59:40.969+0000 INFO  Logging config in use: File '/var/lib/neo4j/conf/user-logs.xml'
+2025-11-23 20:59:40.983+0000 INFO  Starting...
+2025-11-23 20:59:41.498+0000 INFO  This instance is ServerId{50b43c12} (50b43c12-b866-4e1d-82d3-b974c47a3990)
+2025-11-23 20:59:42.048+0000 INFO  ======== Neo4j 2025.09.0 ========
+2025-11-23 20:59:42.933+0000 INFO  Anonymous Usage Data is being sent to Neo4j, see https://neo4j.com/docs/usage-data/
+2025-11-23 20:59:43.342+0000 INFO  Bolt enabled on 0.0.0.0:7687.
+2025-11-23 20:59:43.768+0000 INFO  HTTP enabled on 0.0.0.0:7474.
+2025-11-23 20:59:43.768+0000 INFO  Remote interface available at http://localhost:7474/
+2025-11-23 20:59:43.770+0000 INFO  id: ABBD63ADCB77E6C68C28094E1BF61A6E51C0563338F57F1C8468FA309288162B
+2025-11-23 20:59:43.770+0000 INFO  name: system
+2025-11-23 20:59:43.771+0000 INFO  creationDate: 2025-11-23T20:59:42.639Z
+2025-11-23 20:59:43.772+0000 INFO  Started.
+2025-11-23 21:11:45.410+0000 INFO  Neo4j Server shutdown initiated by request
+2025-11-23 21:11:45.411+0000 INFO  Stopping...
+2025-11-26 16:18:16.808+0000 INFO  Logging config in use: File '/var/lib/neo4j/conf/user-logs.xml'
+2025-11-26 16:18:16.816+0000 INFO  Starting...
+2025-11-26 16:18:17.179+0000 INFO  This instance is ServerId{50b43c12} (50b43c12-b866-4e1d-82d3-b974c47a3990)
+2025-11-26 16:18:17.696+0000 INFO  ======== Neo4j 2025.09.0 ========
+2025-11-26 16:18:18.377+0000 INFO  Anonymous Usage Data is being sent to Neo4j, see https://neo4j.com/docs/usage-data/
+2025-11-26 16:18:18.531+0000 INFO  Bolt enabled on 0.0.0.0:7687.
+2025-11-26 16:18:18.852+0000 INFO  HTTP enabled on 0.0.0.0:7474.
+2025-11-26 16:18:18.852+0000 INFO  Remote interface available at http://localhost:7474/
+2025-11-26 16:18:18.853+0000 INFO  id: ABBD63ADCB77E6C68C28094E1BF61A6E51C0563338F57F1C8468FA309288162B
+2025-11-26 16:18:18.854+0000 INFO  name: system
+2025-11-26 16:18:18.854+0000 INFO  creationDate: 2025-11-23T20:59:42.639Z
+2025-11-26 16:18:18.854+0000 INFO  Started.
+2025-11-26 17:39:01.844+0000 INFO  Neo4j Server shutdown initiated by request
+2025-11-26 17:39:01.846+0000 INFO  Stopping...
