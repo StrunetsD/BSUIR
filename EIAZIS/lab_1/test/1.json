@@ -1,0 +1,392 @@
+[
+  {
+    "word": "анализ",
+    "role": "подлежащее",
+    "form": "nomn, sing, masc",
+    "sentence_num": 1
+  },
+  {
+    "word": "анализ",
+    "role": "дополнение",
+    "form": "gent, sing, masc",
+    "sentence_num": 3
+  },
+  {
+    "word": "в",
+    "role": "неопределено",
+    "form": "неопределено",
+    "sentence_num": 1
+  },
+  {
+    "word": "в",
+    "role": "неопределено",
+    "form": "неопределено",
+    "sentence_num": 2
+  },
+  {
+    "word": "деревообрабатывающий",
+    "role": "неопределено",
+    "form": "неопределено",
+    "sentence_num": 1
+  },
+  {
+    "word": "в",
+    "role": "неопределено",
+    "form": "неопределено",
+    "sentence_num": 3
+  },
+  {
+    "word": "важный",
+    "role": "определение",
+    "form": "accs, sing, femn",
+    "sentence_num": 1
+  },
+  {
+    "word": "ветер",
+    "role": "подлежащее",
+    "form": "nomn, sing, masc",
+    "sentence_num": 1
+  },
+  {
+    "word": "воображение",
+    "role": "неопределено",
+    "form": "loct, sing, neut",
+    "sentence_num": 2
+  },
+  {
+    "word": "грамматический",
+    "role": "определение",
+    "form": "gent, sing, femn",
+    "sentence_num": 2
+  },
+  {
+    "word": "дерево",
+    "role": "дополнение",
+    "form": "gent, plur, neut",
+    "sentence_num": 2
+  },
+  {
+    "word": "диктовать",
+    "role": "сказуемое",
+    "form": "past, sing, femn",
+    "sentence_num": 2
+  },
+  {
+    "word": "до",
+    "role": "неопределено",
+    "form": "неопределено",
+    "sentence_num": 3
+  },
+  {
+    "word": "дышать",
+    "role": "неопределено",
+    "form": "nomn, pres, sing, femn",
+    "sentence_num": 3
+  },
+  {
+    "word": "естественный",
+    "role": "определение",
+    "form": "gent, sing, neut",
+    "sentence_num": 1
+  },
+  {
+    "word": "жизнь",
+    "role": "неопределено",
+    "form": "ablt, sing, femn",
+    "sentence_num": 3
+  },
+  {
+    "word": "жить",
+    "role": "сказуемое",
+    "form": "past, sing, femn",
+    "sentence_num": 3
+  },
+  {
+    "word": "задача",
+    "role": "неопределено",
+    "form": "accs, sing, femn",
+    "sentence_num": 1
+  },
+  {
+    "word": "и",
+    "role": "неопределено",
+    "form": "неопределено",
+    "sentence_num": 2
+  },
+  {
+    "word": "и",
+    "role": "неопределено",
+    "form": "неопределено",
+    "sentence_num": 3
+  },
+  {
+    "word": "играть",
+    "role": "неопределено",
+    "form": "pres",
+    "sentence_num": 1
+  },
+  {
+    "word": "извлечение",
+    "role": "подлежащее",
+    "form": "nomn, sing, neut",
+    "sentence_num": 2
+  },
+  {
+    "word": "история",
+    "role": "подлежащее",
+    "form": "nomn, sing, femn",
+    "sentence_num": 3
+  },
+  {
+    "word": "каждый",
+    "role": "определение",
+    "form": "gent, sing, femn",
+    "sentence_num": 3
+  },
+  {
+    "word": "лексема",
+    "role": "дополнение",
+    "form": "gent, plur, femn",
+    "sentence_num": 2
+  },
+  {
+    "word": "листва",
+    "role": "неопределено",
+    "form": "loct, sing, femn",
+    "sentence_num": 1
+  },
+  {
+    "word": "лёгкий",
+    "role": "определение",
+    "form": "nomn, sing, masc",
+    "sentence_num": 1
+  },
+  {
+    "word": "обеспечение",
+    "role": "подлежащее",
+    "form": "nomn, sing, neut",
+    "sentence_num": 2
+  },
+  {
+    "word": "обеспечивать",
+    "role": "сказуемое",
+    "form": "pres, sing",
+    "sentence_num": 2
+  },
+  {
+    "word": "область",
+    "role": "неопределено",
+    "form": "loct, sing, femn",
+    "sentence_num": 1
+  },
+  {
+    "word": "обработка",
+    "role": "дополнение",
+    "form": "gent, sing, femn",
+    "sentence_num": 1
+  },
+  {
+    "word": "они",
+    "role": "неопределено",
+    "form": "accs, plur",
+    "sentence_num": 2
+  },
+  {
+    "word": "определение",
+    "role": "подлежащее",
+    "form": "nomn, sing, neut",
+    "sentence_num": 2
+  },
+  {
+    "word": "отображаться",
+    "role": "сказуемое",
+    "form": "pres, plur",
+    "sentence_num": 3
+  },
+  {
+    "word": "подлежать",
+    "role": "сказуемое",
+    "form": "pres, plur",
+    "sentence_num": 3
+  },
+  {
+    "word": "предложение",
+    "role": "неопределено",
+    "form": "loct, sing, neut",
+    "sentence_num": 2
+  },
+  {
+    "word": "представлять",
+    "role": "сказуемое",
+    "form": "pres, sing",
+    "sentence_num": 1
+  },
+  {
+    "word": "природа",
+    "role": "подлежащее",
+    "form": "nomn, sing, femn",
+    "sentence_num": 2
+  },
+  {
+    "word": "пробиваться",
+    "role": "сказуемое",
+    "form": "past, sing, masc",
+    "sentence_num": 1
+  },
+  {
+    "word": "программный",
+    "role": "определение",
+    "form": "accs, sing, neut",
+    "sentence_num": 2
+  },
+  {
+    "word": "разработать",
+    "role": "неопределено",
+    "form": "nomn, past, sing, neut",
+    "sentence_num": 2
+  },
+  {
+    "word": "редактирование",
+    "role": "неопределено",
+    "form": "datv, sing, neut",
+    "sentence_num": 3
+  },
+  {
+    "word": "результат",
+    "role": "подлежащее",
+    "form": "nomn, plur, masc",
+    "sentence_num": 3
+  },
+  {
+    "word": "родить",
+    "role": "неопределено",
+    "form": "nomn, past, plur",
+    "sentence_num": 2
+  },
+  {
+    "word": "роль",
+    "role": "неопределено",
+    "form": "loct, sing, femn",
+    "sentence_num": 2
+  },
+  {
+    "word": "русский",
+    "role": "определение",
+    "form": "gent, sing, masc",
+    "sentence_num": 1
+  },
+  {
+    "word": "с",
+    "role": "неопределено",
+    "form": "неопределено",
+    "sentence_num": 2
+  },
+  {
+    "word": "сам",
+    "role": "определение",
+    "form": "nomn, sing, femn",
+    "sentence_num": 2
+  },
+  {
+    "word": "свой",
+    "role": "определение",
+    "form": "nomn, sing, femn",
+    "sentence_num": 3
+  },
+  {
+    "word": "себя",
+    "role": "неопределено",
+    "form": "ablt, sing",
+    "sentence_num": 1
+  },
+  {
+    "word": "синтаксический",
+    "role": "определение",
+    "form": "gent, sing, femn",
+    "sentence_num": 2
+  },
+  {
+    "word": "сквозь",
+    "role": "неопределено",
+    "form": "неопределено",
+    "sentence_num": 1
+  },
+  {
+    "word": "сливаться",
+    "role": "сказуемое",
+    "form": "past, plur",
+    "sentence_num": 2
+  },
+  {
+    "word": "словно",
+    "role": "неопределено",
+    "form": "неопределено",
+    "sentence_num": 2
+  },
+  {
+    "word": "слово",
+    "role": "дополнение",
+    "form": "gent, sing, neut",
+    "sentence_num": 2
+  },
+  {
+    "word": "сохраняться",
+    "role": "сказуемое",
+    "form": "pres, plur",
+    "sentence_num": 3
+  },
+  {
+    "word": "строка",
+    "role": "дополнение",
+    "form": "gent, sing, femn",
+    "sentence_num": 2
+  },
+  {
+    "word": "текст",
+    "role": "дополнение",
+    "form": "gent, sing, masc",
+    "sentence_num": 1
+  },
+  {
+    "word": "тишина",
+    "role": "неопределено",
+    "form": "accs, sing, femn",
+    "sentence_num": 1
+  },
+  {
+    "word": "утренний",
+    "role": "определение",
+    "form": "accs, sing, femn",
+    "sentence_num": 1
+  },
+  {
+    "word": "фильтрация",
+    "role": "дополнение",
+    "form": "gent, sing, femn",
+    "sentence_num": 3
+  },
+  {
+    "word": "форма",
+    "role": "дополнение",
+    "form": "gent, sing, femn",
+    "sentence_num": 2
+  },
+  {
+    "word": "фраза",
+    "role": "неопределено",
+    "form": "loct, sing, femn",
+    "sentence_num": 3
+  },
+  {
+    "word": "шелест",
+    "role": "неопределено",
+    "form": "ablt, sing, masc",
+    "sentence_num": 2
+  },
+  {
+    "word": "язык",
+    "role": "дополнение",
+    "form": "gent, sing, masc",
+    "sentence_num": 1
+  }
+]

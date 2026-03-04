@@ -1,0 +1,62 @@
+[
+  {
+    "word": "мир",
+    "role": "подлежащее",
+    "form": "nomn, sing, masc",
+    "sentence_num": 1
+  },
+  {
+    "word": "привет",
+    "role": "подлежащее",
+    "form": "nomn, sing, masc",
+    "sentence_num": 1
+  },
+  {
+    "word": "для",
+    "role": "неопределено",
+    "form": "неопределено",
+    "sentence_num": 1
+  },
+  {
+    "word": "документ",
+    "role": "подлежащее",
+    "form": "nomn, sing, masc",
+    "sentence_num": 1
+  },
+  {
+    "word": "написать",
+    "role": "сказуемое",
+    "form": "past, sing, masc",
+    "sentence_num": 1
+  },
+  {
+    "word": "программа",
+    "role": "дополнение",
+    "form": "gent, sing, femn",
+    "sentence_num": 1
+  },
+  {
+    "word": "тестирование",
+    "role": "дополнение",
+    "form": "gent, sing, neut",
+    "sentence_num": 1
+  },
+  {
+    "word": "тестовый",
+    "role": "определение",
+    "form": "nomn, sing, masc",
+    "sentence_num": 1
+  },
+  {
+    "word": "этот",
+    "role": "определение",
+    "form": "accs, sing, masc",
+    "sentence_num": 1
+  },
+  {
+    "word": "я",
+    "role": "неопределено",
+    "form": "nomn, sing",
+    "sentence_num": 1
+  }
+]
