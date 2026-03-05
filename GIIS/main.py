@@ -4,6 +4,8 @@ from PyQt5.QtCore import Qt
 
 from algo.line import LineDrawingArea, LineAlgorithmDialog
 from algo.circle import CircleDrawingArea, CircleAlgorithmDialog
+from algo.curve import CurveDrawClass, CurveAlgorithmDialog
+from algo.object import ViewerWithMenu, Object3DViewerDialog
 
 
 class MainWindow(QMainWindow):
@@ -55,6 +57,17 @@ class MainWindow(QMainWindow):
                 """)
         self.overlay_label.setVisible(False)
 
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        label_width = 280
+        label_height = 280
+        margin = 70  # Отступ от края
+
+        new_x = self.width() - label_width - 20
+        new_y = margin
+
+        self.overlay_label.setGeometry(new_x, new_y, label_width, label_height)
+
     def clear_canvas(self):
         if self.drawing_area:
             self.drawing_area.scene.clear()
@@ -85,6 +98,14 @@ class MainWindow(QMainWindow):
         circle_action.triggered.connect(self.show_circle_algorithm_dialog)
         toolbar.addAction(circle_action)
 
+        curve_action = QAction("Lab 3 - Curves", self)
+        curve_action.triggered.connect(self.show_curve_algorithm_dialog)
+        toolbar.addAction(curve_action)
+
+        object3d_action = QAction("Lab 4 - 3D object", self)
+        object3d_action.triggered.connect(self.show_3d_object_dialog)
+        toolbar.addAction(object3d_action)
+
     def show_algorithm_dialog(self):
         dialog = LineAlgorithmDialog()
         if dialog.exec_() == QDialog.Accepted:
@@ -108,6 +129,30 @@ class MainWindow(QMainWindow):
                 self.drawing_area.set_algorithm(curve, debug_mode, clear_canvas)
                 self.update_overlay_label(curve, debug_mode, clear_canvas, "Second-Order Curves")
                 self.overlay_label.raise_()
+
+    def show_curve_algorithm_dialog(self):
+        dialog = CurveAlgorithmDialog()
+        if dialog.exec_() == QDialog.Accepted:
+            curve, debug_mode, clear_canvas = dialog.get_selection()
+            if curve:
+                self.drawing_area = CurveDrawClass()
+                self.drawing_area.draw_grid()
+                self.setCentralWidget(self.drawing_area)
+                self.drawing_area.set_algorithm(curve, debug_mode, clear_canvas)
+                self.update_overlay_label(curve, debug_mode, clear_canvas, "Curves")
+                self.overlay_label.raise_()
+
+    def show_3d_object_dialog(self):
+        dialog = Object3DViewerDialog()
+        if dialog.exec_() == QDialog.Accepted:
+            object_file = dialog.get_selection()
+            if object_file:
+                prefix = "object/"
+                self.drawing_area = ViewerWithMenu()
+                self.drawing_area.viewer.load_object(prefix + object_file)
+                self.drawing_area.viewer.show()
+
+                self.setCentralWidget(self.drawing_area)
 
     def update_overlay_label(self, algorithm, debug_mode, clear_canvas, mode):
         debug_status = "ON" if debug_mode else "OFF"
