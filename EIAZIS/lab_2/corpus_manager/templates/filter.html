@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+{% block title %}Фильтрация по частям речи{% endblock %}
+{% block content %}
+<h2>Фильтрация по частям речи</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Выберите часть речи</h5>
+            </div>
+            <div class="card-body">
+                <select class="form-select" id="posSelect">
+                    <option value="">-- Выберите --</option>
+                    <option value="NOUN">Существительное (NOUN)</option>
+                    <option value="VERB">Глагол (VERB)</option>
+                    <option value="ADJ">Прилагательное (ADJ)</option>
+                    <option value="ADV">Наречие (ADV)</option>
+                    <option value="PRON">Местоимение (PRON)</option>
+                    <option value="NUM">Числительное (NUM)</option>
+                    <option value="PREP">Предлог (PREP)</option>
+                    <option value="CONJ">Союз (CONJ)</option>
+                    <option value="PART">Частица (PART)</option>
+                    <option value="INTJ">Междометие (INTJ)</option>
+                </select>
+                
+                <button class="btn btn-primary w-100 mt-3" onclick="applyFilter()">
+                    <i class="bi bi-funnel"></i> Применить фильтр
+                </button>
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-body">
+                <h6>Доступные части речи:</h6>
+                <ul class="small">
+                    <li><strong>NOUN</strong> - имя существительное</li>
+                    <li><strong>VERB</strong> - глагол</li>
+                    <li><strong>ADJ</strong> - прилагательное</li>
+                    <li><strong>ADV</strong> - наречие</li>
+                    <li><strong>PRON</strong> - местоимение</li>
+                    <li><strong>NUM</strong> - числительное</li>
+                    <li><strong>PREP</strong> - предлог</li>
+                    <li><strong>CONJ</strong> - союз</li>
+                    <li><strong>PART</strong> - частица</li>
+                    <li><strong>INTJ</strong> - междометие</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Результаты фильтрации</h5>
+                <span id="resultCount" class="badge bg-light text-dark">0</span>
+            </div>
+            <div class="card-body">
+                <div id="loading" class="text-center my-4" style="display: none;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Загрузка...</span>
+                    </div>
+                    <p class="mt-2">Загрузка результатов...</p>
+                </div>
+                
+                <div id="error" class="alert alert-danger" style="display: none;"></div>
+                
+                <div id="results">
+                    <p class="text-muted text-center my-5">
+                        <i class="bi bi-arrow-up-circle" style="font-size: 3rem;"></i><br>
+                        Выберите часть речи и нажмите "Применить фильтр"
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function applyFilter() {
+    const posSelect = document.getElementById('posSelect');
+    const resultsDiv = document.getElementById('results');
+    const loadingDiv = document.getElementById('loading');
+    const errorDiv = document.getElementById('error');
+    const resultCountSpan = document.getElementById('resultCount');
+    
+    const pos = posSelect.value;
+    
+    if (!pos) {
+        alert('Пожалуйста, выберите часть речи');
+        return;
+    }
+    
+    loadingDiv.style.display = 'block';
+    errorDiv.style.display = 'none';
+    resultsDiv.innerHTML = '';
+    resultCountSpan.textContent = '0';
+    
+    fetch('/api/filter', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ pos: pos })
+    })
+    .then(response => response.json())
+    .then(data => {
+        loadingDiv.style.display = 'none';
+        
+        if (data.error) {
+            errorDiv.style.display = 'block';
+            errorDiv.textContent = 'Ошибка: ' + data.error;
+            return;
+        }
+        
+        resultCountSpan.textContent = data.total || 0;
+        
+        if (data.results && data.results.length > 0) {
+            let html = '<div class="list-group">';
+            
+            data.results.forEach((item, index) => {
+                html += `
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">
+                                <strong>${item.word}</strong> 
+                                <small class="text-muted">(лемма: ${item.lemma})</small>
+                            </h6>
+                            <small>#${index + 1}</small>
+                        </div>
+                        <p class="mb-1">${item.sentence}</p>
+                        <small>
+                            <a href="/document/${item.doc_id}" class="text-decoration-none">
+                                ${item.doc_title}
+                            </a>
+                        </small>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            resultsDiv.innerHTML = html;
+        } else {
+            resultsDiv.innerHTML = `
+                <div class="alert alert-warning text-center">
+                    Нет результатов для части речи "${pos}"
+                </div>
+            `;
+        }
+    })
+    .catch(error => {
+        loadingDiv.style.display = 'none';
+        errorDiv.style.display = 'block';
+        errorDiv.textContent = 'Ошибка соединения: ' + error;
+    });
+}
+</script>
+{% endblock %}

@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block title %}Помощь{% endblock %}
+{% block content %}
+<h2><i class="bi bi-question-circle"></i> Помощь по использованию корпусного менеджера</h2>
+
+<div class="accordion" id="helpAccordion">
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                🔍 Поиск
+            </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#helpAccordion">
+            <div class="accordion-body">
+                <p><strong>Возможности поиска:</strong></p>
+                <ul>
+                    <li><strong>По словоформе</strong> — поиск точного вхождения слова (например, "романа")</li>
+                    <li><strong>По лемме</strong> — поиск по нормальной форме (например, "роман" найдёт "роман", "романа", "роману")</li>
+                    <li><strong>По части речи</strong> — поиск всех слов с указанной частью речи (NOUN, VERB, ADJ и т.д.)</li>
+                </ul>
+                <p>Результаты показывают найденные слова в контексте предложений со ссылкой на полный документ.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                📊 Конкорданс
+            </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+            <div class="accordion-body">
+                <p>Конкорданс показывает слово в его непосредственном контексте. Для каждого вхождения выводится:</p>
+                <ul>
+                    <li>Несколько слов слева от искомого</li>
+                    <li>Само слово (выделено)</li>
+                    <li>Несколько слов справа</li>
+                    <li>Название документа и автор</li>
+                </ul>
+                <p>Это позволяет изучать употребление слова в разных контекстах.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                📈 Статистика
+            </button>
+        </h2>
+        <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+            <div class="accordion-body">
+                <p>Статистический раздел предоставляет:</p>
+                <ul>
+                    <li>Общую информацию о корпусе (количество документов, предложений, слов)</li>
+                    <li>Топ-10 самых частотных словоформ и лемм</li>
+                    <li>Распределение слов по частям речи</li>
+                    <li>Статистику по авторам</li>
+                </ul>
+                <p>Клик на слово или лемму открывает детальную информацию.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
+                📄 Документы
+            </button>
+        </h2>
+        <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+            <div class="accordion-body">
+                <p>В разделе "Документы" представлен полный список всех загруженных текстов с метаданными:</p>
+                <ul>
+                    <li>Название</li>
+                    <li>Автор</li>
+                    <li>Жанр</li>
+                    <li>Год (если указан)</li>
+                </ul>
+                <p>Можно открыть полный текст документа и экспортировать его в TXT.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive">
+                🔧 Фильтрация
+            </button>
+        </h2>
+        <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+            <div class="accordion-body">
+                <p>Фильтрация позволяет отобрать слова по заданным критериям:</p>
+                <ul>
+                    <li><strong>По части речи</strong> — выберите часть речи из списка, чтобы увидеть все слова этой категории</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3 class="mt-4">Клавиатурные сокращения</h3>
+<ul>
+    <li><kbd>/</kbd> — фокус на поле поиска</li>
+    <li><kbd>?</kbd> — открыть эту страницу помощи</li>
+</ul>
+{% endblock %}

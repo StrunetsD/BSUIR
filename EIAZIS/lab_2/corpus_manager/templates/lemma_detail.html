@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block title %}Лемма: {{ stats.lemma }}{% endblock %}
+{% block content %}
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Главная</a></li>
+            <li class="breadcrumb-item"><a href="/stats">Статистика</a></li>
+            <li class="breadcrumb-item active">Лемма: {{ stats.lemma }}</li>
+        </ol>
+    </nav>
+
+    <h2>Лемма: "{{ stats.lemma }}"</h2>
+    
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Общая информация</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Всего вхождений:</strong> {{ stats.total }}</p>
+                    <p><strong>Уникальных словоформ:</strong> {{ stats.forms|length }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Распределение по частям речи</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Часть речи</th>
+                                <th>Количество</th>
+                                <th>Процент</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for pos, cnt in stats.pos_stats %}
+                            <tr>
+                                <td>{{ pos or 'неизвестно' }}</td>
+                                <td>{{ cnt }}</td>
+                                <td>{{ (cnt / stats.total * 100)|round(2) }}%</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">Все словоформы леммы "{{ stats.lemma }}"</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Словоформа</th>
+                                <th>Частота</th>
+                                <th>Процент</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for word, cnt in stats.forms %}
+                            <tr>
+                                <td><a href="{{ url_for('word_detail', word=word) }}">{{ word }}</a></td>
+                                <td>{{ cnt }}</td>
+                                <td>{{ (cnt / stats.total * 100)|round(2) }}%</td>
+                                <td>
+                                    <a href="{{ url_for('concordance') }}?word={{ word }}" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-list-columns"></i> Конкорданс
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-warning">
+                    <h5 class="mb-0">Примеры употребления</h5>
+                </div>
+                <div class="card-body">
+                    {% set examples = [] %}
+                    {% for word, _ in stats.forms[:5] %}
+                        {% set concordance = get_concordance(word, limit=3) %}
+                        {% for line in concordance %}
+                            <div class="alert alert-light">
+                                <i class="bi bi-chat-quote"></i>
+                                {{ line.left }} <span class="concordance-word">{{ line.word }}</span> {{ line.right }}
+                                <br>
+                                <small class="text-muted">
+                                    <a href="{{ url_for('document', doc_id=line.doc_id) }}">{{ line.doc_title }}</a>
+                                </small>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

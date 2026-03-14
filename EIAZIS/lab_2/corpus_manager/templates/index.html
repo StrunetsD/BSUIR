@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Главная - Корпус литературных текстов{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="search-box text-center">
+            <h1 class="display-4">Корпус русских литературоведческих текстов</h1>
+            <p class="lead">Добро пожаловать в корпусный менеджер. Здесь вы можете искать слова, изучать контексты и получать статистику по корпусу.</p>
+            <hr class="my-4">
+            <p>Корпус содержит тексты по литературе: критические статьи, биографии писателей, монографии.</p>
+            <form action="/search" method="post" class="row g-3 justify-content-center mt-4">
+                <div class="col-auto" style="min-width: 300px;">
+                    <input type="text" name="query" class="form-control form-control-lg" placeholder="Введите слово для поиска...">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary btn-lg">Искать</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="bi bi-search" style="font-size: 3rem; color: #0d6efd;"></i>
+                <h5 class="card-title mt-3">Поиск</h5>
+                <p class="card-text">Ищите слова по точному вхождению, лемме или части речи</p>
+                <a href="/search" class="btn btn-outline-primary">Перейти</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="bi bi-list-columns" style="font-size: 3rem; color: #198754;"></i>
+                <h5 class="card-title mt-3">Конкорданс</h5>
+                <p class="card-text">Просматривайте слова в контексте их употребления</p>
+                <a href="/concordance" class="btn btn-outline-success">Перейти</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="bi bi-bar-chart" style="font-size: 3rem; color: #dc3545;"></i>
+                <h5 class="card-title mt-3">Статистика</h5>
+                <p class="card-text">Изучайте частотные характеристики корпуса</p>
+                <a href="/stats" class="btn btn-outline-danger">Перейти</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+    <div class="card text-center">
+        <div class="card-body">
+            <i class="bi bi-files" style="font-size: 3rem; color: #0d6efd;"></i>
+            <h5 class="card-title mt-3">Поиск по документам</h5>
+            <p class="card-text">Ищите документы по названию, автору, жанру или тексту</p>
+            <a href="/search_documents" class="btn btn-outline-primary">Перейти</a>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+Flask==2.2.3
+Werkzeug==2.2.3
+Flask-SQLAlchemy==3.0.3
+psycopg2-binary==2.9.5
+pymorphy2==0.9.1
+nltk==3.8.1
+python-docx==0.8.11
+PyPDF2==3.0.1
+chardet==5.1.0
+html2text==2020.1.16
+fpdf==1.7.2

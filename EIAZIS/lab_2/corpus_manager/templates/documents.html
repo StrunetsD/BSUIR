@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block title %}Документы корпуса{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Документы корпуса</h2>
+    <div>
+        <a href="{{ url_for('upload_document') }}" class="btn btn-success">
+            <i class="bi bi-cloud-upload"></i> Загрузить новый
+        </a>
+        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteAllModal">
+            <i class="bi bi-trash"></i> Удалить все
+        </button>
+    </div>
+</div>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<div class="row">
+    {% for doc in documents %}
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <a href="{{ url_for('document', doc_id=doc.id) }}">{{ doc.title }}</a>
+                </h5>
+                <p class="card-text">
+                    <strong>Автор:</strong> {{ doc.author or 'неизвестен' }}<br>
+                    <strong>Жанр:</strong> {{ doc.genre or 'не указан' }}<br>
+                    <strong>Год:</strong> {{ doc.year or 'неизвестен' }}<br>
+                    <strong>Предложений:</strong> {{ doc.sentences.count() }}
+                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <a href="{{ url_for('document', doc_id=doc.id) }}" class="btn btn-sm btn-primary">
+                        <i class="bi bi-eye"></i> Читать
+                    </a>
+                    <a href="{{ url_for('export_document', doc_id=doc.id) }}" class="btn btn-sm btn-info">
+                        <i class="bi bi-download"></i> Скачать
+                    </a>
+                    <button class="btn btn-sm btn-danger" onclick="deleteDocument({{ doc.id }}, '{{ doc.title }}')">
+                        <i class="bi bi-trash"></i> Удалить
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="col-12">
+        <div class="alert alert-info text-center p-5">
+            <i class="bi bi-files" style="font-size: 3rem;"></i>
+            <h4 class="mt-3">В корпусе пока нет документов</h4>
+            <p>Загрузите первый документ, чтобы начать работу с корпусом.</p>
+            <a href="{{ url_for('upload_document') }}" class="btn btn-primary btn-lg">
+                <i class="bi bi-cloud-upload"></i> Загрузить документ
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="modal fade" id="deleteAllModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Подтверждение удаления</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Вы уверены, что хотите удалить <strong>ВСЕ</strong> документы?</p>
+                <p class="text-danger">Это действие необратимо! Все размеченные данные будут потеряны.</p>
+                <p>Всего документов: {{ documents|length }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <form action="{{ url_for('delete_all_documents') }}" method="post">
+                    <button type="submit" class="btn btn-danger">Удалить все</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function deleteDocument(docId, docTitle) {
+    if (confirm(`Удалить документ "${docTitle}"?`)) {
+        var form = document.createElement('form');
+        form.method = 'post';
+        form.action = `/delete_document/${docId}`;
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+</script>
+{% endblock %}
