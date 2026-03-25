@@ -1,0 +1,9 @@
+Flask==2.2.3
+Werkzeug==2.2.3
+Flask-SQLAlchemy==3.0.3
+psycopg2-binary==2.9.5
+nltk==3.8.1
+beautifulsoup4==4.12.3
+chardet==5.1.0
+fpdf==1.7.2
+spacy==3.7.4

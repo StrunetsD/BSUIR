@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.pytest_cache/
+.DS_Store
+uploads/
+instance/
+corpus_lab3.db

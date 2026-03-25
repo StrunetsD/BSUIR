@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Слово: {{ stats.word }}{% endblock %}
+{% block content %}
+<h2>Слово: "{{ stats.word }}"</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Общая информация</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Всего вхождений:</strong> {{ stats.total }}</p>
+                <p><strong>Части речи:</strong></p>
+                <ul>
+                    {% for pos, cnt in stats.pos_stats %}
+                    <li>{{ pos or 'неизвестно' }}: {{ cnt }} ({{ (cnt / stats.total * 100)|round(1) }}%)</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Распределение по документам</h5>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr><th>Документ</th><th>Автор</th><th>Вхождений</th></tr>
+                    </thead>
+                    <tbody>
+                        {% for title, author, cnt in stats.by_doc %}
+                        <tr>
+                            <td>{{ title }}</td>
+                            <td>{{ author }}</td>
+                            <td>{{ cnt }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

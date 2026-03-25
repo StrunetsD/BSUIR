@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block title %}Фильтрация по POS-тегам{% endblock %}
+{% block content %}
+<h2>Фильтрация по POS-тегам</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Выберите POS-тег</h5>
+            </div>
+            <div class="card-body">
+                <select class="form-select" id="posSelect">
+                    <option value="">-- Выберите --</option>
+                    <option value="NN">NN - noun</option>
+                    <option value="NNS">NNS - plural noun</option>
+                    <option value="NNP">NNP - proper noun</option>
+                    <option value="VB">VB - verb</option>
+                    <option value="VBD">VBD - past verb</option>
+                    <option value="VBG">VBG - gerund</option>
+                    <option value="VBN">VBN - past participle</option>
+                    <option value="VBP">VBP - present verb</option>
+                    <option value="VBZ">VBZ - 3rd person verb</option>
+                    <option value="JJ">JJ - adjective</option>
+                    <option value="RB">RB - adverb</option>
+                    <option value="IN">IN - preposition</option>
+                </select>
+                <button class="btn btn-primary w-100 mt-3" onclick="applyFilter()">Применить фильтр</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Результаты фильтрации</h5>
+                <span id="resultCount" class="badge bg-light text-dark">0</span>
+            </div>
+            <div class="card-body">
+                <div id="loading" class="text-center my-4" style="display: none;">Загрузка результатов...</div>
+                <div id="error" class="alert alert-danger" style="display: none;"></div>
+                <div id="results">
+                    <p class="text-muted text-center my-5">Выберите POS-тег и нажмите "Применить фильтр"</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function applyFilter() {
+    const pos = document.getElementById('posSelect').value;
+    const resultsDiv = document.getElementById('results');
+    const loadingDiv = document.getElementById('loading');
+    const errorDiv = document.getElementById('error');
+    const resultCountSpan = document.getElementById('resultCount');
+
+    if (!pos) {
+        alert('Пожалуйста, выберите POS-тег');
+        return;
+    }
+
+    loadingDiv.style.display = 'block';
+    errorDiv.style.display = 'none';
+    resultsDiv.innerHTML = '';
+    resultCountSpan.textContent = '0';
+
+    fetch('/api/filter', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ pos: pos })
+    })
+    .then(response => response.json())
+    .then(data => {
+        loadingDiv.style.display = 'none';
+        if (data.error) {
+            errorDiv.style.display = 'block';
+            errorDiv.textContent = 'Ошибка: ' + data.error;
+            return;
+        }
+
+        resultCountSpan.textContent = data.total || 0;
+        if (data.results && data.results.length > 0) {
+            let html = '<div class="list-group">';
+            data.results.forEach((item, index) => {
+                html += `
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1"><strong>${item.word}</strong> <small class="text-muted">(lemma: ${item.lemma})</small></h6>
+                            <small>#${index + 1}</small>
+                        </div>
+                        <p class="mb-1">${item.sentence}</p>
+                        <small><a href="/document/${item.doc_id}" class="text-decoration-none">${item.doc_title}</a></small>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            resultsDiv.innerHTML = html;
+        } else {
+            resultsDiv.innerHTML = `<div class="alert alert-warning text-center">Нет результатов для POS-тега "${pos}"</div>`;
+        }
+    })
+    .catch(error => {
+        loadingDiv.style.display = 'none';
+        errorDiv.style.display = 'block';
+        errorDiv.textContent = 'Ошибка соединения: ' + error;
+    });
+}
+</script>
+{% endblock %}

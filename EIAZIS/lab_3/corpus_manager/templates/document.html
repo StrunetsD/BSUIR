@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}{{ doc.title }}{% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ url_for('documents') }}">Документы</a></li>
+        <li class="breadcrumb-item active">{{ doc.title }}</li>
+    </ol>
+</nav>
+
+<div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+        <h2>{{ doc.title }}</h2>
+    </div>
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-2">Автор:</dt><dd class="col-sm-10">{{ doc.author or 'unknown' }}</dd>
+            <dt class="col-sm-2">Жанр:</dt><dd class="col-sm-10">{{ doc.genre or 'not set' }}</dd>
+            <dt class="col-sm-2">Год:</dt><dd class="col-sm-10">{{ doc.year or 'unknown' }}</dd>
+            <dt class="col-sm-2">Формат:</dt><dd class="col-sm-10">{{ doc.source_format or 'HTML' }}</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header bg-secondary text-white">
+        <h4>Текст документа</h4>
+    </div>
+    <div class="card-body">
+        {% set sentences = doc.sentences.order_by('position').all() %}
+        {% if sentences %}
+            {% for sentence in sentences %}
+                <p class="mb-3"><span class="badge bg-light text-dark me-2">{{ sentence.position }}</span>{{ sentence.text }}</p>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-warning">В этом документе нет предложений.</div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="mt-4 d-flex justify-content-between">
+    <a href="{{ url_for('documents') }}" class="btn btn-secondary">Назад к списку</a>
+    <div class="d-flex gap-2">
+        <a href="{{ url_for('document_syntax', doc_id=doc.id) }}" class="btn btn-primary">Открыть синтаксис</a>
+        <a href="{{ url_for('export_document', doc_id=doc.id) }}" class="btn btn-success">Скачать TXT</a>
+    </div>
+</div>
+{% endblock %}

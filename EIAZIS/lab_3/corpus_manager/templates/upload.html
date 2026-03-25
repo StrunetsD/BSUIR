@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Загрузка HTML-документа{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h2>Загрузка HTML-документа</h2>
+            </div>
+            <div class="card-body">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <form method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="file" class="form-label">HTML-файл</label>
+                        <input type="file" class="form-control" id="file" name="file" accept=".html,.htm" required>
+                        <div class="form-text">Для варианта 6 поддерживаются форматы HTML и HTM.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Название документа</label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="Введите название">
+                    </div>
+                    <div class="mb-3">
+                        <label for="author" class="form-label">Автор</label>
+                        <input type="text" class="form-control" id="author" name="author" placeholder="Author">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="genre" class="form-label">Жанр</label>
+                            <input type="text" class="form-control" id="genre" name="genre" value="Scientific / analytical text">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="year" class="form-label">Год</label>
+                            <input type="number" class="form-control" id="year" name="year" placeholder="2024">
+                        </div>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="bi bi-cloud-upload"></i> Загрузить и обработать
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-header bg-info text-white">
+                <h4>Что делает система</h4>
+            </div>
+            <div class="card-body">
+                <ol class="mb-0">
+                    <li>Извлекает чистый текст из HTML-документа.</li>
+                    <li>Разбивает текст на английские предложения.</li>
+                    <li>Выполняет токенизацию, POS-tagging и лемматизацию.</li>
+                    <li>Строит синтаксические группы и сохраняет разбор.</li>
+                    <li>Даёт возможность редактировать и экспортировать результат.</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,97 @@
+---
+description: Core project rules — prohibits unauthorized changes, enforces context management, mandates Research → Plan → Implement workflow, and optimizes token usage
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# Core Project Rules
+
+## Critical Prohibitions
+
+### 1. No Unauthorized Changes
+- NEVER commit changes without explicit permission
+- NEVER push to remote repositories without confirmation
+- NEVER execute commands that modify system state (git commit, git push, git rebase, npm publish, etc.) without approval
+- NEVER perform complex refactors without prior discussion and approval
+
+### 2. Permitted Actions
+- Reading files and code analysis — always allowed
+- Running safe commands (npm run test, npm run lint, npm run build) for viewing results only
+- Proposing changes in "I suggest we do X, do you agree?" format
+
+### 3. Command Execution Rules
+Before executing any command that modifies files, alters git history, installs dependencies, or triggers deployment:
+
+1. Ask for permission
+2. Explain what the command does
+3. Describe potential consequences
+4. Wait for explicit confirmation
+
+---
+
+## Context Management
+
+### Hooks
+- Use pre-commit hooks to run linter and type checks
+- Use pre-push hooks to run tests
+- Create hooks via `.husky/` or in `package.json`
+
+### Skills
+Break complex tasks into specialized skills:
+- `code-reviewer` — code analysis
+- `architect` — architecture design
+- `debugger` — debugging
+- `tester` — test writing
+
+### Context Engineering
+1. **Prioritization**: Architecture and security first, then business logic, then implementation details
+2. **Formation**: Use `AGENTS.md` for global rules, `.cursor/rules/*.mdc` for specific rules
+3. **Limiting**: Don't load entire project at once; analyze only relevant sections
+4. **Recovery**: Record current state in `.context-session.md` when interrupted
+
+---
+
+## Context Efficiency & Learning
+
+### 1. No Full Context Scans on Every Request
+- DO NOT perform full project scans or read all files on every interaction
+- DO NOT re-analyze the same files repeatedly across sessions
+- DO NOT load the entire codebase into context unless absolutely necessary
+
+### 2. Incremental Context Loading
+Load context progressively based on the task:
+
+| Priority | When to Load | What to Load |
+|----------|--------------|--------------|
+| 1 | Always | AGENTS.md, active rule files |
+| 2 | First interaction only | Project structure overview (tree) |
+| 3 | Task-specific | Only files relevant to current task |
+| 4 | On demand | Deep dives when explicitly asked |
+
+### 3. Memory & Learning from Previous Work
+
+**Session Memory**:
+- Maintain `.context-session.md` for ongoing tasks
+- Store decisions, patterns, and completed work
+- Reuse findings from previous sessions
+
+**Cross-Session Learning**:
+- Track what was already explained or decided
+- Don't repeat the same analysis unless context changed
+- Reference previous solutions instead of re-deriving them
+
+**Context Memory File Structure**:
+```markdown
+# .context-memory.md
+
+## Project Patterns
+- [patterns discovered during work]
+
+## Previous Decisions
+- [decisions made with dates and reasoning]
+
+## Common Solutions
+- [reusable solutions for recurring problems]
+
+## Lessons Learned
+- [corrections and what was learned]

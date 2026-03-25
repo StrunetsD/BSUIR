@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Конкорданс для слова "{{ word }}"</h2>
+{% if lines %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Левый контекст</th>
+                <th>Слово</th>
+                <th>Правый контекст</th>
+                <th>Документ</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for line in lines %}
+            <tr>
+                <td>{{ line.left }}</td>
+                <td><strong>{{ line.word }}</strong></td>
+                <td>{{ line.right }}</td>
+                <td><a href="{{ url_for('document', doc_id=line.doc_id) }}">{{ line.doc_title }}</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Нет результатов.</p>
+{% endif %}
+<form method="get" action="/concordance">
+    <div class="input-group mb-3">
+        <input type="text" name="word" class="form-control" placeholder="Введите слово для конкорданса">
+        <button class="btn btn-outline-secondary" type="submit">Показать</button>
+    </div>
+</form>
+{% endblock %}

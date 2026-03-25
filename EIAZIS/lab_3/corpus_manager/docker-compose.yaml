@@ -1,0 +1,40 @@
+services:
+  db:
+    image: postgres:12
+    container_name: lab3_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: lab3_corpus
+      POSTGRES_USER: lab3_user
+      POSTGRES_PASSWORD: lab3_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - lab3_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lab3_user -d lab3_corpus"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  web:
+    build: .
+    container_name: lab3_web
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SECRET_KEY: dev-secret-key
+      DATABASE_URL: postgresql://lab3_user:lab3_password@db:5432/lab3_corpus
+    ports:
+      - "5001:5000"
+    volumes:
+      - .:/app
+      - ./uploads:/app/uploads
+    command: >
+      sh -c "python -c 'from app import app, db; ctx = app.app_context(); ctx.push(); db.create_all()' &&
+             python app.py"
+
+volumes:
+  lab3_postgres_data:

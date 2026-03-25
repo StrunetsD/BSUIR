@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Синтаксис документа{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2>{{ doc.title }}</h2>
+        <p class="text-muted mb-0">Синтаксический анализ предложений документа</p>
+    </div>
+    <div class="d-flex gap-2">
+        <form action="{{ url_for('rebuild_syntax', doc_id=doc.id) }}" method="post">
+            <button type="submit" class="btn btn-outline-primary">Перестроить</button>
+        </form>
+        <a href="{{ url_for('export_syntax', doc_id=doc.id) }}" class="btn btn-success">TXT</a>
+        <a href="{{ url_for('export_syntax', doc_id=doc.id, format='json') }}" class="btn btn-dark">JSON</a>
+    </div>
+</div>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-info">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+{% for analysis in analyses %}
+<div class="card mb-3">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <strong>Предложение {{ analysis.sentence.position }}</strong>
+        <a href="{{ url_for('syntax_analysis_detail', analysis_id=analysis.id) }}" class="btn btn-sm btn-primary">Открыть и редактировать</a>
+    </div>
+    <div class="card-body">
+        <p>{{ analysis.sentence.text }}</p>
+        <pre class="mb-0">{{ analysis.edited_summary or analysis.summary }}</pre>
+    </div>
+</div>
+{% else %}
+<div class="alert alert-warning">Для документа не найдено предложений.</div>
+{% endfor %}
+{% endblock %}

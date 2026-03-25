@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Статистика корпуса{% endblock %}
+{% block content %}
+<h2><i class="bi bi-bar-chart"></i> Статистика корпуса</h2>
+
+<div class="row">
+    <div class="col-md-3"><div class="card text-center"><div class="card-body"><div class="stats-number">{{ stats.total_docs }}</div><div>Документов</div></div></div></div>
+    <div class="col-md-3"><div class="card text-center"><div class="card-body"><div class="stats-number">{{ stats.total_sents }}</div><div>Предложений</div></div></div></div>
+    <div class="col-md-3"><div class="card text-center"><div class="card-body"><div class="stats-number">{{ stats.total_tokens }}</div><div>Токенов</div></div></div></div>
+    <div class="col-md-3"><div class="card text-center"><div class="card-body"><div class="stats-number">{{ stats.total_syntax }}</div><div>Разборов</div></div></div></div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-6"><div class="card text-center"><div class="card-body"><div class="stats-number">{{ stats.unique_words }}</div><div>Уникальных слов</div></div></div></div>
+    <div class="col-md-6"><div class="card text-center"><div class="card-body"><div class="stats-number">{{ stats.unique_lemmas }}</div><div>Уникальных лемм</div></div></div></div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header"><h5>Топ-10 словоформ</h5></div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead><tr><th>Слово</th><th>Частота</th></tr></thead>
+                    <tbody>
+                        {% for word, cnt in stats.top_wordforms %}
+                        <tr><td><a href="{{ url_for('word_detail', word=word) }}">{{ word }}</a></td><td>{{ cnt }}</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header"><h5>Топ-10 лемм</h5></div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead><tr><th>Лемма</th><th>Частота</th></tr></thead>
+                    <tbody>
+                        {% for lemma, cnt in stats.top_lemmas %}
+                        <tr><td><a href="{{ url_for('lemma_detail', lemma=lemma) }}">{{ lemma }}</a></td><td>{{ cnt }}</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header"><h5>Распределение по POS-тегам</h5></div>
+            <div class="card-body">
+                <table class="table">
+                    <thead><tr><th>POS</th><th>Количество</th></tr></thead>
+                    <tbody>
+                        {% for pos, cnt in stats.pos_distribution %}
+                        <tr><td>{{ pos or 'unknown' }}</td><td>{{ cnt }}</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header"><h5>Статистика по авторам</h5></div>
+            <div class="card-body">
+                <table class="table">
+                    <thead><tr><th>Автор</th><th>Документов</th></tr></thead>
+                    <tbody>
+                        {% for author, cnt, size in stats.author_stats %}
+                        <tr><td>{{ author or 'unknown' }}</td><td>{{ cnt }}</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
