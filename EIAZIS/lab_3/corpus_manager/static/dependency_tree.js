@@ -172,6 +172,43 @@
     el.appendChild(walk(tree));
   }
 
+  function renderConstituentTree(el, tree) {
+    if (!tree || !Object.keys(tree).length) {
+      el.innerHTML = '<p class="text-muted mb-0">No constituent tree available.</p>';
+      return;
+    }
+
+    function walk(node) {
+      var ul = document.createElement('ul');
+      ul.className = 'dep-tree-list';
+
+      var li = document.createElement('li');
+      var parts = [
+        '<span class="badge text-bg-primary me-2">' + escapeXml(node.label || '') + '</span>',
+      ];
+
+      if (node.text) {
+        parts.push('<span class="dep-tree-token">' + escapeXml(node.text) + '</span>');
+      } else {
+        parts.push('<span class="text-muted small">constituent</span>');
+      }
+
+      li.innerHTML = parts.join('');
+
+      if (node.children && node.children.length) {
+        node.children.forEach(function (child) {
+          li.appendChild(walk(child));
+        });
+      }
+
+      ul.appendChild(li);
+      return ul;
+    }
+
+    el.innerHTML = '';
+    el.appendChild(walk(tree));
+  }
+
   function init() {
     var el = document.getElementById('syntax-payload-json');
     if (!el) return;
@@ -182,6 +219,7 @@
       return;
     }
     var dep = payload.dependency_parse || {};
+    var constituentTree = payload.constituent_tree || {};
     var tokens = dep.tokens || [];
     if (!tokens.length && payload.dependencies && payload.dependencies.length) {
       tokens = legacyDependenciesToTokens(payload.dependencies);
@@ -192,8 +230,10 @@
     }
     var arcHost = document.getElementById('dependency-tree-arcs');
     var hierHost = document.getElementById('dependency-tree-hierarchy');
+    var constituentHost = document.getElementById('constituent-tree-hierarchy');
     if (arcHost) renderArcDiagram(arcHost, tokens);
     if (hierHost) renderHierarchy(hierHost, tree);
+    if (constituentHost) renderConstituentTree(constituentHost, constituentTree);
   }
 
   if (document.readyState === 'loading') {

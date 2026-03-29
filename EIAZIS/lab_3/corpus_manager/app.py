@@ -79,6 +79,45 @@ def _normalize_fragment(fragment):
     return fragment.strip()
 
 
+def _serialize_chunk_tree(node):
+    if isinstance(node, tuple):
+        word, pos = node
+        return {
+            'label': pos,
+            'text': word,
+            'children': [],
+        }
+
+    if not hasattr(node, 'label'):
+        return {
+            'label': '',
+            'text': str(node),
+            'children': [],
+        }
+
+    return {
+        'label': node.label(),
+        'text': '',
+        'children': [_serialize_chunk_tree(child) for child in node],
+    }
+
+
+def _ensure_constituent_tree(payload):
+    if not payload or payload.get('constituent_tree'):
+        return payload
+
+    chunk_tree = payload.get('chunk_tree')
+    if not chunk_tree:
+        return payload
+
+    try:
+        payload['constituent_tree'] = _serialize_chunk_tree(nltk.Tree.fromstring(chunk_tree))
+    except Exception:
+        pass
+
+    return payload
+
+
 def _is_noise_fragment(fragment):
     lowered = fragment.lower()
     noise_markers = (
@@ -480,6 +519,7 @@ def syntax_analysis_detail(analysis_id):
         return redirect(url_for('syntax_analysis_detail', analysis_id=analysis.id))
 
     payload = json.loads(analysis.payload_json) if analysis.payload_json else {}
+    payload = _ensure_constituent_tree(payload)
     return render_template('syntax_sentence.html', analysis=analysis, payload=payload)
 
 
@@ -533,6 +573,7 @@ def export_syntax(doc_id):
 def api_syntax_analysis(analysis_id):
     analysis = get_syntax_analysis(analysis_id)
     payload = json.loads(analysis.payload_json) if analysis.payload_json else {}
+    payload = _ensure_constituent_tree(payload)
     dep = payload.get('dependency_parse') or {}
     return jsonify({
         'analysis_id': analysis.id,
@@ -553,6 +594,7 @@ def api_syntax_analyze():
         return jsonify({'error': 'text is required'}), 400
     result = analyze_sentence_syntax(text)
     payload = json.loads(result['payload_json'])
+    payload = _ensure_constituent_tree(payload)
     dep = payload.get('dependency_parse') or {}
     return jsonify({
         'summary': result['summary'],

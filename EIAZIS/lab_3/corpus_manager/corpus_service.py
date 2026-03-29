@@ -352,6 +352,29 @@ def _format_dep_tree_lines(dependency_rows, id_to_text):
     return lines
 
 
+def _serialize_chunk_tree(node):
+    if isinstance(node, tuple):
+        word, pos = node
+        return {
+            'label': pos,
+            'text': word,
+            'children': [],
+        }
+
+    if not hasattr(node, 'label'):
+        return {
+            'label': '',
+            'text': str(node),
+            'children': [],
+        }
+
+    return {
+        'label': node.label(),
+        'text': '',
+        'children': [_serialize_chunk_tree(child) for child in node],
+    }
+
+
 def analyze_sentence_syntax(sentence_text):
     tokens, tagged_tokens, tree = _build_chunk_tree(sentence_text)
     noun_phrases = _extract_phrases(tree, 'NP')
@@ -441,6 +464,7 @@ def analyze_sentence_syntax(sentence_text):
         'verb_phrases': verb_phrases,
         'prepositional_phrases': prep_phrases,
         'chunk_tree': tree.pformat(margin=100),
+        'constituent_tree': _serialize_chunk_tree(tree),
         'dependencies': dependency_rows,
         'dependency_parse': dependency_parse,
     }
