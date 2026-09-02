@@ -1,0 +1,29 @@
+services:
+  vulnnotes:
+    build: .
+    container_name: psiiz-vulnnotes
+    hostname: vulnnotes
+    ports:
+      - "5050:5000"
+    volumes:
+      - vuln_data:/app/data
+    restart: unless-stopped
+    # для lab 2.2: можно зайти в контейнер как appuser и эскалировать
+    # docker exec -it -u appuser psiiz-vulnnotes bash
+
+  # Отдельный Ubuntu-хост атакующего в той же сети
+  attacker:
+    image: ubuntu:22.04
+    container_name: psiiz-attacker
+    hostname: attacker
+    working_dir: /work
+    volumes:
+      - ./:/work
+    command: sleep infinity
+    profiles:
+      - tools
+    depends_on:
+      - vulnnotes
+
+volumes:
+  vuln_data:

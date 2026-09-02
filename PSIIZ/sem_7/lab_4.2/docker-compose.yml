@@ -1,0 +1,41 @@
+services:
+  server:
+    build: ../lab_4.1/server
+    container_name: psiiz-lab42-server
+    hostname: lab42-server
+    ports:
+      - "8081:80"
+      - "2223:22"
+    volumes:
+      - ../lab_4.1/www:/var/www/html:ro
+      - ./logs/nginx:/var/log/nginx
+      - ./logs/auth.log:/var/log/auth.log
+    environment:
+      SSH_USER: labuser
+      SSH_PASSWORD: "LabUserPass123!"
+    networks:
+      default:
+        aliases:
+          - server
+    restart: unless-stopped
+
+  # Suricata IDS: тот же network namespace, что и server → видит HTTP/SSH
+  suricata:
+    image: jasonish/suricata:7.0.3
+    container_name: psiiz-lab42-suricata
+    network_mode: "service:server"
+    depends_on:
+      - server
+    cap_add:
+      - NET_ADMIN
+      - SYS_NICE
+      - NET_RAW
+    volumes:
+      # вне /etc/suricata — иначе entrypoint chown падает на :ro
+      - ./suricata/suricata.yaml:/opt/lab/suricata.yaml:ro
+      - ./suricata/rules:/opt/lab/rules:ro
+      - ./logs/suricata:/var/log/suricata
+    # без docker-entrypoint (chown), сразу Suricata от root
+    entrypoint: ["/usr/bin/suricata"]
+    command: ["-c", "/opt/lab/suricata.yaml", "-i", "eth0"]
+    restart: unless-stopped

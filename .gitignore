@@ -1,6 +1,18 @@
+# macOS
+.DS_Store
+
+# Python / venv
+.venv/
+.venv-report/
+venv/
+**/.venv/
+**/.venv-report/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
 # Prerequisites
 *.d
-.venv
 # Compiled Object files
 *.slo
 *.lo
@@ -30,3 +42,43 @@
 *.exe
 *.out
 *.app
+
+# --- большие / генерируемые артефакты (не пушить) ---
+# датасеты и архивы
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+*.7z
+*.rar
+
+# веса моделей / бинарники ML
+*.pt
+*.pth
+*.onnx
+*.h5
+*.pkl
+*.pickle
+
+# логи стендов (Suricata, nginx, auth, dumps)
+**/logs/
+**/dumps/
+*.log
+eve.json
+fast.log
+
+# БД / runtime data (Neo4j и т.п.)
+**/data/transactions/
+neostore*
+**/checkpoints/
+*.dump
+
+# аудио / медиа
+*.wav
+*.mp3
+*.mp4
+*.mov
+
+# Docker / локальные env
+.env
+.env.*

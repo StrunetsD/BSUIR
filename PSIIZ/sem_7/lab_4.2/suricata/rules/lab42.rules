@@ -1,0 +1,14 @@
+# Lab 4.2 — учебные правила Suricata (IDS)
+
+# HTTP probes / scanners
+alert http any any -> $HOME_NET any (msg:"LAB42 HTTP probe wp-login"; http.uri; content:"/wp-login.php"; classtype:web-application-attack; sid:4200001; rev:1;)
+alert http any any -> $HOME_NET any (msg:"LAB42 HTTP probe .env"; http.uri; content:".env"; classtype:web-application-attack; sid:4200002; rev:1;)
+alert http any any -> $HOME_NET any (msg:"LAB42 HTTP probe admin"; http.uri; content:"/admin"; classtype:web-application-attack; sid:4200003; rev:1;)
+alert http any any -> $HOME_NET any (msg:"LAB42 HTTP probe phpmyadmin"; http.uri; content:"phpmyadmin"; classtype:web-application-attack; sid:4200004; rev:1;)
+alert http any any -> $HOME_NET any (msg:"LAB42 HTTP probe .git"; http.uri; content:".git"; classtype:web-application-attack; sid:4200005; rev:1;)
+alert http any any -> $HOME_NET any (msg:"LAB42 User-Agent sqlmap"; http.user_agent; content:"sqlmap"; nocase; classtype:web-application-attack; sid:4200006; rev:1;)
+alert http any any -> $HOME_NET any (msg:"LAB42 User-Agent zgrab"; http.user_agent; content:"zgrab"; nocase; classtype:attempted-recon; sid:4200007; rev:1;)
+alert http any any -> $HOME_NET any (msg:"LAB42 User-Agent masscan"; http.user_agent; content:"masscan"; nocase; classtype:attempted-recon; sid:4200008; rev:1;)
+
+# SSH brute-force style (multiple attempts visible in SSH protocol / stream)
+alert tcp any any -> $HOME_NET 22 (msg:"LAB42 SSH to server"; flow:to_server,established; app-layer-protocol:ssh; classtype:attempted-admin; sid:4200010; rev:1; threshold:type limit, track by_src, count 1, seconds 10;)

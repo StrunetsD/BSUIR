@@ -1,0 +1,72 @@
+%YAML 1.1
+---
+vars:
+  address-groups:
+    HOME_NET: "[172.16.0.0/12,10.0.0.0/8,192.168.0.0/16]"
+    EXTERNAL_NET: "any"
+  port-groups:
+    HTTP_PORTS: "80"
+    SSH_PORTS: "22"
+
+default-log-dir: /var/log/suricata
+
+stats:
+  enabled: yes
+  interval: 30
+
+outputs:
+  - fast:
+      enabled: yes
+      filename: fast.log
+      append: yes
+  - eve-log:
+      enabled: yes
+      filetype: regular
+      filename: eve.json
+      types:
+        - alert
+        - http
+        - ssh
+        - stats:
+            totals: yes
+
+
+checksum-checks: no
+
+af-packet:
+  - interface: eth0
+    cluster-id: 99
+    cluster-type: cluster_flow
+    defrag: yes
+    use-mmap: yes
+
+stream:
+  midstream: true
+  checksum-validation: no
+
+app-layer:
+  protocols:
+    http:
+      enabled: yes
+    ssh:
+      enabled: yes
+
+rule-files:
+  - lab42.rules
+
+default-rule-path: /opt/lab/rules
+
+threading:
+  set-cpu-affinity: no
+
+logging:
+  default-log-level: notice
+  outputs:
+    - console:
+        enabled: yes
+    - file:
+        enabled: yes
+        level: info
+        filename: suricata.log
+
+runmode: workers

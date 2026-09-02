@@ -1,0 +1,19 @@
+{
+  "db_name": "psiiz_demo",
+  "db_host": "localhost",
+  "db_port": 5432,
+  "users": {
+    "lab_admin": {
+      "password": "LabUserPass123!",
+      "role": "admin"
+    },
+    "lab_user": {
+      "password": "LabUserPass123!",
+      "role": "user"
+    },
+    "lab_guest": {
+      "password": "LabUserPass123!",
+      "role": "guest"
+    }
+  }
+}

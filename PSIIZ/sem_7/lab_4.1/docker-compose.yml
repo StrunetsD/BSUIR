@@ -1,0 +1,29 @@
+services:
+  server:
+    build: ./server
+    container_name: psiiz-lab41-server
+    hostname: lab41-server
+    ports:
+      - "8080:80"
+      - "2222:22"
+    volumes:
+      - ./www:/var/www/html:ro
+      - ./logs/nginx:/var/log/nginx
+      - ./logs/auth.log:/var/log/auth.log
+    environment:
+      SSH_USER: labuser
+      SSH_PASSWORD: "LabUserPass123!"
+    restart: unless-stopped
+
+  attacker:
+    image: alpine:3.20
+    container_name: psiiz-lab41-attacker
+    depends_on:
+      - server
+    volumes:
+      - ./scripts:/scripts:ro
+    working_dir: /scripts
+    entrypoint: ["/bin/sh", "-c", "apk add --no-cache curl openssh-client sshpass >/dev/null && sleep infinity"]
+    profiles:
+      - tools
+      - attack
