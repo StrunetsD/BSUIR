@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}О проекте{% endblock %}
+{% block content %}
+<div class="container">
+    <h2><i class="bi bi-info-circle"></i> О проекте</h2>
+    <div class="card mt-4">
+        <div class="card-header bg-primary text-white">
+            <h4>Лабораторная работа №3: синтаксический анализ английских HTML-текстов</h4>
+        </div>
+        <div class="card-body">
+            <p>Проект реализует вариант 6: английский язык и входной формат HTML. Приложение развивает предыдущую лабораторную работу и добавляет построение, хранение, редактирование и экспорт синтаксических разборов.</p>
+
+            <h5 class="mt-4">Технологии</h5>
+            <ul>
+                <li>Python 3.10</li>
+                <li>Flask 2.2.3</li>
+                <li>PostgreSQL 12</li>
+                <li>NLTK для токенизации, POS-tagging и chunk parsing</li>
+                <li>Docker и Docker Compose</li>
+            </ul>
+
+            <h5 class="mt-4">Основные функции</h5>
+            <ul>
+                <li>загрузка HTML-документов</li>
+                <li>поиск по словоформам, леммам и POS-тегам</li>
+                <li>конкорданс и статистика корпуса</li>
+                <li>синтаксический анализ каждого предложения</li>
+                <li>редактирование и экспорт разборов в TXT/JSON</li>
+            </ul>
+
+            <h5 class="mt-4">Структура данных</h5>
+            <table class="table table-bordered">
+                <thead class="table-light">
+                    <tr><th>Таблица</th><th>Назначение</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>documents</code></td><td>Метаданные и полный текст документа</td></tr>
+                    <tr><td><code>sentences</code></td><td>Предложения документа</td></tr>
+                    <tr><td><code>tokens</code></td><td>Токены, леммы и POS-теги</td></tr>
+                    <tr><td><code>syntax_analyses</code></td><td>Сводка, дерево и пользовательские правки синтаксического разбора</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

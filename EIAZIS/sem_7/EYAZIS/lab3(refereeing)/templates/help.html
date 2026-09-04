@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+
+{% block title %}Помощь - Система реферирования{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-10 mx-auto">
+        <!-- Заголовок -->
+        <div class="text-center mb-5">
+            <h1 class="display-5 mb-3"><i class="bi bi-question-circle me-2"></i>Помощь по системе реферирования</h1>
+            <p class="lead text-muted">Узнайте, как эффективно использовать систему автоматического реферирования документов</p>
+        </div>
+
+        <!-- Навигация -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body">
+                <nav>
+                    <div class="nav nav-pills nav-fill" id="nav-tab" role="tablist">
+                        <button class="nav-link active" id="nav-quick-start-tab" data-bs-toggle="tab" data-bs-target="#nav-quick-start" type="button">
+                            <i class="bi bi-lightning me-2"></i>Быстрый старт
+                        </button>
+                        <button class="nav-link" id="nav-features-tab" data-bs-toggle="tab" data-bs-target="#nav-features" type="button">
+                            <i class="bi bi-star me-2"></i>Возможности
+                        </button>
+                        <button class="nav-link" id="nav-faq-tab" data-bs-toggle="tab" data-bs-target="#nav-faq" type="button">
+                            <i class="bi bi-patch-question me-2"></i>Частые вопросы
+                        </button>
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Содержание -->
+        <div class="tab-content" id="nav-tabContent">
+            <!-- Быстрый старт -->
+            <div class="tab-pane fade show active" id="nav-quick-start">
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-white">
+                        <h4 class="mb-0"><i class="bi bi-lightning me-2"></i>Быстрый старт</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 mb-4">
+                                <div class="text-center p-3">
+                                    <div class="feature-icon text-primary">
+                                        <i class="bi bi-upload" style="font-size: 3rem;"></i>
+                                    </div>
+                                    <h5>1. Загрузка</h5>
+                                    <p class="text-muted">Загрузите текстовый файл через форму на главной странице</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="text-center p-3">
+                                    <div class="feature-icon text-primary">
+                                        <i class="bi bi-gear" style="font-size: 3rem;"></i>
+                                    </div>
+                                    <h5>2. Обработка</h5>
+                                    <p class="text-muted">Система автоматически проанализирует и обработает документ</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="text-center p-3">
+                                    <div class="feature-icon text-primary">
+                                        <i class="bi bi-download" style="font-size: 3rem;"></i>
+                                    </div>
+                                    <h5>3. Результаты</h5>
+                                    <p class="text-muted">Просматривайте и скачивайте результаты реферирования</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Возможности -->
+            <div class="tab-pane fade" id="nav-features">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white">
+                        <h4 class="mb-0"><i class="bi bi-star me-2"></i>Возможности системы</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <div class="d-flex">
+                                    <i class="bi bi-translate text-primary me-3" style="font-size: 1.5rem;"></i>
+                                    <div>
+                                        <h5>Поддержка языков</h5>
+                                        <p class="text-muted mb-0">Автоматическое определение и обработка русских и английских текстов</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="d-flex">
+                                    <i class="bi bi-file-text text-primary me-3" style="font-size: 1.5rem;"></i>
+                                    <div>
+                                        <h5>Текстовая аналитика</h5>
+                                        <p class="text-muted mb-0">Глубокий анализ текста с выделением ключевых элементов</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="d-flex">
+                                    <i class="bi bi-download text-primary me-3" style="font-size: 1.5rem;"></i>
+                                    <div>
+                                        <h5>Экспорт результатов</h5>
+                                        <p class="text-muted mb-0">Скачивание в форматах TXT и PDF</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="d-flex">
+                                    <i class="bi bi-clock-history text-primary me-3" style="font-size: 1.5rem;"></i>
+                                    <div>
+                                        <h5>История обработки</h5>
+                                        <p class="text-muted mb-0">Доступ ко всем ранее обработанным документам</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Частые вопросы -->
+            <div class="tab-pane fade" id="nav-faq">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white">
+                        <h4 class="mb-0"><i class="bi bi-patch-question me-2"></i>Частые вопросы</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="accordion" id="faqAccordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="faq1">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqAnswer1">
+                                        Какие форматы файлов поддерживаются?
+                                    </button>
+                                </h2>
+                                <div id="faqAnswer1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        Система поддерживает текстовые файлы в формате <strong>.txt</strong>. Файлы должны быть в кодировке UTF-8 или CP1251.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="faq2">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqAnswer2">
+                                        Какой максимальный размер файла?
+                                    </button>
+                                </h2>
+                                <div id="faqAnswer2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        Максимальный размер загружаемого файла — <strong>16 МБ</strong>.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="faq3">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqAnswer3">
+                                        Как работает алгоритм реферирования?
+                                    </button>
+                                </h2>
+                                <div id="faqAnswer3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        Алгоритм анализирует частоту терминов, их значимость и позицию предложений в тексте. Наиболее важные предложения включаются в реферат с сохранением исходного порядка.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Навигационные кнопки -->
+        <div class="d-flex justify-content-between mt-5">
+            <a href="{{ url_for('index') }}" class="btn btn-outline-primary">
+                <i class="bi bi-arrow-left me-1"></i>На главную
+            </a>
+            <div>
+                <a href="{{ url_for('history_page') }}" class="btn btn-primary me-2">
+                    <i class="bi bi-clock-history me-1"></i>История
+                </a>
+                <a href="{{ url_for('index') }}" class="btn btn-success">
+                    <i class="bi bi-plus-circle me-1"></i>Новый документ
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

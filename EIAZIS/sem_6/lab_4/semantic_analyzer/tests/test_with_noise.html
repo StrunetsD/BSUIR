@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page With Noise</title>
+    <style>
+        body { font-family: sans-serif; }
+    </style>
+    <script>
+        console.log("This script should be ignored by the extractor.");
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Analysis page</h1>
+    </header>
+    <p>The extractor should ignore styles and scripts during preprocessing.</p>
+    <p>The remaining text must be tokenized and analyzed correctly.</p>
+</body>
+</html>

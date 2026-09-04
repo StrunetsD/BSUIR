@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}Синтез речи{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h1 class="mb-4">Синтезатор речи (Text-to-Speech)</h1>
+        
+        <div class="card">
+            <div class="card-body">
+                <form method="POST">
+                    <!-- Поле для ввода текста -->
+                    <div class="mb-3">
+                        <label for="text" class="form-label">Текст для синтеза (на английском)</label>
+                        <textarea class="form-control" id="text" name="text" rows="5" required>{{ form_data.text }}</textarea>
+                    </div>
+
+                    <!-- Выбор голоса -->
+                    <div class="mb-3">
+                        <label for="voice" class="form-label">Голос диктора</label>
+                        <select class="form-select" id="voice" name="voice">
+                            {% for voice in voices %}
+                            <option value="{{ voice.id }}" {% if voice.id == form_data.voice %}selected{% endif %}>
+                                {{ voice.name }} ({{ voice.lang }})
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Настройка скорости (темпа) -->
+                    <div class="mb-3">
+                        <label for="rate" class="form-label">Скорость (темп): <span id="rate-value">{{ form_data.rate }}</span> слов/мин</label>
+                        <input type="range" class="form-range" id="rate" name="rate" min="50" max="300" step="10" value="{{ form_data.rate }}">
+                    </div>
+
+                    <!-- Настройка громкости -->
+                    <div class="mb-3">
+                        <label for="volume" class="form-label">Громкость: <span id="volume-value">{{ "%.2f"|format(form_data.volume|float) }}</span></label>
+                        <input type="range" class="form-range" id="volume" name="volume" min="0.1" max="1.0" step="0.1" value="{{ form_data.volume }}">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Синтезировать и прослушать</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Плеер для воспроизведения -->
+        {% if audio_file_url %}
+        <div class="mt-4">
+            <h3 class="text-center">Результат</h3>
+            <audio controls autoplay class="w-100">
+                <source src="{{ audio_file_url }}" type="audio/wav">
+                Ваш браузер не поддерживает элемент audio.
+            </audio>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Обновляем значения рядом с ползунками в реальном времени
+    const rateSlider = document.getElementById('rate');
+    const rateValue = document.getElementById('rate-value');
+    rateSlider.addEventListener('input', () => {
+        rateValue.textContent = rateSlider.value;
+    });
+
+    const volumeSlider = document.getElementById('volume');
+    const volumeValue = document.getElementById('volume-value');
+    volumeSlider.addEventListener('input', () => {
+        volumeValue.textContent = parseFloat(volumeSlider.value).toFixed(2);
+    });
+</script>
+{% endblock %}

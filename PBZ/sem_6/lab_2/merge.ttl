@@ -1,0 +1,240 @@
+@base <http://example.org/merged/> .
+@prefix : <http://example.org/merged#> .
+@prefix phil: <http://example.org/domain#> .
+@prefix sci: <http://example.org/science-domain#> .
+@prefix core: <http://example.org/core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://example.org/merged>
+    rdf:type owl:Ontology ;
+    rdfs:label "Philosophy-Science Merged Ontology"@en ;
+    rdfs:comment "Merged ontology showing mapping between philosophy and science domains"@en .
+
+#################################################################
+#    MAPPING CLASSES (Классы для отслеживания merge)
+#################################################################
+
+:DomainEntity rdf:type owl:Class ;
+    rdfs:label "Domain Entity"@en, "Сущность домена"@ru ;
+    rdfs:comment "Meta-class for tracking domain origin"@en .
+
+:PhilosophyEntity rdf:type owl:Class ;
+    rdfs:subClassOf :DomainEntity ;
+    rdfs:label "Philosophy Entity"@en, "Философская сущность"@ru .
+
+:ScienceEntity rdf:type owl:Class ;
+    rdfs:subClassOf :DomainEntity ;
+    rdfs:label "Science Entity"@en, "Научная сущность"@ru .
+
+:CrossDomainEntity rdf:type owl:Class ;
+    rdfs:subClassOf :DomainEntity ;
+    rdfs:label "Cross-Domain Entity"@en, "Междоменная сущность"@ru .
+
+#################################################################
+#    MAPPING PROPERTIES (Отслеживание связей между доменами)
+#################################################################
+
+:mapsToPhilosophy rdf:type owl:ObjectProperty ;
+    rdfs:domain :ScienceEntity ;
+    rdfs:range :PhilosophyEntity ;
+    rdfs:label "maps to philosophy"@en, "отображается в философию"@ru .
+
+:mapsToScience rdf:type owl:ObjectProperty ;
+    rdfs:domain :PhilosophyEntity ;
+    rdfs:range :ScienceEntity ;
+    rdfs:label "maps to science"@en, "отображается в науку"@ru .
+
+:sharesCoreClass rdf:type owl:ObjectProperty ;
+    rdfs:domain :DomainEntity ;
+    rdfs:range core:Entity ;
+    rdfs:label "shares core class"@en, "разделяет core-класс"@ru .
+
+:hasDomainOrigin rdf:type owl:DatatypeProperty ;
+    rdfs:domain :DomainEntity ;
+    rdfs:range xsd:string ;
+    rdfs:label "has domain origin"@en, "имеет домен происхождения"@ru .
+
+:mergeDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :DomainEntity ;
+    rdfs:range xsd:date ;
+    rdfs:label "merge date"@en, "дата объединения"@ru .
+
+#################################################################
+#    CLASS ALIGNMENT (Сопоставление классов)
+#################################################################
+#
+# Эквивалентность при merge: общий класс C OWL-эквивалентен объединению (unionOf)
+# исходных классов A и B — в любой интерпретации C^I = A^I ∪ B^I.
+# Синтаксис:  :C owl:equivalentClass [ rdf:type owl:Class ; owl:unionOf ( :A :B ) ] .
+# Это НЕ то же самое, что owl:equivalentClass между A и B (тогда A и B были бы одним классом).
+#
+# Именованные union-классы — чтобы в Protégé в «Equivalent to» было видно имя, а не только blank node.
+#
+
+:PhilosopherOrScientist rdf:type owl:Class ;
+    owl:equivalentClass [
+        rdf:type owl:Class ;
+        owl:unionOf (phil:Philosopher sci:Scientist)
+    ] ;
+    rdfs:label "Philosopher ⊔ Scientist"@en ;
+    :hasDomainOrigin "merged" .
+
+:BookOrScientificPaper rdf:type owl:Class ;
+    owl:equivalentClass [
+        rdf:type owl:Class ;
+        owl:unionOf (phil:Book sci:ScientificPaper)
+    ] ;
+    rdfs:label "Book ⊔ ScientificPaper"@en ;
+    :hasDomainOrigin "merged" .
+
+:PhilosophicalOrScientificConcept rdf:type owl:Class ;
+    owl:equivalentClass [
+        rdf:type owl:Class ;
+        owl:unionOf (phil:PhilosophicalConcept sci:ScientificTheory)
+    ] ;
+    rdfs:label "PhilosophicalConcept ⊔ ScientificTheory"@en ;
+    :hasDomainOrigin "merged" .
+
+:PhilosophicalOrScientificSchool rdf:type owl:Class ;
+    owl:equivalentClass [
+        rdf:type owl:Class ;
+        owl:unionOf (phil:PhilosophicalSchool sci:ScientificSchool)
+    ] ;
+    rdfs:label "PhilosophicalSchool ⊔ ScientificSchool"@en ;
+    :hasDomainOrigin "merged" .
+
+:CountryCityOrResearchInstitution rdf:type owl:Class ;
+    owl:equivalentClass [
+        rdf:type owl:Class ;
+        owl:unionOf (phil:Country phil:City sci:ResearchInstitution)
+    ] ;
+    rdfs:label "Country ⊔ City ⊔ ResearchInstitution"@en ;
+    :hasDomainOrigin "merged" .
+
+:PeriodEraOrResearchEra rdf:type owl:Class ;
+    owl:equivalentClass [
+        rdf:type owl:Class ;
+        owl:unionOf (phil:HistoricalPeriod phil:Era sci:ResearchEra)
+    ] ;
+    rdfs:label "HistoricalPeriod ⊔ Era ⊔ ResearchEra"@en ;
+    :hasDomainOrigin "merged" .
+
+:Thinker rdf:type owl:Class ;
+    rdfs:subClassOf core:Agent, :CrossDomainEntity ;
+    owl:equivalentClass :PhilosopherOrScientist ;
+    rdfs:label "Thinker"@en, "Мыслитель"@ru ;
+    :hasDomainOrigin "merged" ;
+    rdfs:comment "Unified class for philosophers and scientists"@en .
+
+:IntellectualWork rdf:type owl:Class ;
+    rdfs:subClassOf core:Work, :CrossDomainEntity ;
+    owl:equivalentClass :BookOrScientificPaper ;
+    rdfs:label "Intellectual Work"@en, "Интеллектуальный труд"@ru ;
+    :hasDomainOrigin "merged" .
+
+:AbstractConcept rdf:type owl:Class ;
+    rdfs:subClassOf core:Concept, :CrossDomainEntity ;
+    owl:equivalentClass :PhilosophicalOrScientificConcept ;
+    rdfs:label "Abstract Concept"@en, "Абстрактная концепция"@ru ;
+    :hasDomainOrigin "merged" .
+
+:EducationalInstitution rdf:type owl:Class ;
+    rdfs:subClassOf core:Place, :CrossDomainEntity ;
+    owl:equivalentClass :CountryCityOrResearchInstitution ;
+    rdfs:label "Educational Institution"@en, "Учебное заведение"@ru ;
+    :hasDomainOrigin "merged" .
+
+:IntellectualMovement rdf:type owl:Class ;
+    rdfs:subClassOf core:Group, :CrossDomainEntity ;
+    owl:equivalentClass :PhilosophicalOrScientificSchool ;
+    rdfs:label "Intellectual Movement"@en, "Интеллектуальное движение"@ru ;
+    :hasDomainOrigin "merged" .
+
+:HistoricalEra rdf:type owl:Class ;
+    rdfs:subClassOf core:TimeEntity, :CrossDomainEntity ;
+    owl:equivalentClass :PeriodEraOrResearchEra ;
+    rdfs:label "Historical Era"@en, "Историческая эпоха"@ru ;
+    :hasDomainOrigin "merged" .
+
+#################################################################
+#    PROPERTY ALIGNMENT (Сопоставление свойств)
+#################################################################
+
+:createdWork rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:createdBy ;
+    rdfs:domain :Thinker ;
+    rdfs:range :IntellectualWork ;
+    owl:propertyChainAxiom ( 
+        [ owl:unionOf (phil:wroteBook sci:authoredPaper) ]
+    ) ;
+    rdfs:label "created work"@en, "создал работу"@ru ;
+    :hasDomainOrigin "merged" .
+
+:developedIdea rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:developedBy ;
+    rdfs:domain :Thinker ;
+    rdfs:range :AbstractConcept ;
+    owl:propertyChainAxiom ( 
+        [ owl:unionOf (phil:developedConcept sci:developedTheory) ]
+    ) ;
+    rdfs:label "developed idea"@en, "разработал идею"@ru ;
+    :hasDomainOrigin "merged" .
+
+:affiliatedWith rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:partOf ;
+    rdfs:domain :Thinker ;
+    rdfs:range :IntellectualMovement ;
+    owl:propertyChainAxiom ( 
+        [ owl:unionOf (phil:belongsToSchool sci:belongsToScientificSchool) ]
+    ) ;
+    rdfs:label "affiliated with"@en, "связан с"@ru ;
+    :hasDomainOrigin "merged" .
+
+#################################################################
+#    CROSS-DOMAIN INDIVIDUALS (Связи между доменами)
+#################################################################
+
+:RationalismMovement rdf:type :IntellectualMovement ;
+    core:hasName "Rationalism"@en, "Рационализм"@ru ;
+    :hasDomainOrigin "philosophy-science-bridge" ;
+    rdfs:comment "Philosophical movement that influenced science"@en .
+
+:EmpiricismMovement rdf:type :IntellectualMovement ;
+    core:hasName "Empiricism"@en, "Эмпиризм"@ru ;
+    :hasDomainOrigin "philosophy-science-bridge" ;
+    rdfs:comment "Philosophical foundation of modern science"@en .
+
+:NewtonThePhilosopher rdf:type phil:Philosopher ;
+    core:hasName "Isaac Newton (Philosopher)"@en ;
+    :mapsToScience sci:IsaacNewton ;
+    :sharesCoreClass core:Agent ;
+    :hasDomainOrigin "cross-domain-mapping" .
+
+:NewtonTheScientist rdf:type sci:Scientist ;
+    core:hasName "Isaac Newton (Scientist)"@en ;
+    :mapsToPhilosophy :NewtonThePhilosopher ;
+    :sharesCoreClass core:Agent ;
+    :hasDomainOrigin "cross-domain-mapping" .
+
+:EinsteinAndPhilosophy rdf:type :CrossDomainEntity ;
+    core:hasName "Einstein's Philosophy of Science"@en ;
+    :mapsToPhilosophy phil:ImmanuelKant ;
+    :mapsToScience sci:AlbertEinstein ;
+    :sharesCoreClass core:Agent ;
+    rdfs:comment "Einstein was influenced by Kant's philosophy"@en .
+
+#################################################################
+#    MERGE METADATA
+#################################################################
+
+:MergeRecord rdf:type owl:Class ;
+    rdfs:label "Merge Record"@en, "Запись объединения"@ru .
+
+:PhilosophyScienceMerge rdf:type :MergeRecord ;
+    core:hasName "Philosophy-Science Ontology Merge"@en ;
+    :mergeDate "2024-01-15"^^xsd:date ;
+    core:hasDescription "Merge of philosophy and science domains using shared core ontology"@en ;
+    rdfs:comment "This record documents the merge process"@en .

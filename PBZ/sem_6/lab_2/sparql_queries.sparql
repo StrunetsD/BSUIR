@@ -1,0 +1,242 @@
+# SPARQL для объединённой онтологии philosophy-science-merged.ttl
+#
+# Префиксы: m: = http://example.org/merged#
+#          phil: = http://example.org/domain#
+#          sci: = http://example.org/science-domain#
+#          core: = http://example.org/core#
+
+#################################################################
+# 1. Мыслители: только rdf:type m:Thinker + раскрытие owl:sameAs (без UNION с Philosopher)
+#
+# phil:Aristotle не имеет явного m:Thinker; в графе есть :MergeThinker_Aristotle rdf:type m:Thinker
+# и owl:sameAs phil:Aristotle. Запрос сводит узел merge к «каноническому» индивиду (phil:/sci:).
+# Аналогично :PlatoTheUniversal owl:sameAs phil:Plato.
+#################################################################
+PREFIX m: <http://example.org/merged#>
+PREFIX core: <http://example.org/core#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+
+SELECT DISTINCT ?person ?name
+WHERE {
+  ?node rdf:type m:Thinker .
+  OPTIONAL { ?node owl:sameAs ?forward . }
+  OPTIONAL { ?reverse owl:sameAs ?node . }
+  BIND(COALESCE(?forward, ?reverse, ?node) AS ?person)
+  OPTIONAL { ?person core:hasName ?name . }
+}
+ORDER BY ?name
+
+
+#################################################################
+# Демо: сырые узлы m:Thinker (в т.ч. :MergeThinker_Aristotle) vs канонический URI после sameAs
+#################################################################
+
+# Демо A — только узлы с rdf:type m:Thinker (URI merge-слоя видны как отдельные субъекты)
+PREFIX m: <http://example.org/merged#>
+PREFIX core: <http://example.org/core#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?node ?name
+WHERE {
+  ?node rdf:type m:Thinker .
+  OPTIONAL { ?node core:hasName ?name . }
+}
+ORDER BY ?node
+
+
+# Демо B — как запрос №1: после COALESCE имя с phil:/sci: (Аристотель как domain#Aristotle)
+PREFIX m: <http://example.org/merged#>
+PREFIX core: <http://example.org/core#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+
+SELECT DISTINCT ?person ?name
+WHERE {
+  ?node rdf:type m:Thinker .
+  OPTIONAL { ?node owl:sameAs ?forward . }
+  OPTIONAL { ?reverse owl:sameAs ?node . }
+  BIND(COALESCE(?forward, ?reverse, ?node) AS ?person)
+  OPTIONAL { ?person core:hasName ?name . }
+}
+ORDER BY ?name
+
+
+#################################################################
+# 2. Мыслители с «годами» (после sameAs к phil:/sci:)
+#################################################################
+PREFIX m: <http://example.org/merged#>
+PREFIX phil: <http://example.org/domain#>
+PREFIX sci: <http://example.org/science-domain#>
+PREFIX core: <http://example.org/core#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+
+SELECT DISTINCT ?person ?name ?birthOrDiscovery ?deathOrNobel
+WHERE {
+  ?node rdf:type m:Thinker .
+  OPTIONAL { ?node owl:sameAs ?forward . }
+  OPTIONAL { ?reverse owl:sameAs ?node . }
+  BIND(COALESCE(?forward, ?reverse, ?node) AS ?person)
+  ?person core:hasName ?name .
+  OPTIONAL { ?person phil:hasBirthYear ?birthOrDiscovery . }
+  OPTIONAL { ?person phil:hasDeathYear ?deathOrNobel . }
+  OPTIONAL { ?person sci:hasDiscoveryYear ?birthOrDiscovery . }
+  OPTIONAL { ?person sci:hasNobelYear ?deathOrNobel . }
+}
+ORDER BY ?name
+
+
+#################################################################
+# 3. Мыслитель → работа (sameAs → phil:/sci:, затем merge-свойства и доменные)
+#################################################################
+PREFIX m: <http://example.org/merged#>
+PREFIX core: <http://example.org/core#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX phil: <http://example.org/domain#>
+PREFIX sci: <http://example.org/science-domain#>
+
+SELECT DISTINCT ?thinkerName ?work ?title
+WHERE {
+  ?node rdf:type m:Thinker .
+  OPTIONAL { ?node owl:sameAs ?forward . }
+  OPTIONAL { ?reverse owl:sameAs ?node . }
+  BIND(COALESCE(?forward, ?reverse, ?node) AS ?t)
+  ?t core:hasName ?thinkerName .
+  { ?t m:createdWork ?work . }
+  UNION { ?t phil:wroteBook ?work . }
+  UNION { ?t sci:authoredPaper ?work . }
+  OPTIONAL { ?work phil:hasTitle ?title . }
+  OPTIONAL { ?work sci:hasPaperTitle ?title . }
+}
+ORDER BY ?thinkerName ?title
+
+
+#################################################################
+# 4. Школа / движение и основатель (merge: movementFoundedBy)
+#################################################################
+PREFIX m: <http://example.org/merged#>
+PREFIX core: <http://example.org/core#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?movementName ?founderName
+WHERE {
+  ?mov rdf:type m:IntellectualMovement ;
+       core:hasName ?movementName ;
+       m:movementFoundedBy ?founder .
+  ?founder core:hasName ?founderName .
+}
+ORDER BY ?movementName
+
+
+#################################################################
+# 5. Абстрактная концепция / теория и мыслитель (ideaAttributedToThinker)
+#################################################################
+PREFIX m: <http://example.org/merged#>
+PREFIX core: <http://example.org/core#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?ideaName ?thinkerName
+WHERE {
+  ?idea rdf:type m:AbstractConcept ;
+        core:hasName ?ideaName ;
+        m:ideaAttributedToThinker ?t .
+  ?t core:hasName ?thinkerName .
+}
+ORDER BY ?ideaName
+
+
+#################################################################
+# 6. Только философы (домен phil), в merge-онтологии
+#################################################################
+PREFIX phil: <http://example.org/domain#>
+PREFIX core: <http://example.org/core#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?p ?name
+WHERE {
+  ?p rdf:type phil:Philosopher .
+  OPTIONAL { ?p core:hasName ?name . }
+}
+ORDER BY ?name
+
+
+#################################################################
+# 7. Только учёные (домен sci)
+#################################################################
+PREFIX sci: <http://example.org/science-domain#>
+PREFIX core: <http://example.org/core#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?s ?name
+WHERE {
+  ?s rdf:type sci:Scientist .
+  OPTIONAL { ?s core:hasName ?name . }
+}
+ORDER BY ?name
+
+
+#################################################################
+# 8. Междоменные сущности и мосты mapsTo*
+#################################################################
+PREFIX m: <http://example.org/merged#>
+PREFIX core: <http://example.org/core#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?entity ?name ?mapsToScience ?mapsToPhilosophy
+WHERE {
+  ?entity rdf:type m:CrossDomainEntity .
+  OPTIONAL { ?entity core:hasName ?name . }
+  OPTIONAL { ?entity m:mapsToScience ?mapsToScience . }
+  OPTIONAL { ?entity m:mapsToPhilosophy ?mapsToPhilosophy . }
+}
+ORDER BY ?name
+
+
+#################################################################
+# 9. Всё, что помечено merge-слоем (annotation mergeSearchTag)
+#################################################################
+PREFIX m: <http://example.org/merged#>
+
+SELECT DISTINCT ?x
+WHERE {
+  ?x m:mergeSearchTag "merged"@en .
+}
+ORDER BY ?x
+
+
+#################################################################
+# 10. Все классы под корнем MergedLayerClass
+#################################################################
+PREFIX m: <http://example.org/merged#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+
+SELECT DISTINCT ?c
+WHERE {
+  ?c rdfs:subClassOf+ m:MergedLayerClass .
+  ?c a owl:Class .
+}
+ORDER BY ?c
+
+
+#################################################################
+# 11. Работа обсуждает концепцию (discussesInWork)
+#################################################################
+PREFIX m: <http://example.org/merged#>
+PREFIX core: <http://example.org/core#>
+PREFIX phil: <http://example.org/domain#>
+PREFIX sci: <http://example.org/science-domain#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?workName ?conceptName
+WHERE {
+  ?w rdf:type m:IntellectualWork ;
+     m:discussesInWork ?concept .
+  OPTIONAL { ?w core:hasName ?workName . }
+  OPTIONAL { ?w phil:hasTitle ?workName . }
+  OPTIONAL { ?w sci:hasPaperTitle ?workName . }
+  ?concept core:hasName ?conceptName .
+}
+ORDER BY ?workName

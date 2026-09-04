@@ -1,0 +1,12 @@
+.env
+.venv/
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+*.docx
+.pytest_cache/
+.mypy_cache/
+reports/
+practice.py

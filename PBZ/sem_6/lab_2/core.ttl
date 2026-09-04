@@ -1,0 +1,169 @@
+@base <http://example.org/core/> .
+@prefix : <http://example.org/core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://example.org/core>
+    rdf:type owl:Ontology ;
+    rdfs:label "Core Ontology"@en, "Базовая онтология"@ru ;
+    rdfs:comment "Общие верхнеуровневые классы и свойства для доменов философии и науки."@ru,
+        "Shared top-level classes and properties for philosophy and science domain ontologies."@en .
+
+#################################################################
+#    UNIFIED TOP-LEVEL CLASSES
+#################################################################
+
+:Entity rdf:type owl:Class ;
+    rdfs:label "Entity"@en, "Сущность"@ru ;
+    rdfs:comment "Корневой класс для всех сущностей"@ru .
+
+:Agent rdf:type owl:Class ;
+    rdfs:subClassOf :Entity ;
+    rdfs:label "Agent"@en, "Агент"@ru ;
+    rdfs:comment "Сущности, способные действовать (люди, организации)"@ru .
+
+:Work rdf:type owl:Class ;
+    rdfs:subClassOf :Entity ;
+    rdfs:label "Work"@en, "Произведение"@ru ;
+    rdfs:comment "Интеллектуальные произведения"@ru .
+
+:Concept rdf:type owl:Class ;
+    rdfs:subClassOf :Entity ;
+    rdfs:label "Concept"@en, "Концепция"@ru ;
+    rdfs:comment "Абстрактные понятия и идеи"@ru .
+
+:Place rdf:type owl:Class ;
+    rdfs:subClassOf :Entity ;
+    rdfs:label "Place"@en, "Место"@ru ;
+    rdfs:comment "Географические локации"@ru .
+
+:TimeEntity rdf:type owl:Class ;
+    rdfs:subClassOf :Entity ;
+    rdfs:label "Time Entity"@en, "Временная сущность"@ru ;
+    rdfs:comment "Временные периоды и интервалы"@ru .
+
+:Group rdf:type owl:Class ;
+    rdfs:subClassOf :Entity ;
+    rdfs:label "Group"@en, "Группа"@ru ;
+    rdfs:comment "Коллективы, школы, движения"@ru .
+
+#################################################################
+#    UNIFIED TOP-LEVEL PROPERTIES
+#################################################################
+
+:hasName rdf:type owl:ObjectProperty ;
+    rdfs:domain :Entity ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "has name"@en, "имеет имя"@ru .
+
+:hasDescription rdf:type owl:ObjectProperty ;
+    rdfs:domain :Entity ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "has description"@en, "имеет описание"@ru .
+
+:createdBy rdf:type owl:ObjectProperty ;
+    rdfs:domain :Work ;
+    rdfs:range :Agent ;
+    rdfs:label "created by"@en, "создан"@ru ;
+    owl:inverseOf :created .
+
+:created rdf:type owl:ObjectProperty ;
+    rdfs:domain :Agent ;
+    rdfs:range :Work ;
+    rdfs:label "created"@en, "создал"@ru .
+
+:developedBy rdf:type owl:ObjectProperty ;
+    rdfs:domain :Concept ;
+    rdfs:range :Agent ;
+    rdfs:label "developed by"@en, "разработан"@ru .
+
+:locatedIn rdf:type owl:ObjectProperty ;
+    rdfs:domain :Entity ;
+    rdfs:range :Place ;
+    rdfs:label "located in"@en, "расположен в"@ru .
+
+:existsInTime rdf:type owl:ObjectProperty ;
+    rdfs:domain :Entity ;
+    rdfs:range :TimeEntity ;
+    rdfs:label "exists in time"@en, "существует во времени"@ru .
+
+:partOf rdf:type owl:ObjectProperty ;
+    rdfs:domain :Entity ;
+    rdfs:range :Group ;
+    rdfs:label "part of"@en, "часть"@ru .
+
+:hasMember rdf:type owl:ObjectProperty ;
+    rdfs:domain :Group ;
+    rdfs:range :Agent ;
+    rdfs:label "has member"@en, "имеет члена"@ru ;
+    owl:inverseOf :partOf .
+
+:influencedBy rdf:type owl:ObjectProperty ;
+    rdfs:domain :Agent ;
+    rdfs:range :Agent ;
+    rdfs:label "influenced by"@en, "под влиянием"@ru .
+
+:discusses rdf:type owl:ObjectProperty ;
+    rdfs:domain :Work ;
+    rdfs:range :Concept ;
+    rdfs:label "discusses"@en, "обсуждает"@ru .
+
+:hasStartDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :TimeEntity ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has start date"@en, "имеет дату начала"@ru .
+
+:hasEndDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :TimeEntity ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has end date"@en, "имеет дату окончания"@ru .
+
+:hasBirthDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Agent ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has birth date"@en, "имеет дату рождения"@ru .
+
+:hasDeathDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Agent ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has death date"@en, "имеет дату смерти"@ru .
+
+#################################################################
+#    ABSTRACT INDIVIDUALS (шаблоны в базовом слое)
+#################################################################
+
+:TemplateAgent rdf:type :Agent ;
+    rdfs:label "Template Agent"@en ;
+    :hasName "Template Agent Name" ;
+    rdfs:comment "Шаблон агента в core"@ru .
+
+:TemplateWork rdf:type :Work ;
+    rdfs:label "Template Work"@en ;
+    :hasName "Template Work Title" ;
+    :createdBy :TemplateAgent ;
+    rdfs:comment "Шаблон произведения в core"@ru .
+
+:TemplateConcept rdf:type :Concept ;
+    rdfs:label "Template Concept"@en ;
+    :hasName "Template Concept Name" ;
+    :developedBy :TemplateAgent ;
+    rdfs:comment "Шаблон концепции в core"@ru .
+
+:TemplatePlace rdf:type :Place ;
+    rdfs:label "Template Place"@en ;
+    :hasName "Template Place Name" ;
+    rdfs:comment "Шаблон места в core"@ru .
+
+:TemplatePeriod rdf:type :TimeEntity ;
+    rdfs:label "Template Period"@en ;
+    :hasName "Template Period Name" ;
+    :hasStartDate 0 ;
+    :hasEndDate 0 ;
+    rdfs:comment "Шаблон периода в core"@ru .
+
+:TemplateGroup rdf:type :Group ;
+    rdfs:label "Template Group"@en ;
+    :hasName "Template Group Name" ;
+    rdfs:comment "Шаблон группы в core"@ru .

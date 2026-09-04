@@ -1,0 +1,41 @@
+services:
+  db:
+    image: postgres:12
+    container_name: semantic_analyzer_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: semantic_analyzer_db
+      POSTGRES_USER: semantic_user
+      POSTGRES_PASSWORD: semantic_password
+    ports:
+      - "5435:5432"
+    volumes:
+      - semantic_analyzer_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U semantic_user -d semantic_analyzer_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  web:
+    build: .
+    container_name: semantic_analyzer_web
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SECRET_KEY: dev-secret-key
+      DATABASE_URL: postgresql://semantic_user:semantic_password@db:5432/semantic_analyzer_db
+    ports:
+      - "5003:5000"
+    volumes:
+      - .:/app
+      - ./uploads:/app/uploads
+    command: >
+      sh -c "python -c 'from app import app, db; ctx = app.app_context(); ctx.push(); db.create_all()' &&
+             python seed_test_data.py &&
+             python app.py"
+
+volumes:
+  semantic_analyzer_postgres_data:

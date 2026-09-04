@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block title %}Главная - Система реферирования{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <!-- Заголовок -->
+        <div class="text-center mb-5">
+            <h1 class="display-4 mb-3">📄 Автоматическое реферирование документов</h1>
+            <p class="lead text-muted">Загрузите текстовый документ и получите автоматически сгенерированный реферат</p>
+        </div>
+
+        <!-- Форма загрузки -->
+        <div class="card shadow-lg border-0">
+            <div class="card-header bg-primary text-white py-3">
+                <h4 class="mb-0"><i class="bi bi-upload me-2"></i>Загрузка документа</h4>
+            </div>
+            <div class="card-body p-4">
+                <form id="uploadForm" action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data">
+                    <div class="mb-4">
+                        <div id="uploadArea" class="upload-area">
+                            <i class="bi bi-cloud-upload feature-icon text-primary"></i>
+                            <h5>Перетащите файл сюда или нажмите для выбора</h5>
+                            <p class="text-muted mb-3">Поддерживаемые форматы: TXT (максимум 16MB)</p>
+                            <input type="file" name="file" id="fileInput" accept=".txt" style="display: none;">
+                            <button type="button" class="btn btn-primary btn-lg" onclick="document.getElementById('fileInput').click()">
+                                <i class="bi bi-folder2-open me-2"></i>Выбрать файл
+                            </button>
+                        </div>
+                        <div id="fileInfo" class="alert alert-info mt-3" style="display: none;">
+                            <i class="bi bi-file-text me-2"></i><strong>Выбранный файл:</strong> <span id="fileName"></span>
+                        </div>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success btn-lg py-3" id="submitBtn" disabled>
+                            <i class="bi bi-gear me-2"></i>
+                            <span class="submit-text">Загрузить и обработать</span>
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Функциональные возможности -->
+        <div class="row mt-5">
+            <div class="col-md-3 text-center mb-4">
+                <div class="feature-icon text-primary">
+                    <i class="bi bi-translate"></i>
+                </div>
+                <h5>Поддержка языков</h5>
+                <p class="text-muted">Русский и английский языки</p>
+            </div>
+            <div class="col-md-3 text-center mb-4">
+                <div class="feature-icon text-primary">
+                    <i class="bi bi-file-earmark-text"></i>
+                </div>
+                <h5>Текстовая аналитика</h5>
+                <p class="text-muted">Глубокий анализ текста</p>
+            </div>
+            <div class="col-md-3 text-center mb-4">
+                <div class="feature-icon text-primary">
+                    <i class="bi bi-download"></i>
+                </div>
+                <h5>Экспорт результатов</h5>
+                <p class="text-muted">TXT и PDF форматы</p>
+            </div>
+            <div class="col-md-3 text-center mb-4">
+                <div class="feature-icon text-primary">
+                    <i class="bi bi-clock-history"></i>
+                </div>
+                <h5>История обработки</h5>
+                <p class="text-muted">Доступ ко всем документам</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const uploadArea = document.getElementById('uploadArea');
+    const fileInput = document.getElementById('fileInput');
+    const fileInfo = document.getElementById('fileInfo');
+    const fileName = document.getElementById('fileName');
+    const submitBtn = document.getElementById('submitBtn');
+    const form = document.getElementById('uploadForm');
+
+    // Обработчики для drag & drop
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        uploadArea.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        uploadArea.addEventListener(eventName, highlight, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        uploadArea.addEventListener(eventName, unhighlight, false);
+    });
+
+    function highlight() {
+        uploadArea.classList.add('dragover');
+    }
+
+    function unhighlight() {
+        uploadArea.classList.remove('dragover');
+    }
+
+    // Обработка dropped файлов
+    uploadArea.addEventListener('drop', handleDrop, false);
+
+    function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        handleFiles(files);
+    }
+
+    // Обработка выбранных файлов
+    fileInput.addEventListener('change', function() {
+        handleFiles(this.files);
+    });
+
+    function handleFiles(files) {
+        if (files.length > 0) {
+            const file = files[0];
+            if (file.type === 'text/plain' || file.name.endsWith('.txt')) {
+                fileName.textContent = file.name + ' (' + (file.size / 1024).toFixed(2) + ' KB)';
+                fileInfo.style.display = 'block';
+                submitBtn.disabled = false;
+            } else {
+                alert('Пожалуйста, выберите TXT файл');
+            }
+        }
+    }
+
+    // Показ спиннера при отправке формы
+    form.addEventListener('submit', function() {
+        submitBtn.disabled = true;
+        submitBtn.querySelector('.spinner-border').style.display = 'inline-block';
+        submitBtn.querySelector('.submit-text').textContent = 'Обработка...';
+    });
+</script>
+{% endblock %}

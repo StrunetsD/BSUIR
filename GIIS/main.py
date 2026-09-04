@@ -2,10 +2,14 @@ import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QAction, QDialog, QLabel, QToolBar
 from PyQt5.QtCore import Qt
 
-from algo.line import LineDrawingArea, LineAlgorithmDialog
-from algo.circle import CircleDrawingArea, CircleAlgorithmDialog
-from algo.curve import CurveDrawClass, CurveAlgorithmDialog
-from algo.object import ViewerWithMenu, Object3DViewerDialog
+from parts.line_algorithm import LineDrawingArea, LineAlgorithmDialog
+from parts.circle_algorithm import CircleDrawingArea, CircleAlgorithmDialog
+from parts.curve_algorithms import CurveDrawClass, CurveAlgorithmDialog
+from parts.object_algorithms import ViewerWithMenu, Object3DViewerDialog
+from parts.polygon_algorithms import ViewerWithPolygonMenu
+from parts.polygon_fill_algorithms import ViewerWithPolygonFillMenu
+from parts.triangulation_voronoi import TriangulationVoronoiDialog, DelaunayViewer, VoronoiViewer
+
 
 
 class MainWindow(QMainWindow):
@@ -106,6 +110,18 @@ class MainWindow(QMainWindow):
         object3d_action.triggered.connect(self.show_3d_object_dialog)
         toolbar.addAction(object3d_action)
 
+        polygon_action = QAction("Lab 5 - Polygon", self)
+        polygon_action.triggered.connect(self.show_polygon_dialog)
+        toolbar.addAction(polygon_action)
+
+        polygon_fill_action = QAction("Lab 6 - Polygon Fill", self)
+        polygon_fill_action.triggered.connect(self.show_polygon_fill_dialog)
+        toolbar.addAction(polygon_fill_action)
+
+        triang_action = QAction("Lab 7 - Triangulation & Voronoi", self)
+        triang_action.triggered.connect(self.show_triangulation_voronoi_dialog)
+        toolbar.addAction(triang_action)
+
     def show_algorithm_dialog(self):
         dialog = LineAlgorithmDialog()
         if dialog.exec_() == QDialog.Accepted:
@@ -147,12 +163,36 @@ class MainWindow(QMainWindow):
         if dialog.exec_() == QDialog.Accepted:
             object_file = dialog.get_selection()
             if object_file:
-                prefix = "object/"
+                prefix = "D:/BSUIR_LABS/sem6/GIIS/Lab1/objects/"
                 self.drawing_area = ViewerWithMenu()
                 self.drawing_area.viewer.load_object(prefix + object_file)
                 self.drawing_area.viewer.show()
 
                 self.setCentralWidget(self.drawing_area)
+
+    def show_polygon_dialog(self):
+        self.drawing_area = ViewerWithPolygonMenu(5)
+        self.setCentralWidget(self.drawing_area)
+
+    def show_polygon_fill_dialog(self):
+        self.drawing_area = ViewerWithPolygonFillMenu(5)
+        self.setCentralWidget(self.drawing_area)
+
+    def show_triangulation_voronoi_dialog(self):
+        dialog = TriangulationVoronoiDialog()
+        if dialog.exec_() == QDialog.Accepted:
+            choice = dialog.get_selection()
+            if choice == "triangulation":
+                self.drawing_area = DelaunayViewer()
+            elif choice == "voronoi":
+                self.drawing_area = VoronoiViewer()
+            else:
+                return
+            self.setCentralWidget(self.drawing_area)
+
+    def show_clipping_dialog(self):
+        self.drawing_area = ClippingDialog()
+        self.setCentralWidget(self.drawing_area)
 
     def update_overlay_label(self, algorithm, debug_mode, clear_canvas, mode):
         debug_status = "ON" if debug_mode else "OFF"

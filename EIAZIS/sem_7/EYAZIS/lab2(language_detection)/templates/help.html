@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}Помощь - Language Detection Service{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <h2 class="text-center mb-5"><i class="bi bi-question-circle"></i> Как пользоваться сервисом</h2>
+
+            <!-- Steps -->
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <div class="display-4 text-primary mb-3">1</div>
+                            <h5>Загрузка файла</h5>
+                            <p class="text-muted">На главной странице выберите HTML файл для анализа</p>
+                            <i class="bi bi-cloud-upload text-primary" style="font-size: 2rem;"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <div class="display-4 text-success mb-3">2</div>
+                            <h5>Анализ</h5>
+                            <p class="text-muted">Система автоматически определит язык тремя методами</p>
+                            <i class="bi bi-gear text-success" style="font-size: 2rem;"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <div class="display-4 text-info mb-3">3</div>
+                            <h5>Результаты</h5>
+                            <p class="text-muted">Просматривайте, сохраняйте и распечатывайте результаты</p>
+                            <i class="bi bi-graph-up text-info" style="font-size: 2rem;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Instructions -->
+            <div class="card mt-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-info-circle"></i> Подробные инструкции</h5>
+                </div>
+                <div class="card-body">
+                    <h6>1. Загрузка файла</h6>
+                    <ul>
+                        <li>Перейдите на главную страницу</li>
+                        <li>Нажмите "Выберите файл" и выберите HTML файл</li>
+                        <li>Поддерживаются форматы: <code>.html</code>, <code>.htm</code></li>
+                        <li>Максимальный размер файла: 16MB</li>
+                        <li>Нажмите "Анализировать файл" для начала обработки</li>
+                    </ul>
+
+                    <h6 class="mt-4">2. Просмотр результатов</h6>
+                    <ul>
+                        <li>После обработки откроется страница результатов</li>
+                        <li>Просмотрите сводную информацию по всем методам</li>
+                        <li>Изучите детальные результаты для каждого метода</li>
+                        <li>Обратите внимание на уровень уверенности и время обработки</li>
+                    </ul>
+
+                    <h6 class="mt-4">3. Действия с результатами</h6>
+                    <ul>
+                        <li><strong>Просмотреть HTML</strong> - открыть оригинальный файл в новой вкладке</li>
+                        <li><strong>Скачать файл</strong> - загрузить исходный HTML файл</li>
+                        <li><strong>Сохранить результаты</strong> - скачать результаты в JSON формате</li>
+                        <li><strong>Распечатать</strong> - создать версию для печати</li>
+                        <li><strong>В историю</strong> - перейти к списку всех анализов</li>
+                    </ul>
+
+                    <h6 class="mt-4">4. История анализов</h6>
+                    <ul>
+                        <li>Все анализы автоматически сохраняются</li>
+                        <li>Просматривайте историю на соответствующей странице</li>
+                        <li>Возвращайтесь к результатам предыдущих анализов</li>
+                        <li>Скачивайте файлы и результаты прошлых анализов</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Methods Info -->
+            <div class="card mt-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="bi bi-cpu"></i> Методы определения языка</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="border rounded p-3 h-100">
+                                <h6>Алфавитный метод</h6>
+                                <p class="small text-muted">Анализ на основе символов алфавита и их частотности в различных языках</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="border rounded p-3 h-100">
+                                <h6>N-gram метод</h6>
+                                <p class="small text-muted">Анализ последовательностей символов (N-грамм) для повышения точности</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="border rounded p-3 h-100">
+                                <h6>Нейросетевой метод</h6>
+                                <p class="small text-muted">Использование нейронных сетей для сложных случаев определения языка</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Support -->
+            <div class="text-center mt-5">
+                <a href="{{ url_for('index') }}" class="btn btn-primary btn-lg">
+                    <i class="bi bi-play-circle"></i> Начать использовать
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

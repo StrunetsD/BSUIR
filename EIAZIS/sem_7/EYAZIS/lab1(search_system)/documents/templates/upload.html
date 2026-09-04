@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Documents - Search Service{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Upload and Index Documents</h5>
+            </div>
+            <div class="card-body">
+                {% if error %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endif %}
+                
+                {% if success %}
+                    <div class="alert alert-success">{{ success }}</div>
+                {% endif %}
+                
+                <div class="mb-4">
+                    <h6>Upload Text File</h6>
+                    <form method="POST" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="file" class="form-label">Select .txt file</label>
+                            <input class="form-control" type="file" id="file" name="file" accept=".txt" required>
+                            <div class="form-text">
+                                Only .txt files are supported. The file will be automatically indexed after upload.
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            📤 Upload and Index
+                        </button>
+                    </form>
+                </div>
+                
+                <hr>
+                
+                <div class="mt-4">
+                    <h6>Automatic File Monitoring</h6>
+                    <div class="alert alert-info">
+                        <p class="mb-0">
+                            The service automatically monitors the <code>{{ WATCH_DIRECTORY }}</code> directory 
+                            for new, modified, or deleted .txt files. You can also manually place files in that directory.
+                        </p>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h6>Supported Operations</h6>
+                                    <ul class="list-unstyled">
+                                        <li>✅ Add new .txt files</li>
+                                        <li>✅ Modify existing files</li>
+                                        <li>✅ Delete files</li>
+                                        <li>✅ Automatic re-indexing</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h6>File Processing</h6>
+                                    <ul class="list-unstyled">
+                                        <li>✅ Text extraction</li>
+                                        <li>✅ Tokenization</li>
+                                        <li>✅ Stop-word removal</li>
+                                        <li>✅ Stemming</li>
+                                        <li>✅ BM25 indexing</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

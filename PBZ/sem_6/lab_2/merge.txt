@@ -1,0 +1,102 @@
+# Merge онтологий «философия + наука» (слой http://example.org/merged#)
+
+Исходные файлы: `core.ttl`, `domain.ttl` (phil:), `science-domain.ttl` (sci:).
+Полный граф для Web Protege: `philosophy-science-merged.ttl` (всё в одном).
+Только слой align поверх трёх файлов: `merge.ttl`.
+
+**Общий поиск по merge:** класс-корень `MergedLayerClass` (все merge-классы — его подклассы,
+прямые или через `DomainEntity`). Аннотация **`mergeSearchTag`** = `merged` на merge-классах
+и merge-свойствах — один SPARQL: `?x :mergeSearchTag "merged"` (см. `sparql_queries.sparql`).
+
+**SPARQL Playground:** в поле данных вставлять **целиком** `philosophy-science-merged.ttl` или
+короткий **`sparql-playground-sample.ttl`**; обрывки троек без точки и без `@prefix` дают ошибку парсера.
+
+**Демо merge в SPARQL:** у `phil:Aristotle` нет явного `rdf:type m:Thinker` (только `phil:Philosopher`).
+В merge-слое заведён индивид **`:MergeThinker_Aristotle`** с `rdf:type :Thinker` и **`owl:sameAs phil:Aristotle`**.
+Запрос **№1** ищет только `rdf:type m:Thinker`, затем раскрывает **`owl:sameAs`** (`COALESCE`) — в ответе URI **phil:Aristotle** с именем из домена философии.
+«Демо A» — сырые узлы `m:Thinker`; «Демо B» — тот же раскрытый список, что №1.
+
+---
+
+## Классы (owl:equivalentClass + owl:unionOf → общий класс)
+
+Именованные union-классы (удобно в Protégé: **Equivalent to** показывает имя):  
+`PhilosopherOrScientist`, `BookOrScientificPaper`, `PhilosophicalOrScientificConcept`,  
+`PhilosophicalOrScientificSchool`, `CountryCityOrResearchInstitution`, `PeriodEraOrResearchEra`  
+— каждый `owl:equivalentClass` к анонимному классу с `owl:unionOf (...)`; затем  
+`Thinker owl:equivalentClass PhilosopherOrScientist` и аналогично для остальных merged-классов.
+
+Свойства: **`owl:equivalentProperty` между `wroteBook` и `authoredPaper` не используем**  
+(конфликт доменов Philosopher vs Scientist); merge свойств — через **`rdfs:subPropertyOf`** к `createdWork` и т.д.
+
+Пример **эквивалентности свойств** (одно отношение, два URI):  
+`createdWork owl:equivalentProperty authoredOrWrittenWork`;  
+`primaryWorkTitle owl:equivalentProperty unifiedWorkTitle`.
+
+| Общий класс (merged)   | Философия (phil:)        | Наука (sci:)              |
+| ---------------------- | ------------------------ | ------------------------- |
+| Thinker                | Philosopher              | Scientist                 |
+| IntellectualWork       | Book                     | ScientificPaper           |
+| AbstractConcept        | PhilosophicalConcept     | ScientificTheory          |
+| IntellectualMovement   | PhilosophicalSchool      | ScientificSchool          |
+| EducationalInstitution | Country, City            | ResearchInstitution       |
+| HistoricalEra          | HistoricalPeriod, Era    | ResearchEra               |
+
+Мета-классы слоя (без unionOf): DomainEntity; PhilosophyEntity; ScienceEntity;
+CrossDomainEntity; MergeRecord.
+
+---
+
+## Объектные свойства (rdfs:subPropertyOf → общее свойство)
+
+| Общее свойство (merged)      | Философия (phil:)        | Наука (sci:)                 |
+| ---------------------------- | ------------------------ | ---------------------------- |
+| createdWork                  | wroteBook                | authoredPaper                |
+| developedWork                | developedConcept         | developedTheory              |
+| discussesInWork              | discussesConcept         | paperDiscusses               |
+| belongsToIntellectualMovement| belongsToSchool          | belongsToScientificSchool    |
+| movementFoundedBy            | foundedBy                | schoolFoundedBy              |
+| movementInHistoricalEra      | partOfPeriod             | researchPeriod               |
+| thinkerPlaceAffiliation      | bornIn                   | worksAt                      |
+| ideaAttributedToThinker      | conceptDevelopedBy       | theoryDevelopedBy            |
+| movementHighlightsConcept    | hasMainConcept           | — (пока только философия)    |
+
+Дополнительно в слое (связи между доменами, не «merge пары»): mapsToPhilosophy,
+mapsToScience, sharesCoreClass.
+
+---
+
+## Типы данных (rdfs:subPropertyOf → общее свойство)
+
+| Общее свойство (merged) | Философия (phil:) | Наука (sci:)     |
+| ----------------------- | ----------------- | ---------------- |
+| primaryWorkTitle        | hasTitle          | hasPaperTitle    |
+| placePrimaryName        | hasCountryName    | hasInstitutionName |
+
+Дополнительно: hasDomainOrigin (метка происхождения в merge-слое).
+
+---
+
+## Индивиды
+
+- Все перечисленные в `philosophy-science-merged.ttl` индивиды явно получают типы
+  объединённых классов (Thinker, IntellectualWork, AbstractConcept,
+  IntellectualMovement, EducationalInstitution, HistoricalEra), плюс примеры фактов
+  на merged-свойствах (:createdWork, :developedWork, :ideaAttributedToThinker и т.д.).
+
+- Слияние URI одной сущности (owl:sameAs):
+  - PlatoTheUniversal  ↔  phil:Plato
+  - EinsteinTheUniversal ↔ sci:AlbertEinstein
+
+- Пример междоменных «мостов» без sameAs: NewtonThePhilosopher ↔ sci:IsaacNewton
+  через mapsToScience / mapsToPhilosophy; EinsteinAndPhilosophy (Kant + Einstein).
+
+---
+
+## Краткая таблица из задания (пример строки)
+
+| Сущность       | Философия (новая) | Наука (новая)   | Общая (merged)   |
+| -------------- | ----------------- | --------------- | ---------------- |
+| Class          | Philosopher       | Scientist       | Thinker          |
+| Property       | wroteBook         | authoredPaper   | createdWork      |
+| Individual     | Plato             | AlbertEinstein  | PlatoTheUniversal / EinsteinTheUniversal (+ sameAs) |

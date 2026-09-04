@@ -1,0 +1,92 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: ips_db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-ips}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ips}
+      POSTGRES_DB: ${POSTGRES_DB:-ips}
+    ports:
+      - "5433:5432"
+    volumes:
+      - ips_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-ips} -d ${POSTGRES_DB:-ips}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - ips-net
+
+  api:
+    build:
+      context: ./backend
+    container_name: ips_api
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql+psycopg://ips:ips@db:5432/ips}
+      LLM_PROVIDER: ${LLM_PROVIDER:-off}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - ips-net
+
+  web:
+    build:
+      context: ./frontend
+    container_name: ips_web
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
+    networks:
+      - ips-net
+
+  ollama:
+    profiles: ["local"]
+    image: ollama/ollama:latest
+    container_name: ips_ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ips_ollama_data:/root/.ollama
+    networks:
+      - ips-net
+
+  pgadmin:
+    profiles: ["demo"]
+    image: dpage/pgadmin4:latest
+    container_name: ips_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@ips.local
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - ips-net
+
+  smoke:
+    profiles: ["test"]
+    image: mcr.microsoft.com/playwright:v1.48.0-jammy
+    container_name: ips_smoke
+    working_dir: /work
+    volumes:
+      - ./:/work
+    network_mode: host
+    entrypoint: ["bash", "-lc", "echo 'Playwright smoke placeholder (stage 8)'"]
+
+networks:
+  ips-net:
+    driver: bridge
+
+volumes:
+  ips_pg_data:
+  ips_ollama_data:

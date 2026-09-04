@@ -1,0 +1,89 @@
+How can you use science to build a better gingerbread house?
+
+That was something Miranda Schwacke spent a lot of time thinking about. The MIT graduate student in the Department of Materials Science and Engineering (DMSE) is part of Kitchen Matters, a group of grad students who use food and kitchen tools to explain scientific concepts through short videos and outreach events. Past topics included why chocolate “seizes,” or becomes difficult to work with when melting (spoiler: water gets in), and how to make isomalt, the sugar glass that stunt performers jump through in action movies.
+
+Two years ago, when the group was making a video on how to build a structurally sound gingerbread house, Schwacke scoured cookbooks for a variable that would produce the most dramatic difference in the cookies.
+
+“I was reading about what determines the texture of cookies, and then tried several recipes in my kitchen until I got two gingerbread recipes that I was happy with,” Schwacke says.
+
+She focused on butter, which contains water that turns to steam at high baking temperatures, creating air pockets in cookies. Schwacke predicted that decreasing the amount of butter would yield denser gingerbread, strong enough to hold together as a house.
+
+“This hypothesis is an example of how changing the structure can influence the properties and performance of material,” Schwacke said in the eight-minute video.
+
+That same curiosity about materials properties and performance drives her research on the high energy cost of computing, especially for artificial intelligence. Schwacke develops new materials and devices for neuromorphic computing, which mimics the brain by processing and storing information in the same place. She studies electrochemical ionic synapses — tiny devices that can be “tuned” to adjust conductivity, much like neurons strengthening or weakening connections in the brain.
+
+“If you look at AI in particular — to train these really large models — that consumes a lot of energy. And if you compare that to the amount of energy that we consume as humans when we’re learning things, the brain consumes a lot less energy,” Schwacke says. “That’s what led to this idea to find more brain-inspired, energy-efficient ways of doing AI.”
+
+Her advisor, Bilge Yildiz, underscores the point: One reason the brain is so efficient is that data doesn’t need to be moved back and forth.
+
+“In the brain, the connections between our neurons, called synapses, are where we process information. Signal transmission is there. It is processed, programmed, and also stored in the same place,” says Yildiz, the Breene M. Kerr (1951) Professor in the Department of Nuclear Science and Engineering and DMSE. Schwacke’s devices aim to replicate that efficiency.
+
+Scientific roots
+
+The daughter of a marine biologist mom and an electrical engineer dad, Schwacke was immersed in science from a young age. Science was “always a part of how I understood the world.”
+
+“I was obsessed with dinosaurs. I wanted to be a paleontologist when I grew up,” she says. But her interests broadened. At her middle school in Charleston, South Carolina, she joined a FIRST Lego League robotics competition, building robots to complete tasks like pushing or pulling objects. “My parents, my dad especially, got very involved in the school team and helping us design and build our little robot for the competition.”
+
+Her mother, meanwhile, studied how dolphin populations are affected by pollution for the National Oceanic and Atmospheric Administration. That had a lasting impact.
+
+“That was an example of how science can be used to understand the world, and also to figure out how we can improve the world,” Schwacke says. “And that’s what I’ve always wanted to do with science.”
+
+Her interest in materials science came later, in her high school magnet program. There, she was introduced to the interdisciplinary subject, a blend of physics, chemistry, and engineering that studies the structure and properties of materials and uses that knowledge to design new ones.
+
+“I always liked that it goes from this very basic science, where we’re studying how atoms are ordering, all the way up to these solid materials that we interact with in our everyday lives — and how that gives them their properties that we can see and play with,” Schwacke says.
+
+As a senior, she participated in a research program with a thesis project on dye-sensitized solar cells, a low-cost, lightweight solar technology that uses dye molecules to absorb light and generate electricity.
+
+“What drove me was really understanding, this is how we go from light to energy that we can use — and also seeing how this could help us with having more renewable energy sources,” Schwacke says.
+
+After high school, she headed across the country to Caltech. “I wanted to try a totally new place,” she says, where she studied materials science, including nanostructured materials thousands of times thinner than a human hair. She focused on materials properties and microstructure — the tiny internal structure that governs how materials behave — which led her to electrochemical systems like batteries and fuel cells.
+
+AI energy challenge
+
+At MIT, she continued exploring energy technologies. She met Yildiz during a Zoom meeting in her first year of graduate school, in fall 2020, when the campus was still operating under strict Covid-19 protocols. Yildiz’s lab studies how charged atoms, or ions, move through materials in technologies like fuel cells, batteries, and electrolyzers.
+
+The lab’s research into brain-inspired computing fired Schwacke’s imagination, but she was equally drawn to Yildiz’s way of talking about science.
+
+“It wasn’t based on jargon and emphasized a very basic understanding of what was going on — that ions are going here, and electrons are going here — to understand fundamentally what’s happening in the system,” Schwacke says.
+
+That mindset shaped her approach to research. Her early projects focused on the properties these devices need to work well — fast operation, low energy use, and compatibility with semiconductor technology — and on using magnesium ions instead of hydrogen, which can escape into the environment and make devices unstable.
+
+Her current project, the focus of her PhD thesis, centers on understanding how the insertion of magnesium ions into tungsten oxide, a metal oxide whose electrical properties can be precisely tuned, changes its electrical resistance. In these devices, tungsten oxide serves as a channel layer, where resistance controls signal strength, much like synapses regulate signals in the brain.
+
+“I am trying to understand exactly how these devices change the channel conductance,” Schwacke says.
+
+Schwacke’s research was recognized with a MathWorks Fellowship from the School of Engineering in 2023 and 2024. The fellowship supports graduate students who leverage tools like MATLAB or Simulink in their work; Schwacke applied MATLAB for critical data analysis and visualization.
+
+Yildiz describes Schwacke’s research as a novel step toward solving one of AI’s biggest challenges.
+
+“This is electrochemistry for brain-inspired computing,” Yildiz says. “It’s a new context for electrochemistry, but also with an energy implication, because the energy consumption of computing is unsustainably increasing. We have to find new ways of doing computing with much lower energy, and this is one way that can help us move in that direction.”
+
+Like any pioneering work, it comes with challenges, especially in bridging the concepts between electrochemistry and semiconductor physics.
+
+“Our group comes from a solid-state chemistry background, and when we started this work looking into magnesium, no one had used magnesium in these kinds of devices before,” Schwacke says. “So we were looking at the magnesium battery literature for inspiration and different materials and strategies we could use. When I started this, I wasn’t just learning the language and norms for one field — I was trying to learn it for two fields, and also translate between the two.”
+
+She also grapples with a challenge familiar to all scientists: how to make sense of messy data.
+
+“The main challenge is being able to take my data and know that I’m interpreting it in a way that’s correct, and that I understand what it actually means,” Schwacke says.
+
+She overcomes hurdles by collaborating closely with colleagues across fields, including neuroscience and electrical engineering, and sometimes by just making small changes to her experiments and watching what happens next.
+
+Community matters
+
+Schwacke is not just active in the lab. In Kitchen Matters, she and her fellow DMSE grad students set up booths at local events like the Cambridge Science Fair and Steam It Up, an after-school program with hands-on activities for kids.
+
+“We did ‘pHun with Food’ with ‘fun’ spelled with a pH, so we had cabbage juice as a pH indicator,” Schwacke says. “We let the kids test the pH of lemon juice and vinegar and dish soap, and they had a lot of fun mixing the different liquids and seeing all the different colors.”
+
+She has also served as the social chair and treasurer for DMSE’s graduate student group, the Graduate Materials Council. As an undergraduate at Caltech, she led workshops in science and technology for Robogals, a student-run group that encourages young women to pursue careers in science, and assisted students in applying for the school’s Summer Undergraduate Research Fellowships.
+
+For Schwacke, these experiences sharpened her ability to explain science to different audiences, a skill she sees as vital whether she’s presenting at a kids’ fair or at a research conference.
+
+“I always think, where is my audience starting from, and what do I need to explain before I can get into what I’m doing so that it’ll all make sense to them?” she says.
+
+Schwacke sees the ability to communicate as central to building community, which she considers an important part of doing research. “It helps with spreading ideas. It always helps to get a new perspective on what you’re working on,” she says. “I also think it keeps us sane during our PhD.”
+
+Yildiz sees Schwacke’s community involvement as an important part of her resume. “She’s doing all these activities to motivate the broader community to do research, to be interested in science, to pursue science and technology, but that ability will help her also progress in her own research and academic endeavors.”
+
+After her PhD, Schwacke wants to take that ability to communicate with her to academia, where she’d like to inspire the next generation of scientists and engineers. Yildiz has no doubt she’ll thrive.
+
+“I think she’s a perfect fit,” Yildiz says. “She’s brilliant, but brilliance by itself is not enough. She’s persistent, resilient. You really need those on top of that.”

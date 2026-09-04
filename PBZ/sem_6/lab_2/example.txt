@@ -1,0 +1,3 @@
+class ( Thinker )
+properties ( createdWork )
+individual ( NewtonThePhilosopher  NewtonTheScientist )

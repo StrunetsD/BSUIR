@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% block title %}Разбор предложения{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2>Разбор предложения {{ analysis.sentence.position }}</h2>
+        <p class="text-muted mb-0">{{ analysis.sentence.document.title }}</p>
+    </div>
+    <a href="{{ url_for('document_syntax', doc_id=analysis.sentence.document.id) }}" class="btn btn-secondary">Назад к документу</a>
+</div>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+{% set dep = payload.get('dependency_parse', {}) %}
+<div class="card mb-3 border-0 shadow-sm">
+    <div class="card-body">
+        <div class="row g-3 align-items-center">
+            <div class="col-md-4">
+                <div class="small text-muted">Статистика</div>
+                <div class="d-flex flex-wrap gap-3 mt-1">
+                    <span><strong>{{ (payload.tagged_tokens or [])|length }}</strong> токенов</span>
+                    {% if dep.get('parse_ms') is not none %}
+                    <span>Parse: <strong>{{ dep.parse_ms }} ms</strong></span>
+                    {% endif %}
+                    {% if dep.get('engine') %}
+                    <span class="badge bg-secondary">{{ dep.engine }}{% if dep.model %} / {{ dep.model }}{% endif %}</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="small text-muted mb-1">Предложение</div>
+                <p class="mb-0 fs-5">{{ analysis.sentence.text }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-7">
+        <div class="card mb-4">
+            <div class="card-header">Автоматический результат</div>
+            <div class="card-body">
+                <pre class="small mb-0">{{ analysis.summary }}</pre>
+            </div>
+        </div>
+
+        <ul class="nav nav-tabs mb-3" id="syntaxTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="tab-dep" data-bs-toggle="tab" data-bs-target="#pane-dep" type="button" role="tab">Дерево зависимостей</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="tab-const" data-bs-toggle="tab" data-bs-target="#pane-const" type="button" role="tab">Система составляющих</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="tab-pos" data-bs-toggle="tab" data-bs-target="#pane-pos" type="button" role="tab">POS Table</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="tab-sem" data-bs-toggle="tab" data-bs-target="#pane-sem" type="button" role="tab">Семантика</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="tab-text" data-bs-toggle="tab" data-bs-target="#pane-text" type="button" role="tab">Текстовый разбор</button>
+            </li>
+        </ul>
+        <div class="tab-content border rounded-bottom bg-white p-3 mb-4" id="syntaxTabContent">
+            <div class="tab-pane fade show active" id="pane-dep" role="tabpanel">
+                <div class="syntax-tree-wrap overflow-auto" id="dependency-tree-arcs"></div>
+                <hr>
+                <div id="dependency-tree-hierarchy"></div>
+                <p class="text-muted small mt-2 mb-0">Рёбра: универсальные зависимости (spaCy). Для корня дуга не рисуется.</p>
+            </div>
+            <div class="tab-pane fade" id="pane-const" role="tabpanel">
+                <div id="constituent-tree-hierarchy"></div>
+            </div>
+            <div class="tab-pane fade" id="pane-pos" role="tabpanel">
+                <div class="table-responsive">
+                    <table class="table table-sm table-striped mb-0">
+                        <thead><tr><th>#</th><th>Word</th><th>Tag</th><th>POS</th></tr></thead>
+                        <tbody>
+                        {% for t in payload.tagged_tokens or [] %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ t.word }}</td>
+                                <td><code>{{ t.pos }}</code></td>
+                                <td>{{ t.label }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="pane-sem" role="tabpanel">
+                <h6>Named Entities</h6>
+                <ul class="list-group mb-3">
+                    {% for entity in payload.entities or [] %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>{{ entity.text }}</span>
+                        <span class="badge bg-secondary">{{ entity.label }}</span>
+                    </li>
+                    {% else %}
+                    <li class="list-group-item text-muted">Сущности не найдены.</li>
+                    {% endfor %}
+                </ul>
+                <h6>WordNet Semantics</h6>
+                <ul class="list-group">
+                    {% for item in payload.semantic_entries or [] %}
+                    <li class="list-group-item">
+                        <div><strong>{{ item.token }}</strong> → <code>{{ item.sense }}</code></div>
+                        <div class="small text-muted">{{ item.definition }}</div>
+                    </li>
+                    {% else %}
+                    <li class="list-group-item text-muted">Семантические подсказки не найдены.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="tab-pane fade" id="pane-text" role="tabpanel">
+                <pre class="small mb-0">{{ analysis.tree_view }}</pre>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="card mb-4">
+            <div class="card-header">Редактирование</div>
+            <div class="card-body">
+                <form method="post">
+                    <div class="mb-3">
+                        <label class="form-label">Отредактированная сводка</label>
+                        <textarea class="form-control" name="edited_summary" rows="8">{{ analysis.edited_summary or analysis.summary }}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Примечания</label>
+                        <textarea class="form-control" name="notes" rows="6">{{ analysis.notes or '' }}</textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">JSON-представление</div>
+    <div class="card-body"><pre>{{ payload | tojson(indent=2) }}</pre></div>
+</div>
+
+<script type="application/json" id="syntax-payload-json">{{ payload | tojson }}</script>
+<script src="{{ url_for('static', filename='dependency_tree.js') }}?v=3"></script>
+{% endblock %}

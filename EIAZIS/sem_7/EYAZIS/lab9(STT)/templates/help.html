@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block title %}User Guide & Help{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+    <!-- Header -->
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold">User Guide</h1>
+        <p class="lead text-muted">How to record audio, upload files, and control your system with voice.</p>
+    </div>
+
+    <!-- SECTION 1: INPUT METHODS -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm border-0 bg-light">
+                <div class="card-body">
+                    <h3 class="h5 card-title text-primary"><i class="bi bi-mic-fill"></i> Method 1: Microphone</h3>
+                    <hr>
+                    <ol class="list-group list-group-numbered list-group-flush bg-transparent">
+                        <li class="list-group-item bg-transparent">Go to the <strong>Home</strong> page and ensure the "Microphone" tab is active.</li>
+                        <li class="list-group-item bg-transparent">Click <strong>Start Recording</strong>. Browser permission may be required.</li>
+                        <li class="list-group-item bg-transparent">Speak your command clearly (e.g., <em>"Please open notepad for me"</em>).</li>
+                        <li class="list-group-item bg-transparent">Click <strong>Stop</strong>. The system will process the audio, transcribe text, and execute actions immediately.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm border-0 bg-light">
+                <div class="card-body">
+                    <h3 class="h5 card-title text-primary"><i class="bi bi-file-earmark-music-fill"></i> Method 2: File Upload</h3>
+                    <hr>
+                    <ol class="list-group list-group-numbered list-group-flush bg-transparent">
+                        <li class="list-group-item bg-transparent">Switch to the <strong>"Upload File"</strong> tab on the Home page.</li>
+                        <li class="list-group-item bg-transparent">Select a pre-recorded audio file from your computer.</li>
+                        <li class="list-group-item bg-transparent">Supported formats: <strong>.WAV</strong> or <strong>.MP3</strong>.</li>
+                        <li class="list-group-item bg-transparent">Click <strong>Upload & Execute</strong>. The server will process the file just like a live recording.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 2: SMART RECOGNITION EXPLAINED -->
+    <div class="card shadow border-success mb-5">
+        <div class="card-header bg-success text-white">
+            <h4 class="mb-0 fs-5">✨ Smart Recognition Features</h4>
+        </div>
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h5 class="fw-bold">Flexible Phrasing</h5>
+                    <p>You don't need to speak like a robot. As long as your sentence contains the <strong>Target</strong> (e.g., "Notepad") and the <strong>Action</strong> (e.g., "Open"), the system will understand.</p>
+                    <ul class="text-muted small">
+                        <li>✅ <em>"Open Notepad"</em></li>
+                        <li>✅ <em>"Start the Notepad application"</em></li>
+                        <li>✅ <em>"Notepad open"</em></li>
+                    </ul>
+                </div>
+                <div class="col-md-6 border-start-md">
+                    <h5 class="fw-bold">Multi-Command Support</h5>
+                    <p>You can chain multiple commands in a single sentence. The system detects keywords independently.</p>
+                    <div class="alert alert-success d-inline-block py-2 px-3 mb-0">
+                        <strong>Try saying:</strong><br>
+                        <em>"Please <u>open the browser</u> and then <u>start the calculator</u>"</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 3: COMMAND REFERENCE -->
+    <h3 class="mb-3 border-bottom pb-2">Command Reference</h3>
+    <p class="text-muted mb-4">The system listens for specific keywords. Below is the logic used to trigger actions.</p>
+
+    <div class="table-responsive shadow-sm rounded">
+        <table class="table table-hover table-striped mb-0 align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th style="width: 25%">Command Name</th>
+                    <th style="width: 75%">Logic & Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for phrase, desc in commands.items() %}
+                <tr>
+                    <td>
+                        <span class="fw-bold text-primary">{{ phrase|title }}</span>
+                    </td>
+                    <td>
+                        <span class="text-dark">{{ desc }}</span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- SECTION 4: WARNINGS -->
+    <div class="alert alert-warning mt-5 d-flex align-items-center">
+        <div class="me-3 fs-2">⚠️</div>
+        <div>
+            <strong>Important Technical Note:</strong><br>
+            All commands are executed on the <strong>Server</strong> (the machine running the Python script), not inside your web browser.
+            If you run this site on a remote server, "Open Notepad" will open Notepad on that remote server, not on your local computer.
+        </div>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Documents - Search Service{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Document Management</h2>
+    <a href="{{ url_for('upload') }}" class="btn btn-success">
+        📁 Upload New Document
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="card-title mb-0">Indexed Documents</h5>
+        <span class="badge bg-primary">{{ documents|length }} documents</span>
+    </div>
+    <div class="card-body">
+        {% if documents %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>File Path</th>
+                        <th>Date Added</th>
+                        <th>Length</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for doc in documents %}
+                    <tr>
+                        <td>{{ doc.id }}</td>
+                        <td>
+                            <strong>{{ doc.title }}</strong>
+                        </td>
+                        <td>
+                            <code class="text-muted">{{ doc.file_path }}</code>
+                        </td>
+                        <td>{{ doc.date_added.strftime('%Y-%m-%d') if doc.date_added else 'N/A' }}</td>
+                        <td>
+                            <span class="badge bg-secondary">{{ doc.doc_length }} terms</span>
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm" role="group">
+                                <a href="{{ url_for('preview_file', doc_id=doc.id) }}"
+                                   class="btn btn-outline-primary"
+                                   target="_blank"
+                                   title="Preview document">
+                                    👁️
+                                </a>
+                                <a href="{{ url_for('serve_file', doc_id=doc.id) }}"
+                                   class="btn btn-outline-success"
+                                   title="Download file">
+                                    📥
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <div class="text-muted mb-3">
+                <svg width="64" height="64" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm5.5 1.5v2a1 1 0 0 0 1 1h2l-3-3zM4.5 6h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm0 3h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm0 3h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5z"/>
+                </svg>
+            </div>
+            <h5>No documents indexed</h5>
+            <p class="text-muted">Upload some documents to get started with the search service.</p>
+            <a href="{{ url_for('upload') }}" class="btn btn-primary">Upload Documents</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Синтаксический анализ{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Синтаксический анализ документов</h2>
+    <a href="{{ url_for('upload_document') }}" class="btn btn-primary">Загрузить HTML</a>
+</div>
+
+<div class="row">
+    {% for doc in documents %}
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ doc.title }}</h5>
+                <p class="card-text">
+                    <strong>Автор:</strong> {{ doc.author or 'unknown' }}<br>
+                    <strong>Формат:</strong> {{ doc.source_format or 'HTML' }}<br>
+                    <strong>Предложений:</strong> {{ doc.sentences.count() }}
+                </p>
+                <a href="{{ url_for('document_syntax', doc_id=doc.id) }}" class="btn btn-success">Открыть разбор</a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="col-12"><div class="alert alert-info">Пока нет документов для синтаксического анализа.</div></div>
+    {% endfor %}
+</div>
+{% endblock %}

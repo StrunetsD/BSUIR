@@ -1,0 +1,39 @@
+PREFIX m: <http://example.org/merged#>
+PREFIX core: <http://example.org/core#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?x ?name
+WHERE {
+  ?x rdf:type m:Thinker .
+  OPTIONAL { ?x core:hasName ?name . }
+}
+ORDER BY ?name
+
+
+PREFIX m: <http://example.org/merged#>
+PREFIX phil: <http://example.org/domain#>
+PREFIX sci: <http://example.org/science-domain#>
+PREFIX core: <http://example.org/core#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?x ?name ?src
+WHERE {
+  {
+    ?x rdf:type m:Thinker .
+    BIND("explicit rdf:type m:Thinker"@en AS ?src)
+  }
+  UNION
+  {
+    ?x rdf:type phil:Philosopher .
+    FILTER NOT EXISTS { ?x rdf:type m:Thinker . }
+    BIND("Philosopher only (merge: in union for Thinker)"@en AS ?src)
+  }
+  UNION
+  {
+    ?x rdf:type sci:Scientist .
+    FILTER NOT EXISTS { ?x rdf:type m:Thinker . }
+    BIND("Scientist only (merge: in union for Thinker)"@en AS ?src)
+  }
+  OPTIONAL { ?x core:hasName ?name . }
+}
+ORDER BY ?name

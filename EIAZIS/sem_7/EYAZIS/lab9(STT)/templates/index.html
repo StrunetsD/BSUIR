@@ -1,0 +1,248 @@
+{% extends 'base.html' %}
+
+{% block title %}Speech Recognition & Control{% endblock %}
+
+{% block content %}
+<style>
+    /* CSS for the pulsing recording effect */
+    .recording-pulse {
+        animation: pulse-red 2s infinite;
+        background-color: #dc3545 !important; /* Bootstrap Danger Red */
+        border-color: #dc3545 !important;
+    }
+
+    @keyframes pulse-red {
+        0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); }
+        70% { box-shadow: 0 0 0 15px rgba(220, 53, 69, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+    }
+</style>
+
+<div class="row">
+    <!-- Main Recognition Area -->
+    <div class="col-md-8">
+        <h1 class="mb-4">Speech Control</h1>
+
+        <!-- Error/Success Alerts -->
+        {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+
+        <div class="card shadow-sm mb-4">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="mic-tab" data-bs-toggle="tab" data-bs-target="#mic-pane" type="button" role="tab">🎤 Microphone</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="upload-tab" data-bs-toggle="tab" data-bs-target="#upload-pane" type="button" role="tab">📁 Upload File</button>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card-body">
+                <div class="tab-content" id="myTabContent">
+                    <!-- TAB 1: MICROPHONE -->
+                    <div class="tab-pane fade show active text-center py-4" id="mic-pane" role="tabpanel">
+                        <h5 class="card-title mb-4">Record your Voice</h5>
+
+                        <!-- SINGLE TOGGLE BUTTON -->
+                        <div class="mb-3">
+                            <button id="micToggleBtn" class="btn btn-primary btn-lg rounded-pill px-5 py-3 shadow">
+                                <i class="bi bi-mic-fill"></i> Start Recording
+                            </button>
+                        </div>
+
+                        <p id="status" class="text-muted small">
+                            Press <strong>Spacebar</strong> or <strong>Enter</strong> to toggle recording.
+                        </p>
+                    </div>
+
+                    <!-- TAB 2: FILE UPLOAD -->
+                    <div class="tab-pane fade py-3" id="upload-pane" role="tabpanel">
+                        <h5 class="card-title mb-3">Upload Audio File</h5>
+                        <form action="{{ url_for('index') }}" method="POST" enctype="multipart/form-data">
+                            <div class="input-group mb-3">
+                                <input type="file" class="form-control" name="file_upload" accept=".wav, .mp3" required>
+                                <button class="btn btn-outline-secondary" type="submit">Upload & Execute</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <hr>
+
+                <!-- RESULT AREA -->
+                <div class="mt-4">
+                    <label class="form-label fw-bold">Result:</label>
+                    <textarea class="form-control mb-3 fs-5" id="resultText" rows="4" readonly>{% if result %}{{ result }}{% endif %}</textarea>
+
+                    <div id="audioPlayerContainer">
+                        {% if audio_file %}
+                        <label class="form-label fw-bold">Playback:</label>
+                        <audio controls class="w-100" src="{{ url_for('static', filename='audio/' + audio_file) }}"></audio>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar: Available Commands -->
+    <div class="col-md-4">
+        <div class="card shadow-sm border-info">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">Voice Commands</h5>
+            </div>
+            <div class="card-body p-0">
+                <ul class="list-group list-group-flush">
+                    {% for phrase, desc in commands.items() %}
+                    <li class="list-group-item">
+                        <strong>"{{ phrase|title }}"</strong><br>
+                        <small class="text-muted">{{ desc }}</small>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="card-footer text-muted small">
+                Speak clearly into the microphone.
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Ensure Bootstrap Icons are loaded for the Mic/Stop symbols -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<script>
+    let mediaRecorder;
+    let audioChunks = [];
+    let isRecording = false;
+
+    const micBtn = document.getElementById('micToggleBtn');
+    const statusTxt = document.getElementById('status');
+    const resultArea = document.getElementById('resultText');
+    const playerContainer = document.getElementById('audioPlayerContainer');
+    const micTabPane = document.getElementById('mic-pane'); // Used to check visibility
+
+    // --- MAIN TOGGLE FUNCTION ---
+    async function toggleRecording() {
+        if (!isRecording) {
+            startRecording();
+        } else {
+            stopRecording();
+        }
+    }
+
+    // --- START LOGIC ---
+    async function startRecording() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorder = new MediaRecorder(stream);
+            audioChunks = [];
+
+            mediaRecorder.start();
+            isRecording = true;
+
+            // UI Updates
+            micBtn.innerHTML = '<i class="bi bi-stop-circle-fill"></i> Stop Recording';
+            micBtn.classList.remove('btn-primary');
+            micBtn.classList.add('btn-danger', 'recording-pulse'); // Add Red color and Pulse animation
+
+            statusTxt.innerHTML = "Listening... (Press Space/Enter to Stop)";
+            statusTxt.classList.add("text-danger", "fw-bold");
+
+            resultArea.value = "";
+            playerContainer.innerHTML = "";
+
+            // Collect Data
+            mediaRecorder.addEventListener("dataavailable", event => { audioChunks.push(event.data); });
+
+            // On Stop Event
+            mediaRecorder.addEventListener("stop", () => {
+                const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                sendMicData(audioBlob);
+                stream.getTracks().forEach(track => track.stop());
+            });
+
+        } catch (err) {
+            console.error("Error accessing microphone:", err);
+            statusTxt.textContent = "Error: Could not access microphone. Check permissions.";
+        }
+    }
+
+    // --- STOP LOGIC ---
+    function stopRecording() {
+        if(mediaRecorder && mediaRecorder.state !== "inactive") {
+            mediaRecorder.stop();
+            isRecording = false;
+
+            // UI Updates
+            micBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...';
+            micBtn.classList.remove('btn-danger', 'recording-pulse');
+            micBtn.classList.add('btn-secondary'); // Grey out button while processing
+            micBtn.disabled = true;
+
+            statusTxt.classList.remove("text-danger", "fw-bold");
+            statusTxt.textContent = "Processing audio...";
+        }
+    }
+
+    // --- SEND TO FLASK ---
+    function sendMicData(blob) {
+        let formData = new FormData();
+        formData.append("audio_data", blob);
+
+        fetch("/upload_mic", { method: "POST", body: formData })
+        .then(response => response.json())
+        .then(data => {
+            // Reset Button State
+            micBtn.innerHTML = '<i class="bi bi-mic-fill"></i> Start Recording';
+            micBtn.classList.remove('btn-secondary');
+            micBtn.classList.add('btn-primary');
+            micBtn.disabled = false;
+
+            if(data.text) {
+                resultArea.value = data.text;
+                statusTxt.innerHTML = 'Done! Press <strong>Spacebar</strong> to record again.';
+                if (data.audio_url) {
+                    playerContainer.innerHTML = `<label class="form-label fw-bold">Playback:</label><audio controls class="w-100" src="${data.audio_url}"></audio>`;
+                }
+            } else if (data.error) {
+                statusTxt.textContent = data.error;
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            statusTxt.textContent = "Server error occurred.";
+            // Reset Button even on error
+            micBtn.innerHTML = '<i class="bi bi-mic-fill"></i> Start Recording';
+            micBtn.classList.remove('btn-secondary');
+            micBtn.classList.add('btn-primary');
+            micBtn.disabled = false;
+        });
+    }
+
+    // --- EVENT LISTENERS ---
+
+    // 1. Mouse Click
+    micBtn.addEventListener('click', toggleRecording);
+
+    // 2. Keyboard (Space or Enter)
+    document.addEventListener('keydown', (e) => {
+        // Only trigger if the Mic Tab is actually visible
+        if (micTabPane.classList.contains('active')) {
+            if (e.code === 'Space' || e.code === 'Enter') {
+                e.preventDefault(); // Prevent page scrolling on spacebar
+
+                // Don't trigger if currently processing (disabled state)
+                if (!micBtn.disabled) {
+                    toggleRecording();
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

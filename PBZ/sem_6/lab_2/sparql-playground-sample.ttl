@@ -1,0 +1,58 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix m: <http://example.org/merged#> .
+@prefix core: <http://example.org/core#> .
+@prefix phil: <http://example.org/domain#> .
+@prefix sci: <http://example.org/science-domain#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+m:MergedLayerClass a owl:Class .
+m:DomainEntity a owl:Class ; rdfs:subClassOf m:MergedLayerClass .
+m:CrossDomainEntity a owl:Class ; rdfs:subClassOf m:DomainEntity .
+m:Thinker a owl:Class ; rdfs:subClassOf m:CrossDomainEntity .
+m:IntellectualWork a owl:Class ; rdfs:subClassOf m:CrossDomainEntity .
+m:IntellectualMovement a owl:Class ; rdfs:subClassOf m:CrossDomainEntity .
+m:AbstractConcept a owl:Class ; rdfs:subClassOf m:CrossDomainEntity .
+m:mergeSearchTag a owl:AnnotationProperty .
+
+m:Thinker m:mergeSearchTag "merged"@en .
+m:createdWork a owl:ObjectProperty .
+
+phil:Plato a m:Thinker ; a phil:Philosopher .
+phil:Plato core:hasName "Plato"@en .
+phil:Plato phil:hasBirthYear -428 .
+phil:Plato phil:hasDeathYear -348 .
+phil:Plato m:createdWork phil:TheRepublic .
+
+# Без m:Thinker на phil:Aristotle — вход через :MergeThinker_Aristotle owl:sameAs (как в полном merged)
+phil:Aristotle a phil:Philosopher .
+phil:Aristotle core:hasName "Aristotle"@en .
+phil:Aristotle phil:wroteBook phil:NicomacheanEthics .
+phil:NicomacheanEthics phil:hasTitle "Nicomachean Ethics"@en .
+
+m:MergeThinker_Aristotle a m:Thinker ; owl:sameAs phil:Aristotle .
+
+phil:TheRepublic a phil:Book ; phil:hasTitle "The Republic"@en .
+
+sci:AlbertEinstein a m:Thinker ; a sci:Scientist .
+sci:AlbertEinstein core:hasName "Albert Einstein"@en .
+sci:AlbertEinstein sci:hasDiscoveryYear 1905 .
+sci:AlbertEinstein sci:hasNobelYear 1921 .
+sci:AlbertEinstein m:createdWork sci:RelativityPaper .
+
+sci:RelativityPaper a sci:ScientificPaper ; sci:hasPaperTitle "On the Electrodynamics of Moving Bodies"@en .
+
+phil:Platonism a m:IntellectualMovement ; a phil:PhilosophicalSchool .
+phil:Platonism core:hasName "Platonism"@en .
+phil:Platonism m:movementFoundedBy phil:Plato .
+
+phil:TheoryOfForms a m:AbstractConcept ; a phil:PhilosophicalConcept .
+phil:TheoryOfForms core:hasName "Theory of Forms"@en .
+phil:TheoryOfForms m:ideaAttributedToThinker phil:Plato .
+
+m:NewtonThePhilosopher a m:CrossDomainEntity .
+m:NewtonThePhilosopher core:hasName "Isaac Newton (Philosopher)"@en .
+m:NewtonThePhilosopher m:mapsToScience sci:IsaacNewton .
+
+sci:IsaacNewton a sci:Scientist ; core:hasName "Isaac Newton"@en .

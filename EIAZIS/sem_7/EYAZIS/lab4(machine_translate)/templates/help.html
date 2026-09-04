@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}Help - EN-DE Translator{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">
+            <i class="fas fa-question-circle"></i> Help & Instructions
+        </h1>
+        
+        <div class="card">
+            <div class="card-body">
+                <h4 class="text-primary mb-4">How to Use the Translator</h4>
+
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <div class="card bg-light border-primary mb-4">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0"><i class="fas fa-language"></i> Basic Translation</h5>
+                            </div>
+                            <div class="card-body">
+                                <ol class="list-group list-group-numbered">
+                                    <li class="list-group-item border-0">Enter English text in the left text area</li>
+                                    <li class="list-group-item border-0">Click the "Translate" button</li>
+                                    <li class="list-group-item border-0">View the German translation in the right panel</li>
+                                    <li class="list-group-item border-0">See word counts for both languages</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card bg-light border-success mb-4">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="mb-0"><i class="fas fa-chart-bar"></i> Advanced Features</h5>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item border-0">
+                                        <strong>Grammar Info:</strong> View part-of-speech tags and grammatical analysis
+                                    </li>
+                                    <li class="list-group-item border-0">
+                                        <strong>Word Frequency:</strong> See most common words with counts
+                                    </li>
+                                    <li class="list-group-item border-0">
+                                        <strong>Syntax Trees:</strong> Analyze sentence structure with parse trees
+                                    </li>
+                                    <li class="list-group-item border-0">
+                                        <strong>Save/Print:</strong> Export results to files or print
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <h5 class="text-warning"><i class="fas fa-lightbulb"></i> Tips for Best Results</h5>
+                <div class="alert alert-info">
+                    <ul class="mb-0">
+                        <li>Use complete sentences for better translation quality</li>
+                        <li>Check the grammar information for detailed linguistic analysis</li>
+                        <li>Use the frequency list to identify key vocabulary and patterns</li>
+                        <li>Generate syntax trees to understand complex sentence structures</li>
+                        <li>Save important translations for future reference</li>
+                    </ul>
+                </div>
+
+                <h5 class="text-secondary"><i class="fas fa-database"></i> Technical Information</h5>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-light">
+                            <div class="card-body text-center">
+                                <i class="fas fa-robot fa-2x text-primary mb-2"></i>
+                                <h6>Translation Model</h6>
+                                <p class="mb-0 small">Uses Ollama with gemma3-translator model</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-light">
+                            <div class="card-body text-center">
+                                <i class="fas fa-code fa-2x text-success mb-2"></i>
+                                <h6>Grammar Analysis</h6>
+                                <p class="mb-0 small">Powered by NLTK for POS tagging</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card bg-light">
+                            <div class="card-body text-center">
+                                <i class="fas fa-bolt fa-2x text-warning mb-2"></i>
+                                <h6>Performance</h6>
+                                <p class="mb-0 small">Caching for faster repeated translations</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 p-3 bg-light rounded">
+                    <h6 class="text-dark"><i class="fas fa-star"></i> Features Overview</h6>
+                    <div class="row text-center">
+                        <div class="col-md-3 col-6 mb-2">
+                            <span class="badge bg-primary rounded-pill">Word Counting</span>
+                        </div>
+                        <div class="col-md-3 col-6 mb-2">
+                            <span class="badge bg-success rounded-pill">Grammar Analysis</span>
+                        </div>
+                        <div class="col-md-3 col-6 mb-2">
+                            <span class="badge bg-warning rounded-pill">Syntax Trees</span>
+                        </div>
+                        <div class="col-md-3 col-6 mb-2">
+                            <span class="badge bg-info rounded-pill">Export Results</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

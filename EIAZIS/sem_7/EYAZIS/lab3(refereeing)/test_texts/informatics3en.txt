@@ -1,0 +1,45 @@
+For the past decade, MIT has offered doctoral-level study in computational science and engineering (CSE) exclusively through an interdisciplinary program designed for students applying computation within a specific science or engineering field.
+
+As interest grew among students focused primarily on advancing CSE methodology itself, it became clear that a dedicated academic home for this group — students and faculty deeply invested in the foundations of computational science and engineering — was needed.
+
+Now, with a stand-alone CSE PhD program, they have not only a space for fostering discovery in the cross-cutting methodological dimensions of computational science and engineering, but also a tight-knit community.
+
+“This program recognizes the existence of computational science and engineering as a discipline in and of itself, so you don’t have to be doing this work through the lens of mechanical or chemical engineering, but instead in its own right,” says Nicolas Hadjiconstantinou, co-director of the Center for Computational Science and Engineering (CCSE).
+
+Offered by CCSE and launched in 2023, the stand-alone program blends both coursework and a thesis, much like other MIT PhD programs, yet its methodological focus sets it apart from other Institute offerings.
+
+“What’s unique about this program is that it’s not hosted by one specific department. The stand-alone program is, at its core, about computational science and cross-cutting methodology. We connect this research with people in a lot of different application areas. We have oceanographers, people doing materials science, students with a focus on aeronautics and astronautics, and more,” says outgoing co-director Youssef Marzouk, now the associate dean of the MIT Schwarzman College of Computing.
+
+Expanding horizons
+
+Hadjiconstantinou, the Quentin Berg Professor of Mechanical Engineering, and Marzouk, the Breene M. Kerr Professor of Aeronautics and Astronautics, have led the center’s efforts since 2018, and developed the program and curriculum together. The duo was intentional about crafting a program that fosters students’ individual research while also exposing them to all the field has to offer.
+
+To expand students’ horizons and continue to build a collaborative community, the PhD in CSE program features two popular seminar series: weekly community seminars that focus primarily on internal speakers (current graduate students, postdocs, research scientists, and faculty), and monthly distinguished seminars in CSE, which are Institute-wide and bring external speakers from various institutions and industry roles.
+
+“Something surprising about the program has been the seminars. I thought it would be the same people I see in my classes and labs, but it’s much broader than that,” says Emily Williams, a fourth-year PhD student and a Department of Energy Computational Science graduate fellow. “One of the most interesting seminars was around simulating fluid flow for biomedical applications. My background is in fluids, so I understand that part, but seeing it applied in a totally different domain than what I work in was eye-opening,” says Williams.
+
+That seminar, “Astrophysical Fluid Dynamics at Exascale,” presented by James Stone, a professor in the School of Natural Sciences at the Institute for Advanced Study and at Princeton University, represented one of many opportunities for CSE students to engage with practitioners in small groups, gaining academic insight as well as a wider perspective on future career paths.
+
+Designing for impact
+
+The interdisciplinary PhD program served as a departure point from which Hadjiconstantinou and Marzouk created a new offering that was uniquely its own.
+
+For Marzouk, that meant focusing on expanding the stand-alone program to be able to constantly grow and pivot to retain relevancy as technology speeds up, too: “In my view, the vitality of this program is that science and engineering applications nowadays rest on computation in a really foundational way, whether it’s engineering design or scientific discovery. So it’s essential to perform research on the building blocks of this kind of computation. This research also has to be shaped by the way that we apply it so that scientists or engineers will actually use it,” Marzouk says.
+
+The curriculum is structured around six core focus areas, or “ways of thinking,” that are fundamental to CSE:
+
+Discretization and numerical methods for partial differential equations;
+Optimization methods;
+Inference, statistical computing, and data-driven modeling;
+High performance computing, software engineering, and algorithms;
+Mathematical foundations (e.g., functional analysis, probability); and
+Modeling (i.e., a subject that treats computational modeling in any science or engineering discipline).
+Students select and build their own thesis committee that consists of faculty from across MIT, not just those associated with CCSE. The combination of a curriculum that’s “modern and applicable to what employers are looking for in industry and academics," according to Williams, and the ability to build your own group of engaged advisors, allows for a level of specialization that’s hard to find elsewhere.
+
+“Academically, I feel like this program is designed in such a flexible and interdisciplinary way. You have a lot of control in terms of which direction you want to go in,” says Rosen Yu, a PhD student. Yu’s research is focused on engineering design optimization, an interest she discovered during her first year of research at MIT with Professor Faez Ahmed. The CSE PhD was about to launch, and it became clear that her research interests skewed more toward computation than the existing mechanical engineering degree; it was a natural fit.
+
+“At other schools, you often see just a pure computer science program or an engineering department with hardly any intersection. But this CSE program, I like to say it’s like a glue between these two communities,” says Yu.
+
+That “glue” is strengthening, with more students matriculating each year, as well as Institute faculty and staff becoming affiliated with CSE. While the thesis topics of students range from WIlliams’ stochastic methods for model reduction of multiscale chaotic systems to scalable and robust GPU-cased optimization for energy systems, the goal of the program remains the same: develop students and research that will make a difference.
+
+“That's why MIT is an ‘Institute of Technology’ and not a ‘university.’ There’s always this question, no matter what you’re studying: what is it good for? Our students will go on to work in systems biology, simulators of climate models, electrification, hypersonic vehicles, and more, but the whole point is that their research is helping with something,” says Hadjiconstantinou.

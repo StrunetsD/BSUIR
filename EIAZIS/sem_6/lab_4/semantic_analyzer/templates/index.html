@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Главная - Синтаксический анализ HTML{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-9">
+        <div class="search-box text-center">
+            <h1 class="display-5">Сервис синтаксического анализа английских HTML-текстов</h1>
+            <p class="lead">Вариант 6: английский язык, входной формат HTML. Приложение извлекает текст, разбивает его на предложения, строит синтаксические структуры и сохраняет результаты в PostgreSQL.</p>
+            <hr class="my-4">
+            <form action="/search" method="post" class="row g-3 justify-content-center mt-4">
+                <div class="col-auto" style="min-width: 320px;">
+                    <input type="text" name="query" class="form-control form-control-lg" placeholder="Введите слово, лемму или POS-тег">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary btn-lg">Искать</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4 text-center">
+    <div class="col-md-3"><div class="card"><div class="card-body"><div class="stats-number">{{ stats.total_docs }}</div><div>Документов</div></div></div></div>
+    <div class="col-md-3"><div class="card"><div class="card-body"><div class="stats-number">{{ stats.total_sents }}</div><div>Предложений</div></div></div></div>
+    <div class="col-md-3"><div class="card"><div class="card-body"><div class="stats-number">{{ stats.total_tokens }}</div><div>Токенов</div></div></div></div>
+    <div class="col-md-3"><div class="card"><div class="card-body"><div class="stats-number">{{ stats.total_syntax }}</div><div>Разборов</div></div></div></div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="bi bi-cloud-upload" style="font-size: 3rem; color: #0d6efd;"></i>
+                <h5 class="card-title mt-3">HTML-загрузка</h5>
+                <p class="card-text">Загрузите HTML-файл и автоматически постройте синтаксические структуры.</p>
+                <a href="/upload" class="btn btn-outline-primary">Открыть</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="bi bi-diagram-3" style="font-size: 3rem; color: #198754;"></i>
+                <h5 class="card-title mt-3">Синтаксис</h5>
+                <p class="card-text">Просматривайте, редактируйте и экспортируйте разборы предложений.</p>
+                <a href="/syntax" class="btn btn-outline-success">Открыть</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="bi bi-bar-chart" style="font-size: 3rem; color: #dc3545;"></i>
+                <h5 class="card-title mt-3">Статистика</h5>
+                <p class="card-text">Оценивайте объём корпуса и результаты анализа по загруженным документам.</p>
+                <a href="/stats" class="btn btn-outline-danger">Открыть</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

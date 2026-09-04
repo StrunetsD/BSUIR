@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Поиск по документам{% endblock %}
+{% block content %}
+<h2>Поиск по документам</h2>
+
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card mb-4">
+            <div class="card-body">
+                <form method="post">
+                    <div class="mb-3">
+                        <label for="query" class="form-label">Поисковый запрос</label>
+                        <input type="text" class="form-control form-control-lg" 
+                               id="query" name="query" value="{{ query or '' }}" 
+                               placeholder="Введите текст для поиска...">
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-search"></i> Найти
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        {% if query %}
+            <h3>Результаты поиска: "{{ query }}"</h3>
+            
+            {% if results %}
+                <div class="row">
+                    {% for doc in results %}
+                    <div class="col-md-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="{{ url_for('document', doc_id=doc.id) }}">{{ doc.title }}</a>
+                                </h5>
+                                <p class="card-text">
+                                    <strong>Автор:</strong> {{ doc.author or 'неизвестен' }}<br>
+                                    <strong>Жанр:</strong> {{ doc.genre or 'не указан' }}<br>
+                                    <strong>Год:</strong> {{ doc.year or 'неизвестен' }}
+                                </p>
+                                {% if search_field == 'text' and doc.matches %}
+                                    <p class="text-success">
+                                        <i class="bi bi-check-circle"></i> 
+                                        Найдено {{ doc.matches }} совпадений в тексте
+                                    </p>
+                                {% endif %}
+                                <a href="{{ url_for('document', doc_id=doc.id) }}" class="btn btn-sm btn-primary">
+                                    Открыть документ
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="alert alert-info">
+                    Ничего не найдено.
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

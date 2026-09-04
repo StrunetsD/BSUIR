@@ -1,0 +1,5 @@
+Flask>=3.0.0
+psycopg2-binary>=2.9.9
+nltk>=3.8.1
+ollama>=0.3.0
+watchdog>=4.0.0

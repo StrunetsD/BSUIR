@@ -1,0 +1,227 @@
+@base <http://example.org/science-domain/> .
+@prefix : <http://example.org/science-domain#> .
+@prefix core: <http://example.org/core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://example.org/science-domain>
+    rdf:type owl:Ontology ;
+    rdfs:label "Science Domain Ontology"@en ;
+    rdfs:comment "Доменная онтология науки; те же базовые классы, что и у философии."@ru,
+        "Science domain — same core upper-level classes as philosophy."@en .
+
+#################################################################
+#    SCIENCE CLASSES (Subclasses of same Core)
+#################################################################
+
+:Scientist rdf:type owl:Class ;
+    rdfs:subClassOf core:Agent ;
+    rdfs:label "Scientist"@en, "Учёный"@ru .
+
+:ScientificTheory rdf:type owl:Class ;
+    rdfs:subClassOf core:Concept ;
+    rdfs:label "Scientific Theory"@en, "Научная теория"@ru .
+
+:PhysicalTheory rdf:type owl:Class ;
+    rdfs:subClassOf :ScientificTheory ;
+    rdfs:label "Physical Theory"@en, "Физическая теория"@ru .
+
+:BiologicalTheory rdf:type owl:Class ;
+    rdfs:subClassOf :ScientificTheory ;
+    rdfs:label "Biological Theory"@en, "Биологическая теория"@ru .
+
+:ScientificPaper rdf:type owl:Class ;
+    rdfs:subClassOf core:Work ;
+    rdfs:label "Scientific Paper"@en, "Научная статья"@ru .
+
+:ScientificSchool rdf:type owl:Class ;
+    rdfs:subClassOf core:Group ;
+    rdfs:label "Scientific School"@en, "Научная школа"@ru .
+
+:ResearchInstitution rdf:type owl:Class ;
+    rdfs:subClassOf core:Place ;
+    rdfs:label "Research Institution"@en, "Научное учреждение"@ru .
+
+:ResearchEra rdf:type owl:Class ;
+    rdfs:subClassOf core:TimeEntity ;
+    rdfs:label "Research Era"@en, "Эпоха исследований"@ru .
+
+#################################################################
+#    SCIENCE PROPERTIES (Subproperties of Core)
+#################################################################
+
+:authoredPaper rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:createdBy ;
+    rdfs:domain :Scientist ;
+    rdfs:range :ScientificPaper ;
+    rdfs:label "authored paper"@en, "написал статью"@ru .
+
+:developedTheory rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:developedBy ;
+    rdfs:domain :Scientist ;
+    rdfs:range :ScientificTheory ;
+    rdfs:label "developed theory"@en, "разработал теорию"@ru ;
+    owl:inverseOf :theoryDevelopedBy .
+
+:theoryDevelopedBy rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:developedBy ;
+    rdfs:domain :ScientificTheory ;
+    rdfs:range :Scientist ;
+    rdfs:label "theory developed by"@en, "теория разработана"@ru .
+
+:worksAt rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:locatedIn ;
+    rdfs:domain :Scientist ;
+    rdfs:range :ResearchInstitution ;
+    rdfs:label "works at"@en, "работает в"@ru .
+
+:belongsToScientificSchool rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:partOf ;
+    rdfs:domain :Scientist ;
+    rdfs:range :ScientificSchool ;
+    rdfs:label "belongs to scientific school"@en, "принадлежит к научной школе"@ru .
+
+:schoolFoundedBy rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:hasMember ;
+    rdfs:domain :ScientificSchool ;
+    rdfs:range :Scientist ;
+    rdfs:label "school founded by"@en, "школа основана"@ru .
+
+:paperDiscusses rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:discusses ;
+    rdfs:domain :ScientificPaper ;
+    rdfs:range :ScientificTheory ;
+    rdfs:label "paper discusses"@en, "статья обсуждает"@ru .
+
+:researchPeriod rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:existsInTime ;
+    rdfs:domain :ScientificSchool ;
+    rdfs:range :ResearchEra ;
+    rdfs:label "research period"@en, "период исследований"@ru .
+
+:hasPaperTitle rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf core:hasName ;
+    rdfs:domain :ScientificPaper ;
+    rdfs:range xsd:string ;
+    rdfs:label "has paper title"@en, "название статьи"@ru .
+
+:hasInstitutionName rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf core:hasName ;
+    rdfs:domain :ResearchInstitution ;
+    rdfs:range xsd:string ;
+    rdfs:label "has institution name"@en, "название учреждения"@ru .
+
+:hasTheoryDescription rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf core:hasDescription ;
+    rdfs:domain :ScientificTheory ;
+    rdfs:range xsd:string ;
+    rdfs:label "has theory description"@en, "описание теории"@ru .
+
+:hasDiscoveryYear rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf core:hasBirthDate ;
+    rdfs:domain :Scientist ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has discovery year"@en, "год открытия"@ru .
+
+:hasNobelYear rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf core:hasDeathDate ;
+    rdfs:domain :Scientist ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has Nobel year"@en, "год Нобелевской премии"@ru .
+
+#################################################################
+#    SCIENCE INDIVIDUALS
+#################################################################
+
+:AlbertEinstein rdf:type :Scientist ;
+    core:hasName "Albert Einstein"@en, "Альберт Эйнштейн"@ru ;
+    :hasDiscoveryYear 1905 ;
+    :hasNobelYear 1921 ;
+    :worksAt :PrincetonUniversity ;
+    :authoredPaper :RelativityPaper ;
+    :belongsToScientificSchool :QuantumMechanicsSchool ;
+    :developedTheory :TheoryOfRelativity .
+
+:IsaacNewton rdf:type :Scientist ;
+    core:hasName "Isaac Newton"@en, "Исаак Ньютон"@ru ;
+    :hasDiscoveryYear 1687 ;
+    :worksAt :CambridgeUniversity ;
+    :authoredPaper :PrincipiaMathematica ;
+    :belongsToScientificSchool :ClassicalMechanicsSchool ;
+    :developedTheory :LawsOfMotion .
+
+:CharlesDarwin rdf:type :Scientist ;
+    core:hasName "Charles Darwin"@en, "Чарльз Дарвин"@ru ;
+    :hasDiscoveryYear 1859 ;
+    :worksAt :CambridgeUniversity ;
+    :authoredPaper :OriginOfSpecies ;
+    :belongsToScientificSchool :EvolutionaryBiologySchool ;
+    :developedTheory :TheoryOfEvolution .
+
+:RelativityPaper rdf:type :ScientificPaper ;
+    :hasPaperTitle "On the Electrodynamics of Moving Bodies"@en, "Об электродинамике движущихся тел"@ru ;
+    core:createdBy :AlbertEinstein ;
+    :paperDiscusses :TheoryOfRelativity .
+
+:PrincipiaMathematica rdf:type :ScientificPaper ;
+    :hasPaperTitle "Philosophiæ Naturalis Principia Mathematica"@en, "Математические начала натуральной философии"@ru ;
+    core:createdBy :IsaacNewton ;
+    :paperDiscusses :LawsOfMotion .
+
+:OriginOfSpecies rdf:type :ScientificPaper ;
+    :hasPaperTitle "On the Origin of Species"@en, "Происхождение видов"@ru ;
+    core:createdBy :CharlesDarwin ;
+    :paperDiscusses :TheoryOfEvolution .
+
+:TheoryOfRelativity rdf:type :PhysicalTheory ;
+    core:hasName "Theory of Relativity"@en, "Теория относительности"@ru ;
+    core:hasDescription "Fundamental physics theory by Einstein"@en, "Фундаментальная физическая теория Эйнштейна"@ru ;
+    :theoryDevelopedBy :AlbertEinstein .
+
+:LawsOfMotion rdf:type :PhysicalTheory ;
+    core:hasName "Laws of Motion"@en, "Законы движения"@ru ;
+    core:hasDescription "Newton's three laws of classical mechanics"@en, "Три закона классической механики Ньютона"@ru ;
+    :theoryDevelopedBy :IsaacNewton .
+
+:TheoryOfEvolution rdf:type :BiologicalTheory ;
+    core:hasName "Theory of Evolution"@en, "Теория эволюции"@ru ;
+    core:hasDescription "Darwin's theory of natural selection"@en, "Теория естественного отбора Дарвина"@ru ;
+    :theoryDevelopedBy :CharlesDarwin .
+
+:QuantumMechanicsSchool rdf:type :ScientificSchool ;
+    core:hasName "Quantum Mechanics School"@en, "Школа квантовой механики"@ru ;
+    :schoolFoundedBy :AlbertEinstein ;
+    :researchPeriod :ModernPhysicsEra .
+
+:ClassicalMechanicsSchool rdf:type :ScientificSchool ;
+    core:hasName "Classical Mechanics School"@en, "Школа классической механики"@ru ;
+    :schoolFoundedBy :IsaacNewton ;
+    :researchPeriod :EnlightenmentScienceEra .
+
+:EvolutionaryBiologySchool rdf:type :ScientificSchool ;
+    core:hasName "Evolutionary Biology School"@en, "Школа эволюционной биологии"@ru ;
+    :schoolFoundedBy :CharlesDarwin ;
+    :researchPeriod :VictorianScienceEra .
+
+:PrincetonUniversity rdf:type :ResearchInstitution ;
+    :hasInstitutionName "Princeton University"@en, "Принстонский университет"@ru .
+
+:CambridgeUniversity rdf:type :ResearchInstitution ;
+    :hasInstitutionName "University of Cambridge"@en, "Кембриджский университет"@ru .
+
+:ModernPhysicsEra rdf:type :ResearchEra ;
+    core:hasName "Modern Physics Era"@en, "Эпоха современной физики"@ru ;
+    core:hasStartDate 1900 ;
+    core:hasEndDate 1950 .
+
+:EnlightenmentScienceEra rdf:type :ResearchEra ;
+    core:hasName "Enlightenment Science Era"@en, "Эпоха науки Просвещения"@ru ;
+    core:hasStartDate 1680 ;
+    core:hasEndDate 1800 .
+
+:VictorianScienceEra rdf:type :ResearchEra ;
+    core:hasName "Victorian Science Era"@en, "Викторианская эпоха науки"@ru ;
+    core:hasStartDate 1837 ;
+    core:hasEndDate 1901 .

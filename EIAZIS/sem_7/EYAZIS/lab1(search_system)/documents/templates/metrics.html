@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block title %}Quality Metrics - Search Service{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Calculate Quality Metrics</h5>
+            </div>
+            <div class="card-body">
+                {% if error %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endif %}
+                
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="query" class="form-label">Test Query</label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="query" 
+                               name="query" 
+                               value="{{ metrics.query if metrics else '' }}"
+                               placeholder="Enter test query..." 
+                               required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="relevant_docs" class="form-label">Relevant Documents</label>
+                        <textarea class="form-control" 
+                                  id="relevant_docs" 
+                                  name="relevant_docs" 
+                                  rows="6"
+                                  placeholder="Enter file paths of relevant documents (one per line)...">{{ relevant_docs_text or '' }}</textarea>
+                        <div class="form-text">
+                            List the file paths of documents that should be considered relevant for this query.
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        📊 Calculate Metrics
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {% if metrics %}
+    <div class="col-lg-6">
+        <div class="card metrics-card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Evaluation Results</h5>
+            </div>
+            <div class="card-body">
+                <h6 class="mb-3">Query: "{{ metrics.query }}"</h6>
+
+                <div class="row text-center mb-4">
+                    <div class="col-md-4">
+                        <div class="border rounded p-3">
+                            <h3 class="text-primary">{{ "%.4f"|format(metrics.precision) }}</h3>
+                            <small class="text-muted">Precision</small>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="border rounded p-3">
+                            <h3 class="text-success">{{ "%.4f"|format(metrics.recall) }}</h3>
+                            <small class="text-muted">Recall</small>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="border rounded p-3">
+                            <h3 class="text-info">{{ "%.4f"|format(metrics.f1_score) }}</h3>
+                            <small class="text-muted">F1-Score</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <table class="table table-sm">
+                            <tbody>
+                                <tr>
+                                    <td><strong>Retrieved Documents</strong></td>
+                                    <td>{{ metrics.retrieved_count }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Relevant Documents</strong></td>
+                                    <td>{{ metrics.relevant_count }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>True Positives</strong></td>
+                                    <td>{{ metrics.true_positives }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Precision</strong></td>
+                                    <td>{{ "%.4f"|format(metrics.precision) }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Recall</strong></td>
+                                    <td>{{ "%.4f"|format(metrics.recall) }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>F1-Score</strong></td>
+                                    <td>{{ "%.4f"|format(metrics.f1_score) }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">About Quality Metrics</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h6>Precision</h6>
+                        <p class="text-muted small">
+                            The fraction of retrieved documents that are relevant to the query.
+                            <br><strong>Formula:</strong> TP / (TP + FP)
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <h6>Recall</h6>
+                        <p class="text-muted small">
+                            The fraction of relevant documents that are successfully retrieved.
+                            <br><strong>Formula:</strong> TP / (TP + FN)
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <h6>F1-Score</h6>
+                        <p class="text-muted small">
+                            The harmonic mean of Precision and Recall.
+                            <br><strong>Formula:</strong> 2 * (Precision * Recall) / (Precision + Recall)
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

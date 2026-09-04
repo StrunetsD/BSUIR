@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}Search - Document Search System{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Document Search</h1>
+    
+    <!-- Search Form -->
+    <form method="POST" class="mb-4">
+        <div class="row">
+            <div class="col-md-8">
+                <input type="text" name="query" class="form-control" 
+                       placeholder="Enter your search query..." 
+                       value="{{ query or '' }}" required>
+            </div>
+            <div class="col-md-2">
+                <input type="number" name="top_k" class="form-control" 
+                       value="{{ request.form.get('top_k', 10) }}" min="1" max="50" 
+                       title="Number of results to return">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">Search</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Error Message -->
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+
+    <!-- GPT Fallback Notice -->
+    {% if search_response and search_response.gpt_fallback_used %}
+        <div class="alert alert-info">
+            <strong>No documents found in our database.</strong> 
+            Showing AI-generated answer instead.
+        </div>
+    {% endif %}
+
+    <!-- Search Results -->
+    {% if search_response %}
+        <div class="mb-3">
+            <h4>
+                {% if search_response.gpt_fallback_used %}
+                    Generated result
+                {% else %}
+                    Search Results ({{ results_count }} found)
+                {% endif %}
+            </h4>
+        </div>
+
+        {% for result in search_response.results %}
+            <div class="card result-card {% if result.is_gpt_response %}gpt-response{% endif %}">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        {{ result.title }}
+                    </h5>
+                    
+                    {% if result.is_gpt_response %}
+                        <!-- Full GPT response -->
+                        <div class="card-text">
+                            {{ result.full_content|replace('\n', '<br>')|safe }}
+                        </div>
+                    {% else %}
+                        <!-- Regular search result -->
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            Score: {{ "%.4f"|format(result.score) }} | 
+                            File: {{ result.file_path }}
+                        </h6>
+                        <p class="card-text">{{ result.content_preview }}</p>
+                        <div class="mt-2">
+                            <a href="{{ url_for('preview_file', doc_id=result.doc_id) }}" 
+                               class="btn btn-outline-primary btn-sm">Preview</a>
+                            <a href="{{ url_for('serve_file', doc_id=result.doc_id) }}" 
+                               class="btn btn-outline-secondary btn-sm">Download</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+
+        {% if not search_response.results and not search_response.gpt_fallback_used %}
+            <div class="alert alert-warning">
+                No results found for "{{ query }}". Try different keywords.
+            </div>
+        {% endif %}
+    {% endif %}
+
+    <!-- Back to Home -->
+    <div class="mt-4">
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Back to Home</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Custom styles for search page -->
+<style>
+    .gpt-response {
+        background-color: #f8f9fa;
+        border-left: 4px solid #0d6efd;
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+    .ai-badge {
+        background-color: #0d6efd;
+        color: white;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-size: 0.8em;
+        margin-left: 10px;
+    }
+    .result-card {
+        transition: transform 0.2s;
+        margin-bottom: 1rem;
+    }
+    .result-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+</style>
+{% endblock %}

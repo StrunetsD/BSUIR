@@ -1,0 +1,1072 @@
+@base <http://example.org/merged/> .
+@prefix : <http://example.org/merged#> .
+@prefix phil: <http://example.org/domain#> .
+@prefix sci: <http://example.org/science-domain#> .
+@prefix core: <http://example.org/core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://example.org/merged>
+    rdf:type owl:Ontology ;
+    owl:versionInfo "Демонстрация merge: загрузите целиком этот файл в SPARQL Playground / Protege; core + phil + sci + merge-слой."@ru ;
+    rdfs:label "Philosophy-Science Merged Ontology"@en, "Объединённая онтология философия+наука"@ru ;
+    rdfs:comment "Merged: core + domain (phil) + science-domain (sci) + merged bridge; для SPARQL нужен валидный Turtle до конца файла."@en,
+        "Слой merge: owl:equivalentClass+unionOf; subPropertyOf; mergeSearchTag; rdf:type на индивидах."@ru .
+
+#################################################################
+#    CORE SNAPSHOT (для WebProtege без imports)
+#################################################################
+
+core:Entity rdf:type owl:Class ;
+    rdfs:label "Entity"@en, "Сущность"@ru .
+
+core:Agent rdf:type owl:Class ;
+    rdfs:subClassOf core:Entity ;
+    rdfs:label "Agent"@en, "Агент"@ru .
+
+core:Work rdf:type owl:Class ;
+    rdfs:subClassOf core:Entity ;
+    rdfs:label "Work"@en, "Произведение"@ru .
+
+core:Concept rdf:type owl:Class ;
+    rdfs:subClassOf core:Entity ;
+    rdfs:label "Concept"@en, "Концепция"@ru .
+
+core:Place rdf:type owl:Class ;
+    rdfs:subClassOf core:Entity ;
+    rdfs:label "Place"@en, "Место"@ru .
+
+core:TimeEntity rdf:type owl:Class ;
+    rdfs:subClassOf core:Entity ;
+    rdfs:label "Time Entity"@en, "Временная сущность"@ru .
+
+core:Group rdf:type owl:Class ;
+    rdfs:subClassOf core:Entity ;
+    rdfs:label "Group"@en, "Группа"@ru .
+
+core:hasName rdf:type owl:ObjectProperty ;
+    rdfs:domain core:Entity ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "has name"@en, "имеет имя"@ru .
+
+core:hasDescription rdf:type owl:ObjectProperty ;
+    rdfs:domain core:Entity ;
+    rdfs:range rdfs:Literal ;
+    rdfs:label "has description"@en, "имеет описание"@ru .
+
+core:createdBy rdf:type owl:ObjectProperty ;
+    rdfs:domain core:Work ;
+    rdfs:range core:Agent ;
+    rdfs:label "created by"@en, "создан"@ru .
+
+core:developedBy rdf:type owl:ObjectProperty ;
+    rdfs:domain core:Concept ;
+    rdfs:range core:Agent ;
+    rdfs:label "developed by"@en, "разработан"@ru .
+
+core:locatedIn rdf:type owl:ObjectProperty ;
+    rdfs:domain core:Entity ;
+    rdfs:range core:Place ;
+    rdfs:label "located in"@en, "расположен в"@ru .
+
+core:existsInTime rdf:type owl:ObjectProperty ;
+    rdfs:domain core:Entity ;
+    rdfs:range core:TimeEntity ;
+    rdfs:label "exists in time"@en, "существует во времени"@ru .
+
+core:partOf rdf:type owl:ObjectProperty ;
+    rdfs:domain core:Entity ;
+    rdfs:range core:Group ;
+    rdfs:label "part of"@en, "часть"@ru .
+
+core:hasMember rdf:type owl:ObjectProperty ;
+    rdfs:domain core:Group ;
+    rdfs:range core:Agent ;
+    rdfs:label "has member"@en, "имеет члена"@ru .
+
+core:discusses rdf:type owl:ObjectProperty ;
+    rdfs:domain core:Work ;
+    rdfs:range core:Concept ;
+    rdfs:label "discusses"@en, "обсуждает"@ru .
+
+core:hasStartDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain core:TimeEntity ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has start date"@en, "имеет дату начала"@ru .
+
+core:hasEndDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain core:TimeEntity ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has end date"@en, "имеет дату окончания"@ru .
+
+core:hasBirthDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain core:Agent ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has birth date"@en, "имеет дату рождения"@ru .
+
+core:hasDeathDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain core:Agent ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has death date"@en, "имеет дату смерти"@ru .
+
+#################################################################
+#    PHILOSOPHY DOMAIN (как в domain.ttl, пространство имён phil:)
+#################################################################
+
+phil:Philosopher rdf:type owl:Class ;
+    rdfs:subClassOf core:Agent ;
+    rdfs:label "Philosopher"@en, "Философ"@ru .
+
+phil:Book rdf:type owl:Class ;
+    rdfs:subClassOf core:Work ;
+    rdfs:label "Book"@en, "Книга"@ru .
+
+phil:PhilosophicalConcept rdf:type owl:Class ;
+    rdfs:subClassOf core:Concept ;
+    rdfs:label "Philosophical Concept"@en, "Философская концепция"@ru .
+
+phil:EthicalConcept rdf:type owl:Class ;
+    rdfs:subClassOf phil:PhilosophicalConcept ;
+    rdfs:label "Ethical Concept"@en, "Этическая концепция"@ru .
+
+phil:OntologicalConcept rdf:type owl:Class ;
+    rdfs:subClassOf phil:PhilosophicalConcept ;
+    rdfs:label "Ontological Concept"@en, "Онтологическая концепция"@ru .
+
+phil:PhilosophicalSchool rdf:type owl:Class ;
+    rdfs:subClassOf core:Group ;
+    rdfs:label "Philosophical School"@en, "Философская школа"@ru .
+
+phil:ModernPhilosophy rdf:type owl:Class ;
+    rdfs:subClassOf phil:PhilosophicalSchool ;
+    rdfs:label "Modern Philosophy"@en, "Современная философия"@ru .
+
+phil:Country rdf:type owl:Class ;
+    rdfs:subClassOf core:Place ;
+    rdfs:label "Country"@en, "Страна"@ru .
+
+phil:City rdf:type owl:Class ;
+    rdfs:subClassOf core:Place ;
+    rdfs:label "City"@en, "Город"@ru .
+
+phil:HistoricalPeriod rdf:type owl:Class ;
+    rdfs:subClassOf core:TimeEntity ;
+    rdfs:label "Historical Period"@en, "Исторический период"@ru .
+
+phil:Era rdf:type owl:Class ;
+    rdfs:subClassOf core:TimeEntity ;
+    rdfs:label "Era"@en, "Эра"@ru .
+
+phil:wroteBook rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:createdBy ;
+    rdfs:domain phil:Philosopher ;
+    rdfs:range phil:Book ;
+    rdfs:label "wrote book"@en, "написал книгу"@ru .
+
+phil:belongsToSchool rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:partOf ;
+    rdfs:domain phil:Philosopher ;
+    rdfs:range phil:PhilosophicalSchool ;
+    rdfs:label "belongs to school"@en, "принадлежит к школе"@ru .
+
+phil:foundedBy rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:hasMember ;
+    rdfs:domain phil:PhilosophicalSchool ;
+    rdfs:range phil:Philosopher ;
+    rdfs:label "founded by"@en, "основана"@ru .
+
+phil:developedConcept rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:developedBy ;
+    rdfs:domain phil:Philosopher ;
+    rdfs:range phil:PhilosophicalConcept ;
+    rdfs:label "developed concept"@en, "разработал концепцию"@ru ;
+    owl:inverseOf phil:conceptDevelopedBy .
+
+phil:conceptDevelopedBy rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:developedBy ;
+    rdfs:domain phil:PhilosophicalConcept ;
+    rdfs:range phil:Philosopher ;
+    rdfs:label "concept developed by"@en, "концепция разработана"@ru .
+
+phil:discussesConcept rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:discusses ;
+    rdfs:domain phil:Book ;
+    rdfs:range phil:PhilosophicalConcept ;
+    rdfs:label "discusses concept"@en, "обсуждает концепцию"@ru .
+
+phil:bornIn rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:locatedIn ;
+    rdfs:domain phil:Philosopher ;
+    rdfs:range phil:Country ;
+    rdfs:label "born in"@en, "родился в"@ru .
+
+phil:cityLocatedIn rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:locatedIn ;
+    rdfs:domain phil:City ;
+    rdfs:range phil:Country ;
+    rdfs:label "city located in"@en, "город расположен в"@ru .
+
+phil:partOfPeriod rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:existsInTime ;
+    rdfs:domain phil:PhilosophicalSchool ;
+    rdfs:range phil:HistoricalPeriod ;
+    rdfs:label "part of period"@en, "часть периода"@ru .
+
+phil:hasMainConcept rdf:type owl:ObjectProperty ;
+    rdfs:domain phil:PhilosophicalSchool ;
+    rdfs:range phil:PhilosophicalConcept ;
+    rdfs:label "has main concept"@en, "имеет основную концепцию"@ru .
+
+phil:hasTitle rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf core:hasName ;
+    rdfs:domain phil:Book ;
+    rdfs:range xsd:string ;
+    rdfs:label "has title"@en, "имеет название"@ru .
+
+phil:hasCountryName rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf core:hasName ;
+    rdfs:domain phil:Country ;
+    rdfs:range xsd:string ;
+    rdfs:label "has country name"@en, "имеет название страны"@ru .
+
+phil:hasConceptDescription rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf core:hasDescription ;
+    rdfs:domain phil:PhilosophicalConcept ;
+    rdfs:range xsd:string ;
+    rdfs:label "has concept description"@en, "имеет описание концепции"@ru .
+
+phil:hasBirthYear rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf core:hasBirthDate ;
+    rdfs:domain phil:Philosopher ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has birth year"@en, "имеет год рождения"@ru .
+
+phil:hasDeathYear rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf core:hasDeathDate ;
+    rdfs:domain phil:Philosopher ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has death year"@en, "имеет год смерти"@ru .
+
+phil:hasStartYear rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf core:hasStartDate ;
+    rdfs:domain phil:HistoricalPeriod ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has start year"@en, "имеет год начала"@ru .
+
+phil:hasEndYear rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf core:hasEndDate ;
+    rdfs:domain phil:HistoricalPeriod ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has end year"@en, "имеет год окончания"@ru .
+
+phil:Plato rdf:type phil:Philosopher ;
+    core:hasName "Plato"@en, "Платон"@ru ;
+    phil:hasBirthYear -428 ;
+    phil:hasDeathYear -348 ;
+    phil:bornIn phil:AncientGreece ;
+    phil:wroteBook phil:TheRepublic ;
+    phil:belongsToSchool phil:Platonism ;
+    phil:developedConcept phil:TheoryOfForms .
+
+phil:Aristotle rdf:type phil:Philosopher ;
+    core:hasName "Aristotle"@en, "Аристотель"@ru ;
+    phil:hasBirthYear -384 ;
+    phil:hasDeathYear -322 ;
+    phil:bornIn phil:AncientGreece ;
+    phil:wroteBook phil:NicomacheanEthics ;
+    phil:belongsToSchool phil:Aristotelianism ;
+    phil:developedConcept phil:VirtueEthics .
+
+phil:ImmanuelKant rdf:type phil:Philosopher ;
+    core:hasName "Immanuel Kant"@en, "Иммануил Кант"@ru ;
+    phil:hasBirthYear 1724 ;
+    phil:hasDeathYear 1804 ;
+    phil:bornIn phil:Germany ;
+    phil:wroteBook phil:CritiqueOfPureReason ;
+    phil:belongsToSchool phil:ModernPhilosophy ;
+    phil:developedConcept phil:CategoricalImperative .
+
+phil:FriedrichNietzsche rdf:type phil:Philosopher ;
+    core:hasName "Friedrich Nietzsche"@en, "Фридрих Ницше"@ru ;
+    phil:hasBirthYear 1844 ;
+    phil:hasDeathYear 1900 ;
+    phil:bornIn phil:Germany ;
+    phil:wroteBook phil:ThusSpokeZarathustra ;
+    phil:belongsToSchool phil:Existentialism ;
+    phil:developedConcept phil:Ubermensch .
+
+phil:TheRepublic rdf:type phil:Book ;
+    phil:hasTitle "The Republic"@en, "Государство"@ru ;
+    core:createdBy phil:Plato ;
+    phil:discussesConcept phil:TheoryOfForms .
+
+phil:NicomacheanEthics rdf:type phil:Book ;
+    phil:hasTitle "Nicomachean Ethics"@en, "Никомахова этика"@ru ;
+    core:createdBy phil:Aristotle ;
+    phil:discussesConcept phil:VirtueEthics .
+
+phil:CritiqueOfPureReason rdf:type phil:Book ;
+    phil:hasTitle "Critique of Pure Reason"@en, "Критика чистого разума"@ru ;
+    core:createdBy phil:ImmanuelKant ;
+    phil:discussesConcept phil:CategoricalImperative .
+
+phil:ThusSpokeZarathustra rdf:type phil:Book ;
+    phil:hasTitle "Thus Spoke Zarathustra"@en, "Так говорил Заратустра"@ru ;
+    core:createdBy phil:FriedrichNietzsche ;
+    phil:discussesConcept phil:Ubermensch .
+
+phil:Platonism rdf:type phil:PhilosophicalSchool ;
+    core:hasName "Platonism"@en, "Платонизм"@ru ;
+    phil:foundedBy phil:Plato ;
+    phil:partOfPeriod phil:AncientPeriod ;
+    phil:hasMainConcept phil:TheoryOfForms .
+
+phil:Aristotelianism rdf:type phil:PhilosophicalSchool ;
+    core:hasName "Aristotelianism"@en, "Аристотелизм"@ru ;
+    phil:foundedBy phil:Aristotle ;
+    phil:partOfPeriod phil:AncientPeriod ;
+    phil:hasMainConcept phil:VirtueEthics .
+
+phil:Existentialism rdf:type phil:PhilosophicalSchool ;
+    core:hasName "Existentialism"@en, "Экзистенциализм"@ru ;
+    phil:foundedBy phil:FriedrichNietzsche ;
+    phil:partOfPeriod phil:ContemporaryPeriod ;
+    phil:hasMainConcept phil:Ubermensch .
+
+phil:TheoryOfForms rdf:type phil:OntologicalConcept ;
+    core:hasName "Theory of Forms"@en, "Теория идей"@ru ;
+    core:hasDescription "Plato's theory of ideal entities"@en, "Учение Платона об идеальных сущностях"@ru ;
+    phil:conceptDevelopedBy phil:Plato .
+
+phil:VirtueEthics rdf:type phil:EthicalConcept ;
+    core:hasName "Virtue Ethics"@en, "Этика добродетели"@ru ;
+    core:hasDescription "Aristotelian ethical theory"@en, "Этическая теория Аристотеля"@ru ;
+    phil:conceptDevelopedBy phil:Aristotle .
+
+phil:CategoricalImperative rdf:type phil:EthicalConcept ;
+    core:hasName "Categorical Imperative"@en, "Категорический императив"@ru ;
+    core:hasDescription "Central concept of Kantian ethics"@en, "Центральное понятие этики Канта"@ru ;
+    phil:conceptDevelopedBy phil:ImmanuelKant .
+
+phil:Ubermensch rdf:type phil:PhilosophicalConcept ;
+    core:hasName "Ubermensch"@en, "Сверхчеловек"@ru ;
+    core:hasDescription "Nietzsche's ideal of human perfection"@en, "Идеал человека по Ницше"@ru ;
+    phil:conceptDevelopedBy phil:FriedrichNietzsche .
+
+phil:AncientGreece rdf:type phil:Country ;
+    phil:hasCountryName "Ancient Greece"@en, "Древняя Греция"@ru .
+
+phil:Germany rdf:type phil:Country ;
+    phil:hasCountryName "Germany"@en, "Германия"@ru .
+
+phil:France rdf:type phil:Country ;
+    phil:hasCountryName "France"@en, "Франция"@ru .
+
+phil:Athens rdf:type phil:City ;
+    core:hasName "Athens"@en, "Афины"@ru ;
+    phil:cityLocatedIn phil:AncientGreece .
+
+phil:Berlin rdf:type phil:City ;
+    core:hasName "Berlin"@en, "Берлин"@ru ;
+    phil:cityLocatedIn phil:Germany .
+
+phil:AncientPeriod rdf:type phil:HistoricalPeriod ;
+    core:hasName "Ancient Period"@en, "Античность"@ru ;
+    phil:hasStartYear -800 ;
+    phil:hasEndYear 500 .
+
+phil:ModernPeriod rdf:type phil:HistoricalPeriod ;
+    core:hasName "Modern Period"@en, "Новое время"@ru ;
+    phil:hasStartYear 1500 ;
+    phil:hasEndYear 1800 .
+
+phil:ContemporaryPeriod rdf:type phil:HistoricalPeriod ;
+    core:hasName "Contemporary Period"@en, "Современность"@ru ;
+    phil:hasStartYear 1800 ;
+    phil:hasEndYear 2024 .
+
+phil:Renaissance rdf:type phil:Era ;
+    core:hasName "Renaissance"@en, "Возрождение"@ru ;
+    phil:hasStartYear 1300 ;
+    phil:hasEndYear 1600 .
+
+phil:Enlightenment rdf:type phil:Era ;
+    core:hasName "Enlightenment"@en, "Просвещение"@ru ;
+    phil:hasStartYear 1650 ;
+    phil:hasEndYear 1800 .
+
+#################################################################
+#    SCIENCE DOMAIN (как в science-domain.ttl, пространство имён sci:)
+#################################################################
+
+sci:Scientist rdf:type owl:Class ;
+    rdfs:subClassOf core:Agent ;
+    rdfs:label "Scientist"@en, "Учёный"@ru .
+
+sci:ScientificTheory rdf:type owl:Class ;
+    rdfs:subClassOf core:Concept ;
+    rdfs:label "Scientific Theory"@en, "Научная теория"@ru .
+
+sci:PhysicalTheory rdf:type owl:Class ;
+    rdfs:subClassOf sci:ScientificTheory ;
+    rdfs:label "Physical Theory"@en, "Физическая теория"@ru .
+
+sci:BiologicalTheory rdf:type owl:Class ;
+    rdfs:subClassOf sci:ScientificTheory ;
+    rdfs:label "Biological Theory"@en, "Биологическая теория"@ru .
+
+sci:ScientificPaper rdf:type owl:Class ;
+    rdfs:subClassOf core:Work ;
+    rdfs:label "Scientific Paper"@en, "Научная статья"@ru .
+
+sci:ScientificSchool rdf:type owl:Class ;
+    rdfs:subClassOf core:Group ;
+    rdfs:label "Scientific School"@en, "Научная школа"@ru .
+
+sci:ResearchInstitution rdf:type owl:Class ;
+    rdfs:subClassOf core:Place ;
+    rdfs:label "Research Institution"@en, "Научное учреждение"@ru .
+
+sci:ResearchEra rdf:type owl:Class ;
+    rdfs:subClassOf core:TimeEntity ;
+    rdfs:label "Research Era"@en, "Эпоха исследований"@ru .
+
+sci:authoredPaper rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:createdBy ;
+    rdfs:domain sci:Scientist ;
+    rdfs:range sci:ScientificPaper ;
+    rdfs:label "authored paper"@en, "написал статью"@ru .
+
+sci:developedTheory rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:developedBy ;
+    rdfs:domain sci:Scientist ;
+    rdfs:range sci:ScientificTheory ;
+    rdfs:label "developed theory"@en, "разработал теорию"@ru ;
+    owl:inverseOf sci:theoryDevelopedBy .
+
+sci:theoryDevelopedBy rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:developedBy ;
+    rdfs:domain sci:ScientificTheory ;
+    rdfs:range sci:Scientist ;
+    rdfs:label "theory developed by"@en, "теория разработана"@ru .
+
+sci:worksAt rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:locatedIn ;
+    rdfs:domain sci:Scientist ;
+    rdfs:range sci:ResearchInstitution ;
+    rdfs:label "works at"@en, "работает в"@ru .
+
+sci:belongsToScientificSchool rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:partOf ;
+    rdfs:domain sci:Scientist ;
+    rdfs:range sci:ScientificSchool ;
+    rdfs:label "belongs to scientific school"@en, "принадлежит к научной школе"@ru .
+
+sci:schoolFoundedBy rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:hasMember ;
+    rdfs:domain sci:ScientificSchool ;
+    rdfs:range sci:Scientist ;
+    rdfs:label "school founded by"@en, "школа основана"@ru .
+
+sci:paperDiscusses rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:discusses ;
+    rdfs:domain sci:ScientificPaper ;
+    rdfs:range sci:ScientificTheory ;
+    rdfs:label "paper discusses"@en, "статья обсуждает"@ru .
+
+sci:researchPeriod rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:existsInTime ;
+    rdfs:domain sci:ScientificSchool ;
+    rdfs:range sci:ResearchEra ;
+    rdfs:label "research period"@en, "период исследований"@ru .
+
+sci:hasPaperTitle rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf core:hasName ;
+    rdfs:domain sci:ScientificPaper ;
+    rdfs:range xsd:string ;
+    rdfs:label "has paper title"@en, "название статьи"@ru .
+
+sci:hasInstitutionName rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf core:hasName ;
+    rdfs:domain sci:ResearchInstitution ;
+    rdfs:range xsd:string ;
+    rdfs:label "has institution name"@en, "название учреждения"@ru .
+
+sci:hasTheoryDescription rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf core:hasDescription ;
+    rdfs:domain sci:ScientificTheory ;
+    rdfs:range xsd:string ;
+    rdfs:label "has theory description"@en, "описание теории"@ru .
+
+sci:hasDiscoveryYear rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf core:hasBirthDate ;
+    rdfs:domain sci:Scientist ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has discovery year"@en, "год открытия"@ru .
+
+sci:hasNobelYear rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf core:hasDeathDate ;
+    rdfs:domain sci:Scientist ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has Nobel year"@en, "год Нобелевской премии"@ru .
+
+sci:AlbertEinstein rdf:type sci:Scientist ;
+    core:hasName "Albert Einstein"@en, "Альберт Эйнштейн"@ru ;
+    sci:hasDiscoveryYear 1905 ;
+    sci:hasNobelYear 1921 ;
+    sci:worksAt sci:PrincetonUniversity ;
+    sci:authoredPaper sci:RelativityPaper ;
+    sci:belongsToScientificSchool sci:QuantumMechanicsSchool ;
+    sci:developedTheory sci:TheoryOfRelativity .
+
+sci:IsaacNewton rdf:type sci:Scientist ;
+    core:hasName "Isaac Newton"@en, "Исаак Ньютон"@ru ;
+    sci:hasDiscoveryYear 1687 ;
+    sci:worksAt sci:CambridgeUniversity ;
+    sci:authoredPaper sci:PrincipiaMathematica ;
+    sci:belongsToScientificSchool sci:ClassicalMechanicsSchool ;
+    sci:developedTheory sci:LawsOfMotion .
+
+sci:CharlesDarwin rdf:type sci:Scientist ;
+    core:hasName "Charles Darwin"@en, "Чарльз Дарвин"@ru ;
+    sci:hasDiscoveryYear 1859 ;
+    sci:worksAt sci:CambridgeUniversity ;
+    sci:authoredPaper sci:OriginOfSpecies ;
+    sci:belongsToScientificSchool sci:EvolutionaryBiologySchool ;
+    sci:developedTheory sci:TheoryOfEvolution .
+
+sci:RelativityPaper rdf:type sci:ScientificPaper ;
+    sci:hasPaperTitle "On the Electrodynamics of Moving Bodies"@en, "Об электродинамике движущихся тел"@ru ;
+    core:createdBy sci:AlbertEinstein ;
+    sci:paperDiscusses sci:TheoryOfRelativity .
+
+sci:PrincipiaMathematica rdf:type sci:ScientificPaper ;
+    sci:hasPaperTitle "Philosophiæ Naturalis Principia Mathematica"@en, "Математические начала натуральной философии"@ru ;
+    core:createdBy sci:IsaacNewton ;
+    sci:paperDiscusses sci:LawsOfMotion .
+
+sci:OriginOfSpecies rdf:type sci:ScientificPaper ;
+    sci:hasPaperTitle "On the Origin of Species"@en, "Происхождение видов"@ru ;
+    core:createdBy sci:CharlesDarwin ;
+    sci:paperDiscusses sci:TheoryOfEvolution .
+
+sci:TheoryOfRelativity rdf:type sci:PhysicalTheory ;
+    core:hasName "Theory of Relativity"@en, "Теория относительности"@ru ;
+    core:hasDescription "Fundamental physics theory by Einstein"@en, "Фундаментальная физическая теория Эйнштейна"@ru ;
+    sci:theoryDevelopedBy sci:AlbertEinstein .
+
+sci:LawsOfMotion rdf:type sci:PhysicalTheory ;
+    core:hasName "Laws of Motion"@en, "Законы движения"@ru ;
+    core:hasDescription "Newton's three laws of classical mechanics"@en, "Три закона классической механики Ньютона"@ru ;
+    sci:theoryDevelopedBy sci:IsaacNewton .
+
+sci:TheoryOfEvolution rdf:type sci:BiologicalTheory ;
+    core:hasName "Theory of Evolution"@en, "Теория эволюции"@ru ;
+    core:hasDescription "Darwin's theory of natural selection"@en, "Теория естественного отбора Дарвина"@ru ;
+    sci:theoryDevelopedBy sci:CharlesDarwin .
+
+sci:QuantumMechanicsSchool rdf:type sci:ScientificSchool ;
+    core:hasName "Quantum Mechanics School"@en, "Школа квантовой механики"@ru ;
+    sci:schoolFoundedBy sci:AlbertEinstein ;
+    sci:researchPeriod sci:ModernPhysicsEra .
+
+sci:ClassicalMechanicsSchool rdf:type sci:ScientificSchool ;
+    core:hasName "Classical Mechanics School"@en, "Школа классической механики"@ru ;
+    sci:schoolFoundedBy sci:IsaacNewton ;
+    sci:researchPeriod sci:EnlightenmentScienceEra .
+
+sci:EvolutionaryBiologySchool rdf:type sci:ScientificSchool ;
+    core:hasName "Evolutionary Biology School"@en, "Школа эволюционной биологии"@ru ;
+    sci:schoolFoundedBy sci:CharlesDarwin ;
+    sci:researchPeriod sci:VictorianScienceEra .
+
+sci:PrincetonUniversity rdf:type sci:ResearchInstitution ;
+    sci:hasInstitutionName "Princeton University"@en, "Принстонский университет"@ru .
+
+sci:CambridgeUniversity rdf:type sci:ResearchInstitution ;
+    sci:hasInstitutionName "University of Cambridge"@en, "Кембриджский университет"@ru .
+
+sci:ModernPhysicsEra rdf:type sci:ResearchEra ;
+    core:hasName "Modern Physics Era"@en, "Эпоха современной физики"@ru ;
+    core:hasStartDate 1900 ;
+    core:hasEndDate 1950 .
+
+sci:EnlightenmentScienceEra rdf:type sci:ResearchEra ;
+    core:hasName "Enlightenment Science Era"@en, "Эпоха науки Просвещения"@ru ;
+    core:hasStartDate 1680 ;
+    core:hasEndDate 1800 .
+
+sci:VictorianScienceEra rdf:type sci:ResearchEra ;
+    core:hasName "Victorian Science Era"@en, "Викторианская эпоха науки"@ru ;
+    core:hasStartDate 1837 ;
+    core:hasEndDate 1901 .
+
+#################################################################
+#    MAPPING LAYER (соединяющий слой)
+#################################################################
+#
+# Общий поиск по merge: (1) класс :MergedLayerClass — все merge-классы под ним;
+# (2) аннотация :mergeSearchTag "merged" на классах и свойствах слоя — один SPARQL.
+#
+
+:mergeSearchTag rdf:type owl:AnnotationProperty ;
+    rdfs:label "merge search tag"@en, "метка поиска merge"@ru ;
+    rdfs:comment "Ищите все помеченные сущности: ?x :mergeSearchTag \"merged\" ."@ru .
+
+:MergedLayerClass rdf:type owl:Class ;
+    rdfs:subClassOf owl:Thing ;
+    rdfs:label "Merge layer root"@en, "Корень merge-слоя"@ru ;
+    rdfs:comment "Все классы merged# — rdfs:subClassOf+ :MergedLayerClass (напрямую или через :DomainEntity)."@ru ;
+    :mergeSearchTag "merged"@en .
+
+:DomainEntity rdf:type owl:Class ;
+    rdfs:subClassOf :MergedLayerClass ;
+    rdfs:label "Domain Entity"@en, "Сущность домена"@ru ;
+    :mergeSearchTag "merged"@en .
+
+:PhilosophyEntity rdf:type owl:Class ;
+    rdfs:subClassOf :DomainEntity ;
+    rdfs:label "Philosophy Entity"@en, "Философская сущность"@ru ;
+    :mergeSearchTag "merged"@en .
+
+:ScienceEntity rdf:type owl:Class ;
+    rdfs:subClassOf :DomainEntity ;
+    rdfs:label "Science Entity"@en, "Научная сущность"@ru ;
+    :mergeSearchTag "merged"@en .
+
+:CrossDomainEntity rdf:type owl:Class ;
+    rdfs:subClassOf :DomainEntity ;
+    rdfs:label "Cross-Domain Entity"@en, "Междоменная сущность"@ru ;
+    :mergeSearchTag "merged"@en .
+
+#################################################################
+# Именованные union-классы (явная owl:equivalentClass в Protégé / Web Protege)
+#################################################################
+
+:PhilosopherOrScientist rdf:type owl:Class ;
+    rdfs:subClassOf :MergedLayerClass ;
+    owl:equivalentClass [
+        rdf:type owl:Class ;
+        owl:unionOf (phil:Philosopher sci:Scientist)
+    ] ;
+    rdfs:label "Philosopher ⊔ Scientist"@en, "Union phil+sci агентов"@ru ;
+    rdfs:comment "Эквивалентен объединению доменных классов; :Thinker owl:equivalentClass :PhilosopherOrScientist."@ru ;
+    :mergeSearchTag "merged"@en .
+
+:BookOrScientificPaper rdf:type owl:Class ;
+    rdfs:subClassOf :MergedLayerClass ;
+    owl:equivalentClass [
+        rdf:type owl:Class ;
+        owl:unionOf (phil:Book sci:ScientificPaper)
+    ] ;
+    rdfs:label "Book ⊔ ScientificPaper"@en, "Книга ⊔ статья"@ru ;
+    :mergeSearchTag "merged"@en .
+
+:PhilosophicalOrScientificConcept rdf:type owl:Class ;
+    rdfs:subClassOf :MergedLayerClass ;
+    owl:equivalentClass [
+        rdf:type owl:Class ;
+        owl:unionOf (phil:PhilosophicalConcept sci:ScientificTheory)
+    ] ;
+    rdfs:label "PhilosophicalConcept ⊔ ScientificTheory"@en ;
+    :mergeSearchTag "merged"@en .
+
+:PhilosophicalOrScientificSchool rdf:type owl:Class ;
+    rdfs:subClassOf :MergedLayerClass ;
+    owl:equivalentClass [
+        rdf:type owl:Class ;
+        owl:unionOf (phil:PhilosophicalSchool sci:ScientificSchool)
+    ] ;
+    rdfs:label "PhilosophicalSchool ⊔ ScientificSchool"@en ;
+    :mergeSearchTag "merged"@en .
+
+:CountryCityOrResearchInstitution rdf:type owl:Class ;
+    rdfs:subClassOf :MergedLayerClass ;
+    owl:equivalentClass [
+        rdf:type owl:Class ;
+        owl:unionOf (phil:Country phil:City sci:ResearchInstitution)
+    ] ;
+    rdfs:label "Country ⊔ City ⊔ ResearchInstitution"@en ;
+    :mergeSearchTag "merged"@en .
+
+:PeriodEraOrResearchEra rdf:type owl:Class ;
+    rdfs:subClassOf :MergedLayerClass ;
+    owl:equivalentClass [
+        rdf:type owl:Class ;
+        owl:unionOf (phil:HistoricalPeriod phil:Era sci:ResearchEra)
+    ] ;
+    rdfs:label "HistoricalPeriod ⊔ Era ⊔ ResearchEra"@en ;
+    :mergeSearchTag "merged"@en .
+
+:Thinker rdf:type owl:Class ;
+    rdfs:subClassOf core:Agent, :CrossDomainEntity ;
+    owl:equivalentClass :PhilosopherOrScientist ;
+    rdfs:label "Thinker"@en, "Мыслитель"@ru ;
+    rdfs:comment "Unified class for philosophers and scientists"@en ;
+    :mergeSearchTag "merged"@en .
+
+:IntellectualWork rdf:type owl:Class ;
+    rdfs:subClassOf core:Work, :CrossDomainEntity ;
+    owl:equivalentClass :BookOrScientificPaper ;
+    rdfs:label "Intellectual Work"@en, "Интеллектуальный труд"@ru ;
+    :mergeSearchTag "merged"@en .
+
+:AbstractConcept rdf:type owl:Class ;
+    rdfs:subClassOf core:Concept, :CrossDomainEntity ;
+    owl:equivalentClass :PhilosophicalOrScientificConcept ;
+    rdfs:label "Abstract Concept"@en, "Абстрактная концепция"@ru ;
+    :mergeSearchTag "merged"@en .
+
+:IntellectualMovement rdf:type owl:Class ;
+    rdfs:subClassOf core:Group, :CrossDomainEntity ;
+    owl:equivalentClass :PhilosophicalOrScientificSchool ;
+    rdfs:label "Intellectual Movement"@en, "Интеллектуальное движение"@ru ;
+    :mergeSearchTag "merged"@en .
+
+:EducationalInstitution rdf:type owl:Class ;
+    rdfs:subClassOf core:Place, :CrossDomainEntity ;
+    owl:equivalentClass :CountryCityOrResearchInstitution ;
+    rdfs:label "Place or institution (merged)"@en, "Место / учреждение (merge)"@ru ;
+    :mergeSearchTag "merged"@en .
+
+:HistoricalEra rdf:type owl:Class ;
+    rdfs:subClassOf core:TimeEntity, :CrossDomainEntity ;
+    owl:equivalentClass :PeriodEraOrResearchEra ;
+    rdfs:label "Historical era (merged)"@en, "Историческая эпоха (merge)"@ru ;
+    :mergeSearchTag "merged"@en .
+
+# Объединённые object properties (надсвойства над phil:* и sci:*)
+:developedWork rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:developedBy ;
+    rdfs:domain :Thinker ;
+    rdfs:range :AbstractConcept ;
+    rdfs:label "developed concept or theory (merged)"@en, "разработал концепцию/теорию (merge)"@ru ;
+    rdfs:comment "Обобщает phil:developedConcept и sci:developedTheory."@ru ;
+    :mergeSearchTag "merged"@en .
+
+:discussesInWork rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:discusses ;
+    rdfs:domain :IntellectualWork ;
+    rdfs:range :AbstractConcept ;
+    rdfs:label "work discusses concept/theory (merged)"@en, "работа обсуждает концепцию/теорию"@ru ;
+    rdfs:comment "Обобщает phil:discussesConcept и sci:paperDiscusses."@ru ;
+    :mergeSearchTag "merged"@en .
+
+:belongsToIntellectualMovement rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:partOf ;
+    rdfs:domain :Thinker ;
+    rdfs:range :IntellectualMovement ;
+    rdfs:label "belongs to school/movement (merged)"@en, "в школе/движении (merge)"@ru ;
+    rdfs:comment "Обобщает phil:belongsToSchool и sci:belongsToScientificSchool."@ru ;
+    :mergeSearchTag "merged"@en .
+
+:movementFoundedBy rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:hasMember ;
+    rdfs:domain :IntellectualMovement ;
+    rdfs:range :Thinker ;
+    rdfs:label "movement founded by (merged)"@en, "движение основано мыслителем (merge)"@ru ;
+    rdfs:comment "phil:foundedBy + sci:schoolFoundedBy"@ru ;
+    :mergeSearchTag "merged"@en .
+
+:movementInHistoricalEra rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:existsInTime ;
+    rdfs:domain :IntellectualMovement ;
+    rdfs:range :HistoricalEra ;
+    rdfs:label "movement in era (merged)"@en, "движение в эпохе (merge)"@ru ;
+    rdfs:comment "phil:partOfPeriod + sci:researchPeriod"@ru ;
+    :mergeSearchTag "merged"@en .
+
+:thinkerPlaceAffiliation rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:locatedIn ;
+    rdfs:domain :Thinker ;
+    rdfs:range :EducationalInstitution ;
+    rdfs:label "thinker place affiliation (merged)"@en, "место / учреждение мыслителя (merge)"@ru ;
+    rdfs:comment "phil:bornIn + sci:worksAt"@ru ;
+    :mergeSearchTag "merged"@en .
+
+:ideaAttributedToThinker rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:developedBy ;
+    rdfs:domain :AbstractConcept ;
+    rdfs:range :Thinker ;
+    rdfs:label "idea attributed to thinker (merged)"@en, "идея у мыслителя (merge)"@ru ;
+    rdfs:comment "phil:conceptDevelopedBy + sci:theoryDevelopedBy"@ru ;
+    :mergeSearchTag "merged"@en .
+
+:movementHighlightsConcept rdf:type owl:ObjectProperty ;
+    rdfs:domain :IntellectualMovement ;
+    rdfs:range :AbstractConcept ;
+    rdfs:label "movement highlights concept (merged)"@en, "ключевая идея движения (merge)"@ru ;
+    rdfs:comment "Сейчас subPropertyOf только у phil:hasMainConcept"@ru ;
+    :mergeSearchTag "merged"@en .
+
+:mapsToPhilosophy rdf:type owl:ObjectProperty ;
+    rdfs:domain :ScienceEntity ;
+    rdfs:range :PhilosophyEntity ;
+    rdfs:label "maps to philosophy"@en, "отображается в философию"@ru ;
+    :mergeSearchTag "merged"@en .
+
+:mapsToScience rdf:type owl:ObjectProperty ;
+    rdfs:domain :PhilosophyEntity ;
+    rdfs:range :ScienceEntity ;
+    rdfs:label "maps to science"@en, "отображается в науку"@ru ;
+    :mergeSearchTag "merged"@en .
+
+:sharesCoreClass rdf:type owl:ObjectProperty ;
+    rdfs:domain :DomainEntity ;
+    rdfs:range core:Entity ;
+    rdfs:label "shares core class"@en, "разделяет core-класс"@ru ;
+    :mergeSearchTag "merged"@en .
+
+:hasDomainOrigin rdf:type owl:DatatypeProperty ;
+    rdfs:domain :DomainEntity ;
+    rdfs:range xsd:string ;
+    rdfs:label "has domain origin"@en, "имеет домен происхождения"@ru ;
+    :mergeSearchTag "merged"@en .
+
+:primaryWorkTitle rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf core:hasName ;
+    rdfs:domain :IntellectualWork ;
+    rdfs:range xsd:string ;
+    rdfs:label "primary title of work (merged)"@en, "название работы (merge)"@ru ;
+    rdfs:comment "phil:hasTitle + sci:hasPaperTitle"@ru ;
+    :mergeSearchTag "merged"@en .
+
+:unifiedWorkTitle rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf core:hasName ;
+    rdfs:domain :IntellectualWork ;
+    rdfs:range xsd:string ;
+    rdfs:label "unified work title (equiv alias)"@en, "название работы (эквивалентный URI)"@ru ;
+    :mergeSearchTag "merged"@en .
+
+:primaryWorkTitle owl:equivalentProperty :unifiedWorkTitle .
+
+:placePrimaryName rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf core:hasName ;
+    rdfs:domain :EducationalInstitution ;
+    rdfs:range xsd:string ;
+    rdfs:label "primary name of place (merged)"@en, "название места (merge)"@ru ;
+    rdfs:comment "phil:hasCountryName + sci:hasInstitutionName"@ru ;
+    :mergeSearchTag "merged"@en .
+
+:NewtonThePhilosopher rdf:type :CrossDomainEntity ;
+    core:hasName "Isaac Newton (Philosopher)"@en ;
+    :mapsToScience sci:IsaacNewton ;
+    :sharesCoreClass core:Agent ;
+    :hasDomainOrigin "cross-domain-mapping" .
+
+:NewtonTheScientist rdf:type sci:Scientist ;
+    core:hasName "Isaac Newton (Scientist)"@en ;
+    :mapsToPhilosophy :NewtonThePhilosopher ;
+    :sharesCoreClass core:Agent ;
+    :hasDomainOrigin "cross-domain-mapping" .
+
+:EinsteinAndPhilosophy rdf:type :CrossDomainEntity ;
+    core:hasName "Einstein-Kant Connection"@en ;
+    :mapsToPhilosophy phil:ImmanuelKant ;
+    :mapsToScience sci:AlbertEinstein ;
+    :sharesCoreClass core:Agent ;
+    rdfs:comment "Einstein was influenced by Kant's philosophy"@en .
+
+#################################################################
+#    MERGE TRACKING EXAMPLES (примеры для отслеживания merge)
+#################################################################
+
+# === КЛАССЫ ===
+# phil:Philosopher (новый в domain) + sci:Scientist (новый в science) 
+# → :Thinker (общий/merged)
+
+# === СВОЙСТВА ===
+# phil:wroteBook (новое в domain) + sci:authoredPaper (новое в science)
+# → :createdWork (общий/merged) ← ДОБАВЛЕНО
+
+:createdWork rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:createdBy ;
+    rdfs:domain :Thinker ;
+    rdfs:range :IntellectualWork ;
+    rdfs:label "created work (merged)"@en, "создал работу (объединённое)"@ru ;
+    rdfs:comment "Надсвойство: phil:wroteBook и sci:authoredPaper объявлены суб-свойствами (см. блок MERGE BRIDGES ниже)."@ru,
+        "Super-property: phil:wroteBook and sci:authoredPaper are rdfs:subPropertyOf this."@en ;
+    :mergeSearchTag "merged"@en .
+
+# Два URI — одно и то же object property (owl:equivalentProperty), если в задании требуют «equivalent» у свойств.
+# Не смешивать с wroteBook ≡ authoredPaper (разные домены в исходных доменах).
+:authoredOrWrittenWork rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:createdBy ;
+    rdfs:domain :Thinker ;
+    rdfs:range :IntellectualWork ;
+    rdfs:label "created work (equivalent alias)"@en, "создал работу (эквивалентный URI)"@ru ;
+    :mergeSearchTag "merged"@en .
+
+:createdWork owl:equivalentProperty :authoredOrWrittenWork .
+
+# phil:Plato (новый в domain) + sci:Einstein (новый в science)
+# → :PlatoTheUniversal (общий/merged) ← ДОБАВЛЕНО
+
+:PlatoTheUniversal rdf:type :Thinker ;
+    core:hasName "Plato (Universal Thinker)"@en, "Платон (Универсальный мыслитель)"@ru ;
+    :sharesCoreClass core:Agent ;
+    :hasDomainOrigin "merged-individual" ;
+    rdfs:comment "Example: Individual created in merge layer, references both domains"@en ;
+    owl:sameAs phil:Plato .
+
+# Явный :Thinker в merge-слое + owl:sameAs → phil:Aristotle остаётся только phil:Philosopher.
+# SPARQL «только rdf:type m:Thinker» находит этот узел; раскрытие sameAs даёт URI философа (см. sparql_queries).
+:MergeThinker_Aristotle rdf:type :Thinker ;
+    owl:sameAs phil:Aristotle ;
+    rdfs:label "Merge Thinker identity for Aristotle"@en, "Слой merge: Аристотель как Thinker"@ru ;
+    :mergeSearchTag "merged"@en .
+
+:EinsteinTheUniversal rdf:type :Thinker ;
+    core:hasName "Einstein (Universal Thinker)"@en, "Эйнштейн (Универсальный мыслитель)"@ru ;
+    :mapsToPhilosophy phil:ImmanuelKant ;
+    :sharesCoreClass core:Agent ;
+    :hasDomainOrigin "merged-individual-cross-domain" ;
+    rdfs:comment "Einstein as scientist influenced by Kant as philosopher"@en ;
+    owl:sameAs sci:AlbertEinstein .
+
+:MergeRecord rdf:type owl:Class ;
+    rdfs:subClassOf :MergedLayerClass ;
+    rdfs:label "Merge Record"@en, "Запись объединения"@ru ;
+    :mergeSearchTag "merged"@en .
+
+:PhilosophyScienceMerge rdf:type :MergeRecord ;
+    core:hasName "Philosophy-Science Ontology Merge"@en ;
+    core:hasDescription "Complete merge: philosophy domain + science domain + mapping layer"@en ;
+    rdfs:comment "Merged on: 2024-01-15"@en .
+
+#################################################################
+#    MERGE BRIDGES (явные rdfs:subPropertyOf / доп. типы для демонстрации)
+#################################################################
+
+phil:wroteBook rdfs:subPropertyOf :createdWork .
+sci:authoredPaper rdfs:subPropertyOf :createdWork .
+
+phil:developedConcept rdfs:subPropertyOf :developedWork .
+sci:developedTheory rdfs:subPropertyOf :developedWork .
+
+phil:discussesConcept rdfs:subPropertyOf :discussesInWork .
+sci:paperDiscusses rdfs:subPropertyOf :discussesInWork .
+
+phil:belongsToSchool rdfs:subPropertyOf :belongsToIntellectualMovement .
+sci:belongsToScientificSchool rdfs:subPropertyOf :belongsToIntellectualMovement .
+
+phil:foundedBy rdfs:subPropertyOf :movementFoundedBy .
+sci:schoolFoundedBy rdfs:subPropertyOf :movementFoundedBy .
+
+phil:partOfPeriod rdfs:subPropertyOf :movementInHistoricalEra .
+sci:researchPeriod rdfs:subPropertyOf :movementInHistoricalEra .
+
+phil:bornIn rdfs:subPropertyOf :thinkerPlaceAffiliation .
+sci:worksAt rdfs:subPropertyOf :thinkerPlaceAffiliation .
+
+phil:conceptDevelopedBy rdfs:subPropertyOf :ideaAttributedToThinker .
+sci:theoryDevelopedBy rdfs:subPropertyOf :ideaAttributedToThinker .
+
+phil:hasMainConcept rdfs:subPropertyOf :movementHighlightsConcept .
+
+phil:hasTitle rdfs:subPropertyOf :primaryWorkTitle .
+sci:hasPaperTitle rdfs:subPropertyOf :primaryWorkTitle .
+
+phil:hasCountryName rdfs:subPropertyOf :placePrimaryName .
+sci:hasInstitutionName rdfs:subPropertyOf :placePrimaryName .
+
+# Явно показать принадлежность к объединённым классам (удобно в Protege без reasoner)
+phil:Plato rdf:type :Thinker .
+# phil:Aristotle — намеренно БЕЗ явного rdf:type m:Thinker: для SPARQL-демо «попадает в мыслителей по правилу мержа» (см. sparql_queries «Демо merge»).
+phil:ImmanuelKant rdf:type :Thinker .
+phil:FriedrichNietzsche rdf:type :Thinker .
+sci:AlbertEinstein rdf:type :Thinker .
+sci:IsaacNewton rdf:type :Thinker .
+sci:CharlesDarwin rdf:type :Thinker .
+
+phil:TheRepublic rdf:type :IntellectualWork .
+phil:NicomacheanEthics rdf:type :IntellectualWork .
+phil:CritiqueOfPureReason rdf:type :IntellectualWork .
+phil:ThusSpokeZarathustra rdf:type :IntellectualWork .
+sci:RelativityPaper rdf:type :IntellectualWork .
+sci:PrincipiaMathematica rdf:type :IntellectualWork .
+sci:OriginOfSpecies rdf:type :IntellectualWork .
+
+phil:TheoryOfForms rdf:type :AbstractConcept .
+phil:VirtueEthics rdf:type :AbstractConcept .
+phil:CategoricalImperative rdf:type :AbstractConcept .
+phil:Ubermensch rdf:type :AbstractConcept .
+sci:TheoryOfRelativity rdf:type :AbstractConcept .
+sci:LawsOfMotion rdf:type :AbstractConcept .
+sci:TheoryOfEvolution rdf:type :AbstractConcept .
+
+phil:Platonism rdf:type :IntellectualMovement .
+phil:Aristotelianism rdf:type :IntellectualMovement .
+phil:Existentialism rdf:type :IntellectualMovement .
+sci:QuantumMechanicsSchool rdf:type :IntellectualMovement .
+sci:ClassicalMechanicsSchool rdf:type :IntellectualMovement .
+sci:EvolutionaryBiologySchool rdf:type :IntellectualMovement .
+
+phil:AncientGreece rdf:type :EducationalInstitution .
+phil:Germany rdf:type :EducationalInstitution .
+phil:France rdf:type :EducationalInstitution .
+phil:Athens rdf:type :EducationalInstitution .
+phil:Berlin rdf:type :EducationalInstitution .
+sci:PrincetonUniversity rdf:type :EducationalInstitution .
+sci:CambridgeUniversity rdf:type :EducationalInstitution .
+
+phil:AncientPeriod rdf:type :HistoricalEra .
+phil:ModernPeriod rdf:type :HistoricalEra .
+phil:ContemporaryPeriod rdf:type :HistoricalEra .
+phil:Renaissance rdf:type :HistoricalEra .
+phil:Enlightenment rdf:type :HistoricalEra .
+sci:ModernPhysicsEra rdf:type :HistoricalEra .
+sci:EnlightenmentScienceEra rdf:type :HistoricalEra .
+sci:VictorianScienceEra rdf:type :HistoricalEra .
+
+# Примеры использования объединённых свойств (один граф — оба домена)
+phil:Plato :createdWork phil:TheRepublic .
+phil:Plato :developedWork phil:TheoryOfForms .
+phil:TheRepublic :discussesInWork phil:TheoryOfForms .
+phil:Plato :belongsToIntellectualMovement phil:Platonism .
+
+sci:AlbertEinstein :createdWork sci:RelativityPaper .
+sci:AlbertEinstein :developedWork sci:TheoryOfRelativity .
+sci:RelativityPaper :discussesInWork sci:TheoryOfRelativity .
+sci:AlbertEinstein :belongsToIntellectualMovement sci:QuantumMechanicsSchool .
+
+phil:Aristotle :createdWork phil:NicomacheanEthics .
+phil:ImmanuelKant :createdWork phil:CritiqueOfPureReason .
+phil:FriedrichNietzsche :createdWork phil:ThusSpokeZarathustra .
+sci:IsaacNewton :createdWork sci:PrincipiaMathematica .
+sci:CharlesDarwin :createdWork sci:OriginOfSpecies .
+
+phil:TheoryOfForms :ideaAttributedToThinker phil:Plato .
+phil:VirtueEthics :ideaAttributedToThinker phil:Aristotle .
+sci:TheoryOfRelativity :ideaAttributedToThinker sci:AlbertEinstein .
+sci:LawsOfMotion :ideaAttributedToThinker sci:IsaacNewton .
+
+phil:Platonism :movementFoundedBy phil:Plato .
+phil:Aristotelianism :movementFoundedBy phil:Aristotle .
+sci:QuantumMechanicsSchool :movementFoundedBy sci:AlbertEinstein .
+sci:ClassicalMechanicsSchool :movementFoundedBy sci:IsaacNewton .
+sci:EvolutionaryBiologySchool :movementFoundedBy sci:CharlesDarwin .
+
+phil:Plato :thinkerPlaceAffiliation phil:AncientGreece .
+phil:Aristotle :thinkerPlaceAffiliation phil:AncientGreece .
+phil:ImmanuelKant :thinkerPlaceAffiliation phil:Germany .
+phil:FriedrichNietzsche :thinkerPlaceAffiliation phil:Germany .
+sci:AlbertEinstein :thinkerPlaceAffiliation sci:PrincetonUniversity .
+sci:IsaacNewton :thinkerPlaceAffiliation sci:CambridgeUniversity .
+sci:CharlesDarwin :thinkerPlaceAffiliation sci:CambridgeUniversity .
+
+phil:Platonism :movementInHistoricalEra phil:AncientPeriod .
+phil:Aristotelianism :movementInHistoricalEra phil:AncientPeriod .
+phil:Existentialism :movementInHistoricalEra phil:ContemporaryPeriod .
+sci:QuantumMechanicsSchool :movementInHistoricalEra sci:ModernPhysicsEra .
+sci:ClassicalMechanicsSchool :movementInHistoricalEra sci:EnlightenmentScienceEra .
+sci:EvolutionaryBiologySchool :movementInHistoricalEra sci:VictorianScienceEra .
+
+phil:Platonism :movementHighlightsConcept phil:TheoryOfForms .
+phil:Aristotelianism :movementHighlightsConcept phil:VirtueEthics .
+phil:Existentialism :movementHighlightsConcept phil:Ubermensch .
+
+:NewtonThePhilosopher rdf:type :Thinker .
+

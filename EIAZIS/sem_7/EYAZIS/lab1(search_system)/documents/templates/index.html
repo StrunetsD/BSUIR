@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Search Service{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="search-hero rounded">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h1 class="display-4 mb-4">Probabilistic Search Service</h1>
+                <p class="lead mb-4">Advanced document search using Okapi BM25 algorithm with automatic indexing and quality metrics.</p>
+                
+                <!-- Search Form -->
+                <form action="{{ url_for('search') }}" method="POST" class="row g-3 justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="input-group input-group-lg">
+                            <input type="text" 
+                                   name="query" 
+                                   class="form-control" 
+                                   placeholder="Enter your search query..." 
+                                   required
+                                   aria-label="Search query">
+                            <button class="btn btn-light" type="submit">
+                                🔍 Search
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="row mt-5">
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <div class="text-primary mb-3">
+                    <svg width="48" height="48" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg>
+                </div>
+                <h5 class="card-title">Advanced Search</h5>
+                <p class="card-text">BM25 ranking algorithm for precise and relevant search results based on probabilistic information retrieval.</p>
+                <a href="{{ url_for('search') }}" class="btn btn-outline-primary">Start Searching</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <div class="text-success mb-3">
+                    <svg width="48" height="48" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                    </svg>
+                </div>
+                <h5 class="card-title">Document Management</h5>
+                <p class="card-text">Automatic file system monitoring, document indexing, and easy upload functionality for seamless content management.</p>
+                <a href="{{ url_for('upload') }}" class="btn btn-outline-success">Upload Documents</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <div class="text-info mb-3">
+                    <svg width="48" height="48" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                    </svg>
+                </div>
+                <h5 class="card-title">Quality Metrics</h5>
+                <p class="card-text">Comprehensive evaluation with Precision, Recall, and F1-score calculations to measure search performance.</p>
+                <a href="{{ url_for('metrics') }}" class="btn btn-outline-info">View Metrics</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Stats -->
+<div class="row mt-5">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">System Overview</h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-md-3">
+                        <div class="stats-card">
+                            <div class="stats-number">{{ stats.total_docs }}</div>
+                            <div class="text-muted">Indexed Documents</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stats-card">
+                            <div class="stats-number">{{ "%.1f"|format(stats.avg_doc_length) }}</div>
+                            <div class="text-muted">Avg. Document Length</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stats-card">
+                            <div class="stats-number">BM25</div>
+                            <div class="text-muted">Search Algorithm</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stats-card">
+                            <div class="stats-number">24/7</div>
+                            <div class="text-muted">File Monitoring</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Statistics - Search Service{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">System Statistics</h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-6 mb-3">
+                        <div class="stats-card">
+                            <div class="stats-number">{{ total_docs }}</div>
+                            <div class="text-muted">Total Documents</div>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <div class="stats-card">
+                            <div class="stats-number">{{ "%.1f"|format(avg_doc_length) }}</div>
+                            <div class="text-muted">Avg. Doc Length</div>
+                        </div>
+                    </div>
+                </div>
+                
+                {% if search_service %}
+                <div class="mt-4">
+                    <h6>Search Algorithm</h6>
+                    <div class="alert alert-info">
+                        <strong>Okapi BM25</strong>
+                        <p class="mb-0 small">
+                            Probabilistic relevance scoring with parameters: k1={{ search_service.k1 }}, b={{ search_service.b }}
+                        </p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">System Information</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-sm">
+                    <tbody>
+                        <tr>
+                            <td><strong>Database</strong></td>
+                            <td>PostgreSQL</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Search Model</strong></td>
+                            <td>Probabilistic (BM25)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Text Processing</strong></td>
+                            <td>NLTK</td>
+                        </tr>
+                        <tr>
+                            <td><strong>File Monitoring</strong></td>
+                            <td>Watchdog</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Watch Directory</strong></td>
+                            <td><code>{{ WATCH_DIRECTORY }}</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">BM25 Formula</h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-secondary">
+                    <h6>score(D, Q) = Σ[IDF(term) × (f(term, D) × (k1 + 1)) / (f(term, D) + k1 × (1 - b + b × (|D| / avgdl)))]</h6>
+                    <p class="mb-0 small">
+                        Where:<br>
+                        • <strong>f(term, D)</strong>: frequency of term in document D<br>
+                        • <strong>|D|</strong>: length of document D (number of words)<br>
+                        • <strong>avgdl</strong>: average document length in collection<br>
+                        • <strong>k1, b</strong>: parameters (k1=2.0, b=0.75)<br>
+                        • <strong>IDF(term)</strong> = log((N - n(term) + 0.5) / (n(term) + 0.5) + 1)
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

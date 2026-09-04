@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Preview - {{ doc.title }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">File Preview: {{ doc.title }}</h5>
+                <div>
+                    <a href="{{ url_for('serve_file', doc_id=doc.id) }}" class="btn btn-primary btn-sm">
+                        📥 Download
+                    </a>
+                    <a href="{{ url_for('documents') }}" class="btn btn-secondary btn-sm">
+                        ← Back to Documents
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <table class="table table-sm table-borderless">
+                        <tr>
+                            <td><strong>File Path:</strong></td>
+                            <td><code>{{ doc.file_path }}</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Date Added:</strong></td>
+                            <td>{{ doc.date_added.strftime('%Y-%m-%d %H:%M:%S') if doc.date_added else 'N/A' }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Document Length:</strong></td>
+                            <td>{{ doc.doc_length }} terms</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="border rounded p-3 bg-light">
+                    <h6>Content:</h6>
+                    <pre style="white-space: pre-wrap; max-height: 600px; overflow-y: auto;">{{ content }}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

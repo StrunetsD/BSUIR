@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}История запросов{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">История синтеза</h1>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Текст</th>
+                <th scope="col">Параметры</th>
+                <th scope="col">Дата</th>
+                <th scope="col">Аудио</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for req in requests %}
+            <tr>
+                <th scope="row">{{ req.id }}</th>
+                <td style="max-width: 300px; word-wrap: break-word;">{{ req.text }}</td>
+                <td>
+                    <small class="d-block"><b>Скорость:</b> {{ req.rate }}</small>
+                    <small class="d-block"><b>Громкость:</b> {{ req.volume }}</small>
+                    <small class="d-block text-muted" style="font-size: 0.8em; max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ req.voice_id }}">
+                        <b>Голос:</b> {{ req.voice_id }}
+                    </small>
+                </td>
+                <td>{{ req.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                <td>
+                    <audio controls style="width: 250px;">
+                        <source src="{{ url_for('static', filename='audio/' + req.audio_file) }}" type="audio/wav">
+                        Ваш браузер не поддерживает аудио.
+                    </audio>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5" class="text-center">История запросов пуста.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

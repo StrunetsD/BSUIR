@@ -1,0 +1,307 @@
+@base <http://example.org/domain/> .
+@prefix : <http://example.org/domain#> .
+@prefix core: <http://example.org/core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://example.org/philosophy-domain>
+    rdf:type owl:Ontology ;
+    rdfs:label "Philosophy Domain Ontology"@en ;
+    rdfs:comment "Доменная онтология философии; классы подклассы core:Entity и др."@ru,
+        "Philosophy domain — subclasses of core ontology."@en .
+
+#################################################################
+#    DOMAIN CLASSES
+#################################################################
+
+:Philosopher rdf:type owl:Class ;
+    rdfs:subClassOf core:Agent ;  # ← ссылается на core
+    rdfs:label "Philosopher"@en, "Философ"@ru .
+
+:Book rdf:type owl:Class ;
+    rdfs:subClassOf core:Work ;
+    rdfs:label "Book"@en, "Книга"@ru .
+
+:PhilosophicalConcept rdf:type owl:Class ;
+    rdfs:subClassOf core:Concept ;
+    rdfs:label "Philosophical Concept"@en, "Философская концепция"@ru .
+
+:EthicalConcept rdf:type owl:Class ;
+    rdfs:subClassOf :PhilosophicalConcept ;
+    rdfs:label "Ethical Concept"@en, "Этическая концепция"@ru .
+
+:OntologicalConcept rdf:type owl:Class ;
+    rdfs:subClassOf :PhilosophicalConcept ;
+    rdfs:label "Ontological Concept"@en, "Онтологическая концепция"@ru .
+
+:PhilosophicalSchool rdf:type owl:Class ;
+    rdfs:subClassOf core:Group ;
+    rdfs:label "Philosophical School"@en, "Философская школа"@ru .
+
+:ModernPhilosophy rdf:type owl:Class ;
+    rdfs:subClassOf :PhilosophicalSchool ;
+    rdfs:label "Modern Philosophy"@en, "Современная философия"@ru .
+
+:Country rdf:type owl:Class ;
+    rdfs:subClassOf core:Place ;
+    rdfs:label "Country"@en, "Страна"@ru .
+
+:City rdf:type owl:Class ;
+    rdfs:subClassOf core:Place ;
+    rdfs:label "City"@en, "Город"@ru .
+
+:HistoricalPeriod rdf:type owl:Class ;
+    rdfs:subClassOf core:TimeEntity ;
+    rdfs:label "Historical Period"@en, "Исторический период"@ru .
+
+:Era rdf:type owl:Class ;
+    rdfs:subClassOf core:TimeEntity ;
+    rdfs:label "Era"@en, "Эра"@ru .
+
+#################################################################
+#    DOMAIN PROPERTIES
+#################################################################
+
+:wroteBook rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:createdBy ;  # ← Исправлено: created → createdBy
+    rdfs:domain :Philosopher ;
+    rdfs:range :Book ;
+    rdfs:label "wrote book"@en, "написал книгу"@ru .
+
+:belongsToSchool rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:partOf ;
+    rdfs:domain :Philosopher ;
+    rdfs:range :PhilosophicalSchool ;
+    rdfs:label "belongs to school"@en, "принадлежит к школе"@ru .
+
+:foundedBy rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:hasMember ;
+    rdfs:domain :PhilosophicalSchool ;
+    rdfs:range :Philosopher ;
+    rdfs:label "founded by"@en, "основана"@ru .
+
+:developedConcept rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:developedBy ;
+    rdfs:domain :Philosopher ;
+    rdfs:range :PhilosophicalConcept ;
+    rdfs:label "developed concept"@en, "разработал концепцию"@ru ;
+    owl:inverseOf :conceptDevelopedBy .
+
+:conceptDevelopedBy rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:developedBy ;
+    rdfs:domain :PhilosophicalConcept ;
+    rdfs:range :Philosopher ;
+    rdfs:label "concept developed by"@en, "концепция разработана"@ru .
+
+:discussesConcept rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:discusses ;
+    rdfs:domain :Book ;
+    rdfs:range :PhilosophicalConcept ;
+    rdfs:label "discusses concept"@en, "обсуждает концепцию"@ru .
+
+:bornIn rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:locatedIn ;
+    rdfs:domain :Philosopher ;
+    rdfs:range :Country ;
+    rdfs:label "born in"@en, "родился в"@ru .
+
+:cityLocatedIn rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:locatedIn ;
+    rdfs:domain :City ;
+    rdfs:range :Country ;
+    rdfs:label "city located in"@en, "город расположен в"@ru .
+
+:partOfPeriod rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf core:existsInTime ;
+    rdfs:domain :PhilosophicalSchool ;
+    rdfs:range :HistoricalPeriod ;
+    rdfs:label "part of period"@en, "часть периода"@ru .
+
+:hasMainConcept rdf:type owl:ObjectProperty ;
+    rdfs:domain :PhilosophicalSchool ;
+    rdfs:range :PhilosophicalConcept ;
+    rdfs:label "has main concept"@en, "имеет основную концепцию"@ru .
+
+:hasTitle rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf core:hasName ;
+    rdfs:domain :Book ;
+    rdfs:range xsd:string ;
+    rdfs:label "has title"@en, "имеет название"@ru .
+
+:hasCountryName rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf core:hasName ;
+    rdfs:domain :Country ;
+    rdfs:range xsd:string ;
+    rdfs:label "has country name"@en, "имеет название страны"@ru .
+
+:hasConceptDescription rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf core:hasDescription ;
+    rdfs:domain :PhilosophicalConcept ;
+    rdfs:range xsd:string ;
+    rdfs:label "has concept description"@en, "имеет описание концепции"@ru .
+
+:hasBirthYear rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf core:hasBirthDate ;
+    rdfs:domain :Philosopher ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has birth year"@en, "имеет год рождения"@ru .
+
+:hasDeathYear rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf core:hasDeathDate ;
+    rdfs:domain :Philosopher ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has death year"@en, "имеет год смерти"@ru .
+
+:hasStartYear rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf core:hasStartDate ;
+    rdfs:domain :HistoricalPeriod ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has start year"@en, "имеет год начала"@ru .
+
+:hasEndYear rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf core:hasEndDate ;
+    rdfs:domain :HistoricalPeriod ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has end year"@en, "имеет год окончания"@ru .
+
+#################################################################
+#    INDIVIDUALS
+#################################################################
+
+:Plato rdf:type :Philosopher ;
+    core:hasName "Plato"@en, "Платон"@ru ;
+    :hasBirthYear -428 ;
+    :hasDeathYear -348 ;
+    :bornIn :AncientGreece ;
+    :wroteBook :TheRepublic ;
+    :belongsToSchool :Platonism ;
+    :developedConcept :TheoryOfForms .
+
+:Aristotle rdf:type :Philosopher ;
+    core:hasName "Aristotle"@en, "Аристотель"@ru ;
+    :hasBirthYear -384 ;
+    :hasDeathYear -322 ;
+    :bornIn :AncientGreece ;
+    :wroteBook :NicomacheanEthics ;
+    :belongsToSchool :Aristotelianism ;
+    :developedConcept :VirtueEthics .
+
+:ImmanuelKant rdf:type :Philosopher ;
+    core:hasName "Immanuel Kant"@en, "Иммануил Кант"@ru ;
+    :hasBirthYear 1724 ;
+    :hasDeathYear 1804 ;
+    :bornIn :Germany ;
+    :wroteBook :CritiqueOfPureReason ;
+    :belongsToSchool :ModernPhilosophy ;
+    :developedConcept :CategoricalImperative .
+
+:FriedrichNietzsche rdf:type :Philosopher ;
+    core:hasName "Friedrich Nietzsche"@en, "Фридрих Ницше"@ru ;
+    :hasBirthYear 1844 ;
+    :hasDeathYear 1900 ;
+    :bornIn :Germany ;
+    :wroteBook :ThusSpokeZarathustra ;
+    :belongsToSchool :Existentialism ;
+    :developedConcept :Ubermensch .
+
+:TheRepublic rdf:type :Book ;
+    :hasTitle "The Republic"@en, "Государство"@ru ;
+    core:createdBy :Plato ;
+    :discussesConcept :TheoryOfForms .
+
+:NicomacheanEthics rdf:type :Book ;
+    :hasTitle "Nicomachean Ethics"@en, "Никомахова этика"@ru ;
+    core:createdBy :Aristotle ;
+    :discussesConcept :VirtueEthics .
+
+:CritiqueOfPureReason rdf:type :Book ;
+    :hasTitle "Critique of Pure Reason"@en, "Критика чистого разума"@ru ;
+    core:createdBy :ImmanuelKant ;
+    :discussesConcept :CategoricalImperative .
+
+:ThusSpokeZarathustra rdf:type :Book ;
+    :hasTitle "Thus Spoke Zarathustra"@en, "Так говорил Заратустра"@ru ;
+    core:createdBy :FriedrichNietzsche ;
+    :discussesConcept :Ubermensch .
+
+:Platonism rdf:type :PhilosophicalSchool ;
+    core:hasName "Platonism"@en, "Платонизм"@ru ;
+    :foundedBy :Plato ;
+    :partOfPeriod :AncientPeriod ;
+    :hasMainConcept :TheoryOfForms .
+
+:Aristotelianism rdf:type :PhilosophicalSchool ;
+    core:hasName "Aristotelianism"@en, "Аристотелизм"@ru ;
+    :foundedBy :Aristotle ;
+    :partOfPeriod :AncientPeriod ;
+    :hasMainConcept :VirtueEthics .
+
+:Existentialism rdf:type :PhilosophicalSchool ;
+    core:hasName "Existentialism"@en, "Экзистенциализм"@ru ;
+    :foundedBy :FriedrichNietzsche ;
+    :partOfPeriod :ContemporaryPeriod ;
+    :hasMainConcept :Ubermensch .
+
+:TheoryOfForms rdf:type :OntologicalConcept ;
+    core:hasName "Theory of Forms"@en, "Теория идей"@ru ;
+    core:hasDescription "Plato's theory of ideal entities"@en, "Учение Платона об идеальных сущностях"@ru ;
+    :conceptDevelopedBy :Plato .
+
+:VirtueEthics rdf:type :EthicalConcept ;
+    core:hasName "Virtue Ethics"@en, "Этика добродетели"@ru ;
+    core:hasDescription "Aristotelian ethical theory"@en, "Этическая теория Аристотеля"@ru ;
+    :conceptDevelopedBy :Aristotle .
+
+:CategoricalImperative rdf:type :EthicalConcept ;
+    core:hasName "Categorical Imperative"@en, "Категорический императив"@ru ;
+    core:hasDescription "Central concept of Kantian ethics"@en, "Центральное понятие этики Канта"@ru ;
+    :conceptDevelopedBy :ImmanuelKant .
+
+:Ubermensch rdf:type :PhilosophicalConcept ;
+    core:hasName "Ubermensch"@en, "Сверхчеловек"@ru ;
+    core:hasDescription "Nietzsche's ideal of human perfection"@en, "Идеал человека по Ницше"@ru ;
+    :conceptDevelopedBy :FriedrichNietzsche .
+
+:AncientGreece rdf:type :Country ;
+    :hasCountryName "Ancient Greece"@en, "Древняя Греция"@ru .
+
+:Germany rdf:type :Country ;
+    :hasCountryName "Germany"@en, "Германия"@ru .
+
+:France rdf:type :Country ;
+    :hasCountryName "France"@en, "Франция"@ru .
+
+:Athens rdf:type :City ;
+    core:hasName "Athens"@en, "Афины"@ru ;
+    :cityLocatedIn :AncientGreece .
+
+:Berlin rdf:type :City ;
+    core:hasName "Berlin"@en, "Берлин"@ru ;
+    :cityLocatedIn :Germany .
+
+:AncientPeriod rdf:type :HistoricalPeriod ;
+    core:hasName "Ancient Period"@en, "Античность"@ru ;
+    :hasStartYear -800 ;
+    :hasEndYear 500 .
+
+:ModernPeriod rdf:type :HistoricalPeriod ;
+    core:hasName "Modern Period"@en, "Новое время"@ru ;
+    :hasStartYear 1500 ;
+    :hasEndYear 1800 .
+
+:ContemporaryPeriod rdf:type :HistoricalPeriod ;
+    core:hasName "Contemporary Period"@en, "Современность"@ru ;
+    :hasStartYear 1800 ;
+    :hasEndYear 2024 .
+
+:Renaissance rdf:type :Era ;
+    core:hasName "Renaissance"@en, "Возрождение"@ru ;
+    :hasStartYear 1300 ;
+    :hasEndYear 1600 .
+
+:Enlightenment rdf:type :Era ;
+    core:hasName "Enlightenment"@en, "Просвещение"@ru ;
+    :hasStartYear 1650 ;
+    :hasEndYear 1800 .

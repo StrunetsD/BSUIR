@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}Результаты анализа - Language Detection Service{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-graph-up"></i> Результаты анализа</h2>
+        <a href="{{ url_for('index') }}" class="btn btn-outline-primary">
+            <i class="bi bi-arrow-left"></i> Новый анализ
+        </a>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <a href="{{ url_for('download_file', file_id=file_id) }}" class="btn btn-outline-primary w-100">
+                        <i class="bi bi-download"></i> Скачать файл
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a href="{{ url_for('view_file', file_id=file_id) }}" target="_blank" class="btn btn-outline-success w-100">
+                        <i class="bi bi-eye"></i> Просмотреть HTML
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a href="{{ url_for('save_results', file_id=file_id) }}" class="btn btn-outline-info w-100">
+                        <i class="bi bi-file-earmark-arrow-down"></i> Сохранить результаты
+                    </a>
+                </div>
+                <div class="col-md-6">
+                    <button onclick="window.print()" class="btn btn-outline-secondary w-100">
+                        <i class="bi bi-printer"></i> Распечатать
+                    </button>
+                </div>
+                <div class="col-md-6">
+                    <a href="{{ url_for('history') }}" class="btn btn-outline-dark w-100">
+                        <i class="bi bi-clock-history"></i> В историю
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Detailed Results -->
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0"><i class="bi bi-list-ul"></i> Детальные результаты</h5>
+        </div>
+        <div class="card-body">
+            {% if entry.results and entry.results.results %}
+            <div class="row">
+                {% for result in entry.results.results %}
+                <div class="col-lg-4 mb-4">
+                    <div class="card result-card h-100">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <strong>{{ result.method|title if result.method else 'Unknown' }}</strong>
+                            <span class="badge {% if result.language != 'unknown' %}bg-success{% else %}bg-danger{% endif %} method-badge">
+                                {{ result.language if result.language and result.language != 'unknown' else 'Не определен' }}
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-2">
+                                <strong>Уверенность:</strong>
+                                <div class="progress mt-1">
+                                    <div class="progress-bar {% if result.confidence > 0.7 %}bg-success{% elif result.confidence > 0.4 %}bg-warning{% else %}bg-danger{% endif %}"
+                                         style="width: {{ (result.confidence or 0) * 100 }}%">
+                                        {{ "%.1f"|format((result.confidence or 0) * 100) }}%
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <strong>Время обработки:</strong>
+                                <span class="text-muted">{{ "%.4f"|format(result.processing_time or 0) }}s</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="text-center py-4">
+                <i class="bi bi-exclamation-triangle text-warning" style="font-size: 3rem;"></i>
+                <h4 class="mt-3">Результаты не доступны</h4>
+                <p class="text-muted">Не удалось загрузить результаты анализа.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- File Info -->
+    <div class="card mt-4">
+        <div class="card-header bg-secondary text-white">
+            <h5 class="mb-0"><i class="bi bi-file-earmark-text"></i> Информация о файле</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <strong>Имя файла:</strong> {{ entry.original_filename }}<br>
+                    <strong>Дата анализа:</strong> {{ entry.timestamp[:19] if entry.timestamp else 'Неизвестно' }}<br>
+                </div>
+                <div class="col-md-6">
+                    <strong>ID анализа:</strong> {{ file_id }}<br>
+                    <strong>Размер файла:</strong>
+                    {% if file_exists %}
+                        {{ "%.1f"|format(file_size / 1024) }} KB
+                    {% else %}
+                        Не доступно
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
