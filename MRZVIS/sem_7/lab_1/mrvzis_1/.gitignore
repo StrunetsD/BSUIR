@@ -1,0 +1,6 @@
+__pycache__/
+venv/
+pictures/
+.venv/
+*.png
+*.txt
